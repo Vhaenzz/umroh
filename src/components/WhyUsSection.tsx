@@ -1,0 +1,133 @@
+"use client";
+import React from "react";
+
+/**
+ * WHY US SECTION — "Kenapa Memilih Kami"
+ * 4 poin spesifik untuk bisnis travel haji/umroh (Bukan template generik)
+ */
+
+const features = [
+  {
+    id: "legalitas-resmi",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+        />
+      </svg>
+    ),
+    title: "Legal & Terdaftar Resmi",
+    desc: "[PLACEHOLDER — detail nomor izin dan status SISKOPATUH spesifik]",
+    badge: "Izin Kemenag",
+  },
+  {
+    id: "tour-leader",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+        />
+      </svg>
+    ),
+    title: "Tour Leader Berpengalaman",
+    desc: "[PLACEHOLDER — sertifikasi dan jumlah keberangkatan yang sudah ditangani]",
+    badge: "Pembimbing Syariah",
+  },
+  {
+    id: "hotel-dekat",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+        />
+      </svg>
+    ),
+    title: "Hotel Dekat Masjid",
+    desc: "[PLACEHOLDER — jarak konkret ke Masjidil Haram/Nabawi per tipe paket]",
+    badge: "Ring 1 Pelataran",
+  },
+  {
+    id: "cicilan-syariah",
+    icon: (
+      <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.8}
+          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    ),
+    title: "Cicilan Syariah Tersedia",
+    desc: "[PLACEHOLDER — detail opsi pembiayaan jika tersedia, konfirmasi ke Yayasan]",
+    badge: "Tanpa Riba",
+  },
+];
+
+export default function WhyUsSection() {
+  return (
+    <section className="py-12 sm:py-16 bg-warm-surface border-t border-warm-border">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* ── Section Header ── */}
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
+            Keunggulan Layanan
+          </div>
+          <h2 className="font-serif text-3xl sm:text-[2.2rem] font-bold text-teal-primary leading-tight">
+            Kenapa Memilih Kami
+          </h2>
+          <p className="font-sans text-sm text-slate-muted mt-2 leading-relaxed">
+            Komitmen kami untuk menghadirkan kenyamanan, kepastian, dan kemabruran dalam setiap langkah perjalanan ibadah Anda.
+          </p>
+        </div>
+
+        {/* ── 4-Point Feature Grid: 2 kolom desktop / 1 mobile ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+          {features.map((f, idx) => (
+            <div
+              key={f.id}
+              className="group p-6 rounded-card border border-warm-border bg-warm-bg hover:border-teal-primary/25 hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row items-start gap-4"
+            >
+              {/* Icon Container with subtle step number index */}
+              <div className="relative shrink-0">
+                <div className="w-14 h-14 rounded-card bg-teal-primary/8 text-teal-primary group-hover:bg-teal-primary group-hover:text-white flex items-center justify-center transition-all duration-200 shadow-xs">
+                  {f.icon}
+                </div>
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gold-light border border-gold-accent/30 text-[10px] font-bold text-teal-primary font-mono flex items-center justify-center">
+                  0{idx + 1}
+                </span>
+              </div>
+
+              {/* Text content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 mb-1.5">
+                  <h3 className="font-serif text-lg font-bold text-teal-primary group-hover:text-teal-700 transition-colors">
+                    {f.title}
+                  </h3>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-badge bg-teal-primary/5 text-teal-primary border border-teal-primary/10 shrink-0">
+                    {f.badge}
+                  </span>
+                </div>
+                <p className="font-sans text-xs text-slate-body leading-relaxed">
+                  {f.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
