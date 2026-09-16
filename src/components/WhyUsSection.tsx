@@ -93,11 +93,11 @@ export default function WhyUsSection() {
         </div>
 
         {/* ── 4-Point Feature Grid: 2 kolom desktop / 1 mobile ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+        <div className="mobile-rail sm:grid-cols-2 gap-3 lg:gap-5">
           {features.map((f) => (
             <div
               key={f.id}
-              className="group p-6 rounded-card border border-warm-border bg-warm-bg hover:border-teal-primary/25 hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row items-start gap-4"
+              className="group p-4 sm:p-6 rounded-card border border-warm-border bg-warm-bg hover:border-teal-primary/25 hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row items-start gap-3 sm:gap-4"
             >
               {/* Icon Container with subtle step number index */}
               <div className="relative shrink-0">

@@ -46,7 +46,7 @@ export default function FeaturedPackagesSection() {
         </div>
 
         {/* ── Package Grid ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+        <div className="mobile-rail sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {featuredList.map((pkg) => (
             <PackageCard key={pkg.id} pkg={pkg} />
           ))}

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Package, StatusType } from "@/types/package";
 
 // ── Status config object (pola Alsha: warna + teks eksplisit) ──
@@ -45,16 +46,21 @@ interface PackageCardProps {
 export default function PackageCard({ pkg }: PackageCardProps) {
   const status = statusConfig[pkg.statusType];
   const isSoldOut = pkg.statusType === "soldout";
+  const packageImage = pkg.isHaji
+    ? "/images/madina-pilgrims.webp"
+    : pkg.slug.includes("dubai")
+      ? "/images/travel-team.jpg"
+      : "/images/kaaba-courtyard.png";
 
   return (
     <article
       className="bg-warm-surface rounded-card border border-warm-border shadow-card overflow-hidden flex flex-col hover:-translate-y-0.5 hover:shadow-elevated transition-all duration-200 group relative"
       aria-label={`Paket: ${pkg.name}`}
     >
-      {/* ── Card Header: Teal gradient (pola Alsha card thumb) ── */}
-      <div className="relative h-44 bg-linear-to-br from-teal-primary to-teal-800 overflow-hidden p-4 flex flex-col justify-between">
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 subtle-grain opacity-10 pointer-events-none" />
+      {/* ── Card Header: real image-led thumbnail, mengikuti Alsha ── */}
+      <div className="relative h-36 overflow-hidden bg-teal-primary p-3.5 flex flex-col justify-between">
+        <Image src={packageImage} alt={`Dokumentasi ${pkg.name}`} fill sizes="(max-width: 640px) 82vw, (max-width: 1024px) 46vw, 30vw" className="object-cover" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/65 via-black/10 to-black/20" />
 
         {/* ── Top row: status badge + duration badge ── */}
         <div className="flex justify-between items-start gap-2 relative z-10">
@@ -79,9 +85,6 @@ export default function PackageCard({ pkg }: PackageCardProps) {
         </div>
 
         {/* ── Category pill (pola Alsha badge--premium / Ventour category) ── */}
-        <span className={`absolute top-4 -right-0.5 px-3 py-0.5 text-[10px] font-bold text-white uppercase tracking-wider rounded-l-badge shadow-sm ${pkg.categoryColor}`}>
-          {pkg.category}
-        </span>
       </div>
 
       {/* ── Card Body ── */}
@@ -149,7 +152,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
                 <Link
                   href={`/umroh/${pkg.slug}`}
                   id={`detail-${pkg.id}`}
-                  className="px-3.5 py-2 rounded-button bg-teal-primary text-white text-xs font-bold hover:bg-teal-900 transition-colors shadow-card flex items-center gap-1"
+                  className="px-3.5 py-2 rounded-button bg-gold-accent text-slate-dark text-xs font-bold hover:bg-gold-hover transition-colors shadow-card flex items-center gap-1"
                 >
                   Detail
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -163,7 +166,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
                   target="_blank"
                   rel="noopener noreferrer"
                   id={`wa-${pkg.id}`}
-                  className="px-2.5 py-2 rounded-button border border-teal-primary/40 bg-transparent text-teal-primary text-xs font-bold hover:bg-teal-primary hover:text-white hover:border-teal-primary transition-all flex items-center gap-1"
+                  className="px-2.5 py-2 rounded-button border border-gold-accent/70 bg-transparent text-teal-primary text-xs font-bold hover:bg-gold-accent hover:text-slate-dark hover:border-gold-accent transition-all flex items-center gap-1"
                   title="Tanya via WhatsApp"
                 >
                   <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">

@@ -100,7 +100,7 @@ export default function Header() {
               href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20ibadah"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2.5 rounded-button bg-teal-primary hover:bg-teal-900 text-white font-sans text-xs font-semibold shadow-card transition-all duration-200 flex items-center gap-2 group"
+              className="px-4 py-2.5 rounded-button bg-gold-accent hover:bg-gold-hover text-slate-dark font-sans text-xs font-semibold shadow-card transition-all duration-200 flex items-center gap-2 group"
             >
               <span>Konsultasi Gratis</span>
               <svg
@@ -126,7 +126,7 @@ export default function Header() {
               href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20ibadah"
               target="_blank"
               rel="noopener noreferrer"
-              className="sm:flex hidden px-3.5 py-2 rounded-button bg-teal-primary text-white text-xs font-semibold items-center gap-1.5 shadow-sm"
+              className="sm:flex hidden px-3.5 py-2 rounded-button bg-gold-accent text-slate-dark text-xs font-semibold items-center gap-1.5 shadow-sm"
             >
               <span>Konsultasi</span>
             </a>

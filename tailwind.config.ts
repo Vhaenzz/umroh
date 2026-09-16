@@ -63,7 +63,8 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "Cormorant Garamond", "Georgia", "serif"],
+        // Alsha's reference uses a practical sans system; avoid the generic luxury-serif treatment.
+        serif: ["var(--font-sans)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "Plus Jakarta Sans", "system-ui", "sans-serif"],
       },
       borderRadius: {

@@ -27,7 +27,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* ── Asymmetric Mixed Grid: 1 Video (9:16) + 2 Text Cards ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="mobile-rail lg:grid-cols-12 gap-6 items-stretch">
           
           {/* ── Video Slot (9:16 Aspect Ratio) ── */}
           <div className="lg:col-span-5 flex flex-col">
@@ -66,10 +66,10 @@ export default function TestimonialsSection() {
           </div>
 
           {/* ── 2 Text Testimonial Slots (Privacy Pattern: Jamaah Kloter [nomor]) ── */}
-          <div className="lg:col-span-7 flex flex-col justify-between gap-6">
+          <div className="contents lg:col-span-7 lg:flex lg:flex-col lg:justify-between lg:gap-6">
             
             {/* Slot Testimoni 1 */}
-            <div className="flex-1 p-6 sm:p-7 rounded-card border border-warm-border bg-warm-bg shadow-card flex flex-col justify-between hover:shadow-card-hover transition-all duration-200">
+            <div className="lg:flex-1 p-5 sm:p-7 rounded-card border border-warm-border bg-warm-bg shadow-card flex flex-col justify-between hover:shadow-card-hover transition-all duration-200">
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-1 text-gold-accent">
@@ -108,7 +108,7 @@ export default function TestimonialsSection() {
             </div>
 
             {/* Slot Testimoni 2 */}
-            <div className="flex-1 p-6 sm:p-7 rounded-card border border-warm-border bg-warm-bg shadow-card flex flex-col justify-between hover:shadow-card-hover transition-all duration-200">
+            <div className="lg:flex-1 p-5 sm:p-7 rounded-card border border-warm-border bg-warm-bg shadow-card flex flex-col justify-between hover:shadow-card-hover transition-all duration-200">
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-1 text-gold-accent">

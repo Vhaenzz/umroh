@@ -451,7 +451,7 @@ export default function PackageCatalogView({
           {/* ── RESULTS GRID / EMPTY STATE ── */}
           <div className="lg:col-span-8 space-y-6">
             {filteredPackages.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+              <div className="mobile-rail md:grid-cols-2 gap-5 lg:gap-6">
                 {filteredPackages.map((pkg) => (
                   <PackageCard key={pkg.id} pkg={pkg} />
                 ))}
