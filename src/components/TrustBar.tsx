@@ -21,8 +21,7 @@ const trustItems = [
       </svg>
     ),
     label: "Izin PPIU Resmi",
-    /* PLACEHOLDER — nomor SK PPIU Yayasan */
-    sublabel: "SK No. [PLACEHOLDER] Kemenag RI",
+    sublabel: "Dokumen ditunjukkan saat konsultasi",
   },
   {
     id: "siskopatuh",
@@ -69,8 +68,7 @@ const trustItems = [
       </svg>
     ),
     label: "Kantor Resmi",
-    /* PLACEHOLDER — jumlah & lokasi cabang */
-    sublabel: "[X] Cabang di Indonesia",
+    sublabel: "Layanan tatap muka & online",
   },
 ];
 

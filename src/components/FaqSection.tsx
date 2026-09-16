@@ -10,27 +10,27 @@ const faqs = [
   {
     id: "cara-daftar",
     question: "Bagaimana cara mendaftar umroh?",
-    answer: "[PLACEHOLDER — alur pendaftaran resmi dari Yayasan]",
+    answer: "Mulai dari konsultasi kebutuhan dan pilihan jadwal, lanjut melengkapi dokumen, memilih tipe kamar, lalu menerima invoice resmi dan jadwal manasik.",
   },
   {
     id: "cicilan-syariah",
     question: "Apakah tersedia cicilan/pembiayaan syariah?",
-    answer: "[PLACEHOLDER]",
+    answer: "Ketersediaan cicilan atau pembiayaan mengikuti paket dan kebijakan yang sedang berlaku. Tim kami akan menjelaskan simulasi dan syaratnya secara transparan.",
   },
   {
     id: "dokumen-syarat",
     question: "Dokumen apa saja yang perlu disiapkan?",
-    answer: "[PLACEHOLDER]",
+    answer: "Umumnya diperlukan paspor yang masih berlaku, KTP, kartu keluarga, pas foto, dan dokumen kesehatan sesuai ketentuan perjalanan yang berlaku.",
   },
   {
     id: "kebijakan-pembatalan",
     question: "Bagaimana kebijakan pembatalan/reschedule?",
-    answer: "[PLACEHOLDER]",
+    answer: "Ketentuan pembatalan dan perubahan jadwal mengikuti komponen tiket, visa, hotel, serta kebijakan maskapai. Detailnya tercantum di invoice sebelum pembayaran.",
   },
   {
     id: "kemitraan-agen",
     question: "Apakah bisa menjadi agen/mitra?",
-    answer: "[PLACEHOLDER]",
+    answer: "Program kemitraan dapat dibicarakan melalui WhatsApp. Tim kami akan menjelaskan area layanan, materi produk, dan alur pendaftarannya.",
   },
 ];
 

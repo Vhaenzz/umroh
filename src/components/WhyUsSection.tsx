@@ -20,7 +20,7 @@ const features = [
       </svg>
     ),
     title: "Legal & Terdaftar Resmi",
-    desc: "[PLACEHOLDER — detail nomor izin dan status SISKOPATUH spesifik]",
+    desc: "Status legalitas dan dokumen perjalanan dijelaskan terbuka sebelum pendaftaran.",
     badge: "Izin Kemenag",
   },
   {
@@ -36,7 +36,7 @@ const features = [
       </svg>
     ),
     title: "Tour Leader Berpengalaman",
-    desc: "[PLACEHOLDER — sertifikasi dan jumlah keberangkatan yang sudah ditangani]",
+    desc: "Pembimbing dan tour leader hadir sejak manasik hingga rangkaian ibadah di Tanah Suci.",
     badge: "Pembimbing Syariah",
   },
   {
@@ -52,7 +52,7 @@ const features = [
       </svg>
     ),
     title: "Hotel Dekat Masjid",
-    desc: "[PLACEHOLDER — jarak konkret ke Masjidil Haram/Nabawi per tipe paket]",
+    desc: "Pilihan hotel disampaikan dengan jarak dan fasilitas yang mudah dibandingkan.",
     badge: "Ring 1 Pelataran",
   },
   {
@@ -68,7 +68,7 @@ const features = [
       </svg>
     ),
     title: "Cicilan Syariah Tersedia",
-    desc: "[PLACEHOLDER — detail opsi pembiayaan jika tersedia, konfirmasi ke Yayasan]",
+    desc: "Tim konsultasi membantu menyusun rencana biaya sesuai kebutuhan keluarga dan tipe kamar.",
     badge: "Tanpa Riba",
   },
 ];
@@ -94,7 +94,7 @@ export default function WhyUsSection() {
 
         {/* ── 4-Point Feature Grid: 2 kolom desktop / 1 mobile ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-          {features.map((f, idx) => (
+          {features.map((f) => (
             <div
               key={f.id}
               className="group p-6 rounded-card border border-warm-border bg-warm-bg hover:border-teal-primary/25 hover:shadow-card hover:-translate-y-0.5 transition-all duration-200 flex flex-col sm:flex-row items-start gap-4"
@@ -104,9 +104,6 @@ export default function WhyUsSection() {
                 <div className="w-14 h-14 rounded-card bg-teal-primary/8 text-teal-primary group-hover:bg-teal-primary group-hover:text-white flex items-center justify-center transition-all duration-200 shadow-xs">
                   {f.icon}
                 </div>
-                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gold-light border border-gold-accent/30 text-[10px] font-bold text-teal-primary font-mono flex items-center justify-center">
-                  0{idx + 1}
-                </span>
               </div>
 
               {/* Text content */}

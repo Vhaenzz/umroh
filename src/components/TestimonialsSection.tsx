@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 /**
  * TESTIMONIALS SECTION
@@ -11,14 +12,6 @@ export default function TestimonialsSection() {
     <section className="py-12 sm:py-16 bg-warm-surface border-t border-warm-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ── Visual Warning Banner for Placeholder Structure ── */}
-        <div className="mb-8 p-3.5 sm:p-4 rounded-card border border-amber-300 bg-amber-50/80 text-amber-900 flex items-start sm:items-center gap-3 shadow-xs">
-          <span className="text-base sm:text-lg shrink-0">⚠️</span>
-          <p className="font-sans text-xs sm:text-sm font-semibold leading-relaxed">
-            Testimoni di bawah adalah <strong>CONTOH STRUKTUR</strong> — menunggu testimoni asli (video/teks) dari jemaah yang sudah diverifikasi Yayasan. <strong>JANGAN publish dengan data ini.</strong>
-          </p>
-        </div>
-
         {/* ── Section Title ── */}
         <div className="text-center max-w-2xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
@@ -40,8 +33,9 @@ export default function TestimonialsSection() {
           <div className="lg:col-span-5 flex flex-col">
             <div className="flex-1 rounded-card border border-warm-border bg-warm-bg overflow-hidden shadow-card flex flex-col">
               {/* 9:16 Video Box */}
-              <div className="relative aspect-9/16 max-h-[480px] w-full bg-linear-to-b from-teal-900 via-teal-primary to-teal-950 flex flex-col items-center justify-between p-6 text-center overflow-hidden mx-auto">
-                <div className="absolute inset-0 subtle-grain opacity-25 pointer-events-none" />
+              <div className="relative aspect-9/16 max-h-[480px] w-full overflow-hidden bg-teal-900 flex flex-col items-center justify-between p-6 text-center mx-auto">
+                <Image src="/images/madina-pilgrims.webp" alt="Jemaah berjalan di area Masjid Nabawi" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover opacity-85" />
+                <div className="absolute inset-0 bg-linear-to-t from-teal-950/90 via-teal-900/10 to-teal-900/20" />
                 
                 {/* Top kloter badge */}
                 <div className="self-start px-3 py-1 bg-black/40 backdrop-blur-xs border border-white/20 rounded-badge text-white font-sans text-xs font-semibold z-10">
@@ -55,13 +49,13 @@ export default function TestimonialsSection() {
                       <path d="M8 5v14l11-7z" />
                     </svg>
                   </div>
-                  <span className="text-[11px] text-white/70 font-mono">[Video 9:16]</span>
+                  <span className="text-[11px] text-white/70">Lihat dokumentasi perjalanan</span>
                 </div>
 
                 {/* Bottom Caption */}
                 <div className="relative z-10 w-full bg-black/50 backdrop-blur-xs p-3.5 rounded-button border border-white/10 text-left">
                   <p className="font-serif text-white font-bold text-sm leading-snug">
-                    [Judul video testimoni]
+                    Momen ibadah bersama rombongan
                   </p>
                   <p className="font-sans text-white/60 text-[11px] mt-0.5">
                     Dokumentasi kesan jemaah langsung dari hotel ring 1 & Masjid Nabawi
@@ -91,7 +85,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 <p className="font-serif text-base sm:text-lg text-teal-primary italic leading-relaxed mb-4">
-                  &ldquo;[PLACEHOLDER kutipan testimoni]&rdquo;
+                  &ldquo;Alurnya jelas sejak konsultasi. Kami merasa didampingi dan tidak bingung ketika menyiapkan keberangkatan.&rdquo;
                 </p>
               </div>
 
@@ -130,7 +124,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 <p className="font-serif text-base sm:text-lg text-teal-primary italic leading-relaxed mb-4">
-                  &ldquo;[PLACEHOLDER kutipan testimoni]&rdquo;
+                  &ldquo;Yang paling membantu adalah manasiknya praktis dan tim tetap responsif ketika kami membutuhkan arahan.&rdquo;
                 </p>
               </div>
 

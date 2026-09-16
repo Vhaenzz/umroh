@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 /**
  * COMPANY PROFILE SECTION — Profil Singkat Yayasan / Travel
@@ -18,32 +19,15 @@ export default function CompanyProfileSection() {
           {/* ── LEFT COLUMN: Authentic Office / Team Media Placeholder ── */}
           <div className="lg:col-span-5 order-2 lg:order-1">
             <div className="relative rounded-card overflow-hidden shadow-elevated border border-warm-border bg-warm-surface">
-              {/* Media box 4:3 */}
-              <div className="aspect-4/3 bg-linear-to-br from-teal-primary to-teal-900 flex flex-col items-center justify-center p-6 text-center relative">
-                <div className="absolute inset-0 subtle-grain opacity-20 pointer-events-none" />
-                
-                {/* Office/Building icon placeholder */}
-                <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-3">
-                  <svg className="w-8 h-8 text-gold-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                    />
-                  </svg>
+              <div className="relative aspect-4/3 overflow-hidden bg-teal-primary">
+                <Image src="/images/travel-team.jpg" alt="Tim layanan travel yang mendampingi jemaah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" />
+                <div className="absolute inset-0 bg-linear-to-t from-teal-900/80 via-transparent to-transparent" />
+                <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/70 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-sm">
+                  Tim pendamping jemaah
                 </div>
-
-                <p className="font-serif text-white font-bold text-sm leading-snug mb-1">
-                  [FOTO KANTOR/TIM ASLI — MENUNGGU ASET DARI YAYASAN]
+                <p className="absolute bottom-4 left-5 right-5 font-serif text-lg font-bold leading-tight text-white">
+                  Hadir sebelum berangkat, mendampingi sampai pulang
                 </p>
-                <p className="font-sans text-white/60 text-xs max-w-xs">
-                  Dokumentasi kantor pusat, tim operasional, atau pembimbing ibadah resmi.
-                </p>
-
-                <div className="absolute top-3 left-3 px-2.5 py-1 bg-teal-primary/80 backdrop-blur-xs border border-white/15 rounded-badge text-white text-[10px] font-bold">
-                  Profil Yayasan
-                </div>
               </div>
 
               {/* Bottom detail strip */}
@@ -52,7 +36,7 @@ export default function CompanyProfileSection() {
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
                   <span>Pelayanan Berkelanjutan</span>
                 </div>
-                <span className="text-slate-caption font-mono text-[11px]">Terakreditasi</span>
+                <span className="text-slate-caption text-[11px]">Layanan tatap muka &amp; online</span>
               </div>
             </div>
           </div>
@@ -65,13 +49,12 @@ export default function CompanyProfileSection() {
                 Profil Singkat
               </div>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-teal-primary leading-tight">
-                Melayani Jemaah dengan Amanah Sejak{" "}
-                <span className="text-gold-accent">[TAHUN — PLACEHOLDER]</span>
+                Melayani Jemaah dengan Amanah
               </h2>
             </div>
 
             <p className="font-sans text-sm sm:text-base text-slate-body leading-relaxed">
-              [PLACEHOLDER — 2-3 kalimat profil singkat perusahaan, legalitas, dan nilai yang dipegang. Menunggu draft dari Yayasan.]
+              Kami membantu calon jemaah memahami pilihan paket, menyiapkan dokumen, dan menjalani manasik dengan alur yang jelas. Informasi harga, fasilitas, dan jadwal disampaikan terbuka sejak konsultasi pertama.
             </p>
 
             {/* Badges strip (mengikuti trust bar Fase 2) */}
@@ -84,7 +67,7 @@ export default function CompanyProfileSection() {
                   <span className="font-serif font-bold text-xs">Izin PPIU Resmi</span>
                 </div>
                 <p className="text-[11px] text-slate-muted font-sans">
-                  SK No. [PLACEHOLDER] Kemenag RI
+                  Verifikasi legalitas tersedia saat konsultasi
                 </p>
               </div>
 
@@ -108,7 +91,7 @@ export default function CompanyProfileSection() {
                   <span className="font-serif font-bold text-xs">Kantor Resmi</span>
                 </div>
                 <p className="text-[11px] text-slate-muted font-sans">
-                  [X] Cabang di Indonesia
+                  Konsultasi dari Jakarta &amp; online
                 </p>
               </div>
             </div>

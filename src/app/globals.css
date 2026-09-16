@@ -2,8 +2,11 @@
 @config "../../tailwind.config.ts";
 
 :root {
-  --background: #F8F6F0;
-  --foreground: #192227;
+  --background: #ffffff;
+  --foreground: #111827;
+  --teal-ink: #0b3b2e;
+  --gold: #91ad3e;
+  --line: #e5e7eb;
 }
 
 body {
@@ -14,12 +17,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle background grain to add organic depth */
-.subtle-grain {
-  background-image: radial-gradient(#143D3B 0.5px, transparent 0.5px);
-  background-size: 24px 24px;
-  opacity: 0.035;
+::selection {
+  background: #dce9e5;
+  color: var(--teal-ink);
 }
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Subtle background grain to add organic depth */
+.subtle-grain { display: none; }
 
 /* Custom Scrollbar for elegant feel */
 ::-webkit-scrollbar {

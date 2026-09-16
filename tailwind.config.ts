@@ -11,34 +11,34 @@ const config: Config = {
       colors: {
         // Brand Primary - Calm Dark Teal
         teal: {
-          900: "#0E2C2B",
-          primary: "#143D3B", // Main brand color
-          800: "#143D3B",
-          700: "#1D524F",
-          600: "#276864",
-          100: "#E8F0EF",
-          50: "#F2F7F6",
+          900: "#062C22",
+          primary: "#0B3B2E", // Deep green from the reference sites
+          800: "#0B3B2E",
+          700: "#1F5D48",
+          600: "#38785A",
+          100: "#EAF3EE",
+          50: "#F4F8F5",
         },
         // Brand Accent - Muted Gold (Strategic use only)
         gold: {
-          accent: "#C59B4E", // Accent primary
-          hover: "#B3883D",
-          light: "#F7F2E7",
-          border: "#EADCC2",
+          accent: "#91AD3E", // Accent green from Alsha's package system
+          hover: "#78952F",
+          light: "#F1F5E8",
+          border: "#DCE8BF",
         },
         // Brand Neutrals
         warm: {
-          bg: "#F8F6F0",       // Off-white background
+          bg: "#FFFFFF",       // Clean white canvas from the references
           surface: "#FFFFFF",  // Pure white card/surface
-          muted: "#F3EFE6",    // Secondary background container
-          border: "#E8E3DA",   // Subdued border line
-          divider: "#E2DDD5",  // Section divider
+          muted: "#F7F8F6",    // Secondary background container
+          border: "#E5E7EB",   // Subdued border line
+          divider: "#E5E7EB",  // Section divider
         },
         slate: {
-          dark: "#192227",     // Near-black text (No pure #000)
-          body: "#3A4750",     // Standard body paragraph text
-          muted: "#59656C",    // Secondary text
-          caption: "#7E8B93",  // Metadata & caption text
+          dark: "#111827",     // Near-black text
+          body: "#334155",     // Standard body paragraph text
+          muted: "#64748B",    // Secondary text
+          caption: "#94A3B8",   // Metadata & caption text
         },
         // Brand Status Indicators
         status: {
@@ -68,14 +68,14 @@ const config: Config = {
       },
       borderRadius: {
         badge: "6px",
-        button: "10px",
-        card: "18px",
-        box: "24px",
+        button: "8px",
+        card: "14px",
+        box: "18px",
       },
       boxShadow: {
-        card: "0 4px 20px -2px rgba(20, 61, 59, 0.05)",
-        elevated: "0 10px 30px -5px rgba(20, 61, 59, 0.12)",
-        goldGlow: "0 8px 24px -4px rgba(197, 155, 78, 0.25)",
+        card: "0 2px 6px rgba(15, 23, 42, 0.04)",
+        elevated: "0 12px 30px rgba(15, 23, 42, 0.10)",
+        goldGlow: "0 8px 24px -4px rgba(145, 173, 62, 0.20)",
         insetSoft: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.02)",
       },
       lineHeight: {

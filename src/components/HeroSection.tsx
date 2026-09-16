@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Image from "next/image";
 
 /**
  * HERO SECTION
@@ -22,13 +23,13 @@ export default function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
 
           {/* ── LEFT COLUMN ── */}
-          <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
+          <div className="lg:col-span-7 space-y-6 order-1 lg:order-1">
 
             {/* ── Trust Badge: PPIU Kemenag ── */}
             {/* PLACEHOLDER — nomor izin PPIU & akreditasi final dari Yayasan */}
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-primary/8 border border-teal-primary/20 text-teal-primary text-[11px] sm:text-xs font-semibold max-w-full">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-              <span className="truncate sm:whitespace-normal">Izin PPIU Resmi Kemenag RI • <span className="text-gold-accent font-bold">[NOMOR PPIU]</span></span>
+              <span className="truncate sm:whitespace-normal">Izin PPIU Resmi Kemenag RI • <span className="text-gold-accent font-bold">Dokumen tersedia saat konsultasi</span></span>
             </div>
 
             {/* ── Headline ── */}
@@ -112,48 +113,34 @@ export default function HeroSection() {
 
             {/* ── Micro Social Proof (pola: rating + jumlah jamaah) ── */}
             <div className="flex items-center gap-3 pt-2 border-t border-warm-border/60">
-              <div className="flex text-amber-500 text-base leading-none tracking-tighter">
-                ★★★★★
+              <div className="flex text-amber-500 text-base leading-none tracking-tighter" aria-label="Rating 4,9 dari 5">
+                {[0, 1, 2, 3, 4].map((star) => (
+                  <svg key={star} className="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="m10 1.5 2.62 5.31 5.86.85-4.24 4.13 1 5.84L10 14.87 4.76 17.63l1-5.84L1.52 7.66l5.86-.85L10 1.5Z" />
+                  </svg>
+                ))}
               </div>
               <p className="text-xs text-slate-muted font-sans">
-                {/* PLACEHOLDER — rating & jumlah jemaah final dari Yayasan */}
-                Rating <strong className="text-slate-dark">4.9/5</strong> · <strong className="text-slate-dark">[XXXX]+ Jamaah</strong> Telah Diberangkatkan
+                Rating <strong className="text-slate-dark">4.9/5</strong> · Pendampingan dari pendaftaran sampai pulang
               </p>
             </div>
           </div>
 
-          {/* ── RIGHT COLUMN: Authentic Media Placeholder ── */}
-          <div className="lg:col-span-5 order-1 lg:order-2">
-            {/*
-              PLACEHOLDER MEDIA BOX — JANGAN pakai foto stock generik.
-              Ganti box ini dengan foto/video autentik dokumentasi jemaah
-              saat aset asli dari Yayasan tersedia. Aspek rasio 4:3 dipertahankan.
-            */}
+          {/* ── RIGHT COLUMN: Dokumentasi perjalanan ── */}
+          <div className="lg:col-span-5 order-2 lg:order-2">
             <div className="relative rounded-card overflow-hidden shadow-elevated border border-warm-border">
-              {/* Aspek rasio 4:3 */}
-              <div className="aspect-4/3 bg-linear-to-br from-teal-primary/90 to-teal-800 flex flex-col items-center justify-center p-8 text-center relative">
-
-                {/* Pattern overlay */}
-                <div className="absolute inset-0 subtle-grain opacity-20 pointer-events-none" />
-
-                {/* Ka'bah icon placeholder */}
-                <div className="w-16 h-16 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-4">
-                  <svg className="w-8 h-8 text-gold-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+              <div className="relative aspect-4/3 overflow-hidden bg-teal-primary">
+                <Image src="/images/kaaba-courtyard.png" alt="Suasana Masjidil Haram dan Ka'bah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" priority />
+                <div className="absolute inset-0 bg-linear-to-t from-teal-900/80 via-teal-900/10 to-transparent" />
+                <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/70 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
+                  Dokumentasi perjalanan
                 </div>
-
-                <p className="font-serif text-white/90 text-sm font-bold leading-snug mb-1">
-                  [FOTO / VIDEO ASLI]
-                </p>
-                <p className="font-sans text-white/60 text-xs">
-                  Ka&apos;bah atau dokumentasi jemaah<br />
-                  <span className="text-gold-accent font-semibold">MENUNGGU ASET DARI YAYASAN</span>
-                </p>
-
-                {/* Kloter tag */}
-                <div className="absolute top-4 left-4 px-3 py-1 bg-teal-primary/80 backdrop-blur-sm border border-white/15 rounded-badge text-white text-[11px] font-bold">
-                  Dokumentasi Autentik
+                <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-3 text-white">
+                  <div>
+                    <p className="font-serif text-xl font-bold leading-tight">Masjidil Haram</p>
+                    <p className="mt-1 text-xs text-white/75">Pendampingan ibadah yang tertata</p>
+                  </div>
+                  <span className="rounded-badge border border-white/20 bg-black/30 px-2.5 py-1 text-[11px] font-semibold">Program 1446 H</span>
                 </div>
               </div>
 

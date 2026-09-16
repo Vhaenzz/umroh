@@ -28,7 +28,7 @@ export default function CtaBannerSection() {
         </h2>
 
         <p className="font-sans text-sm sm:text-base text-slate-100/90 mt-4 max-w-2xl mx-auto leading-relaxed">
-          [PLACEHOLDER — ajakan singkat, konsultasi gratis tanpa tekanan]
+          Ceritakan rencana perjalanan Anda. Kami bantu membandingkan jadwal, fasilitas, dan pilihan kamar dengan jelas.
         </p>
 
         {/* Action Buttons: Dual CTA */}

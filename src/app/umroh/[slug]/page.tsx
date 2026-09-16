@@ -79,25 +79,25 @@ export default async function PackageDetailPage({ params }: PageProps) {
   const galleryItems = pkg.gallery || [
     {
       id: "gal-1",
-      label: "[FOTO PAKET — MENUNGGU ASET]",
+      label: "Akomodasi Makkah",
       tag: "Hotel Makkah Bintang 4",
       caption: "Akomodasi Nyaman Dekat Pelataran Masjidil Haram",
     },
     {
       id: "gal-2",
-      label: "[FOTO PAKET — MENUNGGU ASET]",
+      label: "Akomodasi Madinah",
       tag: "Hotel Madinah Bintang 4",
       caption: "Akomodasi Strategis Selangkah ke Masjid Nabawi",
     },
     {
       id: "gal-3",
-      label: "[FOTO PAKET — MENUNGGU ASET]",
+      label: "City tour Thaif",
       tag: "City Tour Thaif",
       caption: "Napak Tilas Sejarah & Suasana Sejuk Perkebunan Thaif",
     },
     {
       id: "gal-4",
-      label: "[FOTO PAKET — MENUNGGU ASET]",
+      label: "Bimbingan manasik",
       tag: "Bimbingan Manasik",
       caption: "Manasik Komprehensif 3x Pertemuan Sebelum Keberangkatan",
     },
@@ -179,7 +179,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
           </p>
         </div>
 
-        {/* ── 3. FOTO GALERI PLACEHOLDER (MINIMAL 4 SLOT, DEFINED ASPECT RATIO) ── */}
+        {/* ── 3. Galeri paket ── */}
         <section aria-labelledby="gallery-heading" className="space-y-3">
           <h2 id="gallery-heading" className="sr-only">Galeri Dokumentasi Paket</h2>
           

@@ -28,8 +28,12 @@ const statusConfig: Record<StatusType, { bg: string; text: string; border: strin
 // ── Star rating renderer ──
 export function StarRating({ rating }: { rating: number }) {
   return (
-    <span className="text-amber-500 text-sm tracking-tighter" aria-label={`Rating ${rating} dari 5`}>
-      {"★".repeat(Math.round(rating))}
+    <span className="flex gap-0.5 text-amber-500" aria-label={`Rating ${rating} dari 5`}>
+      {[0, 1, 2, 3, 4].map((star) => (
+        <svg key={star} className={`h-3.5 w-3.5 ${star < Math.round(rating) ? "fill-current" : "fill-none"}`} viewBox="0 0 20 20" aria-hidden="true">
+          <path d="m10 1.5 2.62 5.31 5.86.85-4.24 4.13 1 5.84L10 14.87 4.76 17.63l1-5.84L1.52 7.66l5.86-.85L10 1.5Z" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
+      ))}
     </span>
   );
 }
