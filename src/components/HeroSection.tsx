@@ -97,7 +97,7 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
           <div className="lg:col-span-5 order-2 lg:order-2">
             <div className="relative rounded-card overflow-hidden shadow-elevated border border-warm-border">
               <div className="relative aspect-4/3 overflow-hidden bg-teal-primary">
-                <Image src="/images/kaaba-courtyard.png" alt="Suasana Masjidil Haram dan Ka'bah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" priority />
+                <Image src={company.media?.heroUrl || "/images/kaaba-courtyard.png"} alt="Suasana Masjidil Haram dan Ka'bah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" priority />
                 <div className="absolute inset-0 bg-linear-to-t from-teal-900/80 via-teal-900/10 to-transparent" />
                 <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/70 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
                   Dokumentasi perjalanan

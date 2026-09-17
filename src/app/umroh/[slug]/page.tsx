@@ -1,5 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
@@ -121,16 +122,18 @@ export default async function PackageDetailPage({ params }: PageProps) {
             {/* Slot 1 (Besar - Kiri) */}
             <div className="md:col-span-6 relative rounded-card overflow-hidden border border-warm-border bg-warm-surface shadow-card">
               <div className="aspect-4/3 w-full bg-linear-to-br from-teal-900 via-teal-primary to-teal-950 flex flex-col items-center justify-center p-6 text-center relative group">
+                {galleryItems[0].imageUrl && <Image src={galleryItems[0].imageUrl} alt={galleryItems[0].alt || galleryItems[0].label} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />}
+                {galleryItems[0].imageUrl && <div className="absolute inset-0 bg-black/35" />}
                 <div className="absolute inset-0 subtle-grain opacity-25 pointer-events-none" />
-                <div className="w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-3">
+                <div className="relative z-10 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-3">
                   <svg className="w-7 h-7 text-gold-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                 </div>
-                <p className="font-serif text-white font-bold text-sm sm:text-base leading-snug">
+                <p className="relative z-10 font-serif text-white font-bold text-sm sm:text-base leading-snug">
                   {galleryItems[0].label}
                 </p>
-                <p className="font-sans text-gold-accent text-xs font-semibold mt-1">
+                <p className="relative z-10 font-sans text-gold-accent text-xs font-semibold mt-1">
                   {galleryItems[0].tag}
                 </p>
                 <span className="absolute top-3 left-3 px-2.5 py-1 bg-black/40 backdrop-blur-xs rounded-badge text-white font-mono text-[10px] font-bold">
@@ -152,11 +155,13 @@ export default async function PackageDetailPage({ params }: PageProps) {
                   }`}
                 >
                   <div className={`aspect-4/3 sm:aspect-auto ${idx === 2 ? "sm:h-44" : "sm:h-44"} w-full bg-linear-to-br from-teal-800 to-teal-900 flex flex-col items-center justify-center p-4 text-center relative`}>
+                    {item.imageUrl && <Image src={item.imageUrl} alt={item.alt || item.label} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />}
+                    {item.imageUrl && <div className="absolute inset-0 bg-black/35" />}
                     <div className="absolute inset-0 subtle-grain opacity-20 pointer-events-none" />
-                    <p className="font-serif text-white font-bold text-xs sm:text-sm leading-snug">
+                    <p className="relative z-10 font-serif text-white font-bold text-xs sm:text-sm leading-snug">
                       {item.label}
                     </p>
-                    <p className="font-sans text-gold-accent text-[11px] font-semibold mt-0.5">
+                    <p className="relative z-10 font-sans text-gold-accent text-[11px] font-semibold mt-0.5">
                       {item.tag}
                     </p>
                     <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/40 backdrop-blur-xs rounded-badge text-white font-mono text-[10px] font-bold">

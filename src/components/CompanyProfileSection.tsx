@@ -21,7 +21,7 @@ export default function CompanyProfileSection({ company }: { company: CompanyPro
           <div className="lg:col-span-5 order-2 lg:order-1">
             <div className="relative rounded-card overflow-hidden shadow-elevated border border-warm-border bg-warm-surface">
               <div className="relative aspect-4/3 overflow-hidden bg-teal-primary">
-                <Image src="/images/travel-team.jpg" alt="Tim layanan travel yang mendampingi jemaah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" />
+                <Image src={company.media?.aboutUrl || "/images/travel-team.jpg"} alt="Tim layanan travel yang mendampingi jemaah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" />
                 <div className="absolute inset-0 bg-linear-to-t from-teal-900/80 via-transparent to-transparent" />
                 <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/70 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-sm">
                   Tim pendamping jemaah
@@ -94,10 +94,13 @@ export default function CompanyProfileSection({ company }: { company: CompanyPro
               <h3 className="font-sans text-base font-bold text-teal-primary">Tim kepemimpinan</h3>
               <div className="mobile-rail sm:grid-cols-3 gap-3 mt-3">
                 {company.leaders.map((leader) => (
-                  <article key={leader.name} className="rounded-card border border-warm-border bg-warm-surface p-4">
+                  <article key={leader.name} className="overflow-hidden rounded-card border border-warm-border bg-warm-surface">
+                    {leader.imageUrl && <div className="relative aspect-square"><Image src={leader.imageUrl} alt={`Foto ${leader.name}`} fill sizes="(max-width: 640px) 82vw, 30vw" className="object-cover" /></div>}
+                    <div className="p-4">
                     <h4 className="font-sans text-sm font-bold text-teal-primary">{leader.name}</h4>
                     <p className="mt-1 text-xs font-semibold text-gold-hover">{leader.role}</p>
                     <p className="mt-2 text-sm leading-relaxed text-slate-body">{leader.description}</p>
+                    </div>
                   </article>
                 ))}
               </div>

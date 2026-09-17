@@ -76,6 +76,11 @@ export const companyProfile = {
     { bank: "Bank Muamalat", account: "1390200709" },
   ],
   equipment: ["Koper bagasi", "Koper kabin", "Kain ihram / mukena", "Tas punggung", "Slayer", "Buku doa", "Sabuk / ikat pinggang"],
+  media: {
+    heroUrl: "",
+    aboutUrl: "",
+    documentationUrls: ["", "", ""],
+  },
 } as const;
 
 type Mutable<T> = T extends readonly (infer U)[]
@@ -90,5 +95,5 @@ type Mutable<T> = T extends readonly (infer U)[]
           ? { -readonly [K in keyof T]: Mutable<T[K]> }
           : T;
 
-export type CompanyProfile = Mutable<typeof companyProfile>;
-export type CompanyLeader = (typeof companyProfile.leaders)[number];
+export type CompanyLeader = Mutable<(typeof companyProfile.leaders)[number]> & { imageUrl?: string };
+export type CompanyProfile = Omit<Mutable<typeof companyProfile>, "leaders"> & { leaders: CompanyLeader[] };

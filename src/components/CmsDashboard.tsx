@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Package, PackageLifecycle, RoomPrice } from "@/types/package";
 import type { SiteData } from "@/lib/cms/types";
 import { createBrowserSupabase, isSupabaseConfigured } from "@/lib/supabase/browser";
+import CmsMediaUpload from "@/components/CmsMediaUpload";
 
-type Tab = "packages" | "company" | "financing" | "payments" | "transfer";
+type Tab = "packages" | "company" | "financing" | "payments" | "media" | "transfer";
 type FieldValue = unknown;
 
 const inputClass =
@@ -97,6 +99,21 @@ function emptyPackage(index: number): Package {
   };
 }
 
+function normalizeSiteData(value: SiteData): SiteData {
+  const next = structuredClone(value);
+  next.company.media = next.company.media || { heroUrl: "", aboutUrl: "", documentationUrls: ["", "", ""] };
+  next.company.media.documentationUrls = [...(next.company.media.documentationUrls || []), "", "", ""].slice(0, 3);
+  next.company.leaders = next.company.leaders.map((leader) => ({ ...leader, imageUrl: leader.imageUrl || "" }));
+  next.packages = next.packages.map((pkg) => ({ ...pkg, gallery: pkg.gallery || [] }));
+  return next;
+}
+
+function MediaManager({ data, supabase, selectedPackageId, setSelectedPackageId, updateCompany, updateLeader, updateDocumentationImage, updateGalleryItem, addGalleryItem, removeGalleryItem, saveData, saving, message, error }: { data: SiteData; supabase: SupabaseClient | null; selectedPackageId: string | null; setSelectedPackageId: (value: string) => void; updateCompany: (path: string, value: FieldValue) => void; updateLeader: (index: number, key: "name" | "role" | "description" | "imageUrl", value: string) => void; updateDocumentationImage: (index: number, value: string) => void; updateGalleryItem: (index: number, key: "label" | "tag" | "caption" | "alt" | "imageUrl", value: string) => void; addGalleryItem: () => void; removeGalleryItem: (index: number) => void; saveData: () => Promise<void>; saving: boolean; message: string; error: string }) {
+  const company = data.company;
+  const selectedPackage = data.packages.find((item) => item.id === selectedPackageId) || null;
+  return <main className="min-h-screen bg-[#f4f1e9] px-4 py-6 text-slate-dark sm:px-7 sm:py-10"><div className="mx-auto max-w-7xl"><div className="flex flex-col justify-between gap-4 border-b border-warm-border pb-6 sm:flex-row sm:items-end"><div><p className="text-xs font-bold uppercase tracking-[0.16em] text-gold-hover">Content management system</p><h1 className="mt-2 font-serif text-3xl font-bold text-teal-primary sm:text-4xl">Media website</h1><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-muted">Kelola foto homepage, dokumentasi, profil pimpinan, dan galeri paket dari satu tempat.</p></div><div className="flex flex-wrap gap-2"><a href="/admin" className="inline-flex min-h-11 items-center rounded-button border border-warm-border bg-white px-4 py-3 text-xs font-bold text-teal-primary">Kembali ke CMS</a><button type="button" onClick={() => void saveData()} disabled={saving} className="min-h-11 rounded-button bg-gold-accent px-4 py-3 text-xs font-bold text-slate-dark disabled:opacity-60">{saving ? "Menyimpan…" : "Simpan perubahan"}</button></div></div>{(message || error) && <div className={`mt-5 rounded-button border px-4 py-3 text-sm ${error ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800"}`}>{error || message}</div>}<div className="mt-7 space-y-6"><section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7"><h2 className="font-serif text-2xl font-bold text-teal-primary">Media website</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-slate-muted">Upload ke Supabase Storage atau masukkan URL gambar. Bucket yang digunakan: <code>cms-media</code>.</p><div className="mt-6 grid gap-5 lg:grid-cols-3"><CmsMediaUpload label="Foto utama homepage" value={company.media?.heroUrl} folder="site/hero" supabase={supabase} onChange={(value) => updateCompany("media.heroUrl", value)} /><CmsMediaUpload label="Foto halaman Tentang" value={company.media?.aboutUrl} folder="site/about" supabase={supabase} onChange={(value) => updateCompany("media.aboutUrl", value)} />{[0, 1, 2].map((index) => <CmsMediaUpload key={index} label={`Dokumentasi ${index + 1}`} value={company.media?.documentationUrls?.[index]} folder={`site/documentation-${index + 1}`} supabase={supabase} onChange={(value) => updateDocumentationImage(index, value)} />)}</div></section><section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7"><h2 className="font-serif text-2xl font-bold text-teal-primary">Foto tiga pimpinan</h2><p className="mt-2 text-sm leading-6 text-slate-muted">Foto akan tampil di halaman Tentang. Tanpa foto, website menampilkan inisial.</p><div className="mt-6 grid gap-5 lg:grid-cols-3">{company.leaders.map((leader, index) => <div key={`${leader.name}-${index}`} className="space-y-4 rounded-card border border-warm-border p-4"><div><p className="text-sm font-bold text-teal-primary">{leader.name}</p><p className="mt-1 text-xs text-slate-muted">{leader.role}</p></div><CmsMediaUpload label="Foto profil" value={leader.imageUrl} folder={`leaders/${index + 1}`} supabase={supabase} onChange={(value) => updateLeader(index, "imageUrl", value)} /></div>)}</div></section><section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7"><div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><h2 className="font-serif text-2xl font-bold text-teal-primary">Galeri foto paket</h2><p className="mt-2 text-sm leading-6 text-slate-muted">Tambahkan foto, judul, tag, caption, dan alt text untuk setiap paket.</p></div><label className="block sm:min-w-72"><span className={labelClass}>Pilih paket</span><select className={inputClass} value={selectedPackageId || ""} onChange={(event) => setSelectedPackageId(event.target.value)}>{data.packages.map((item) => <option key={item.id} value={item.id}>{item.name || item.slug}</option>)}</select></label></div>{selectedPackage && <div className="mt-6 space-y-4">{(selectedPackage.gallery || []).map((item, index) => <div key={item.id} className="grid gap-4 rounded-card border border-warm-border p-4 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end"><CmsMediaUpload label={`Foto ${index + 1}`} value={item.imageUrl} folder={`packages/${selectedPackage.slug}`} supabase={supabase} onChange={(value) => updateGalleryItem(index, "imageUrl", value)} /><Field label="Judul" value={item.label} onChange={(value) => updateGalleryItem(index, "label", value)} /><Field label="Tag" value={item.tag} onChange={(value) => updateGalleryItem(index, "tag", value)} /><Field label="Caption / alt text" value={item.caption} onChange={(value) => { updateGalleryItem(index, "caption", value); updateGalleryItem(index, "alt", value); }} /><button type="button" className="min-h-11 rounded-button border border-red-200 px-3 py-2 text-xs font-bold text-red-700 hover:bg-red-50" onClick={() => removeGalleryItem(index)}>Hapus</button></div>)}<button type="button" onClick={addGalleryItem} className="min-h-11 rounded-button border border-teal-primary px-4 py-3 text-sm font-bold text-teal-primary hover:bg-teal-primary hover:text-white">+ Tambah foto galeri</button></div>}</section></div></div></main>;
+}
+
 export default function CmsDashboard() {
   const [data, setData] = useState<SiteData | null>(null);
   const [tab, setTab] = useState<Tab>("packages");
@@ -124,7 +141,7 @@ export default function CmsDashboard() {
       }
       const response = await fetch("/api/cms", { cache: "no-store" });
       if (!response.ok) throw new Error("Data CMS tidak dapat dimuat.");
-      const nextData = await response.json() as SiteData;
+      const nextData = normalizeSiteData(await response.json() as SiteData);
       setData(nextData);
       setSelectedPackageId(nextData.packages[0]?.id || null);
       setError("");
@@ -164,6 +181,34 @@ export default function CmsDashboard() {
     updatePackage(key, values);
   }
 
+  function updateLeader(index: number, key: "name" | "role" | "description" | "imageUrl", value: string) {
+    setData((current) => current ? { ...current, company: { ...current.company, leaders: current.company.leaders.map((leader, leaderIndex) => leaderIndex === index ? { ...leader, [key]: value } : leader) } } : current);
+  }
+
+  function updateDocumentationImage(index: number, value: string) {
+    setData((current) => {
+      if (!current) return current;
+      const urls = [...(current.company.media?.documentationUrls || []), "", "", ""].slice(0, 3);
+      urls[index] = value;
+      return { ...current, company: { ...current.company, media: { ...current.company.media, documentationUrls: urls } } };
+    });
+  }
+
+  function updateGalleryItem(index: number, key: "label" | "tag" | "caption" | "alt" | "imageUrl", value: string) {
+    if (!selectedPackage) return;
+    updatePackage("gallery", (selectedPackage.gallery || []).map((item, itemIndex) => itemIndex === index ? { ...item, [key]: value } : item));
+  }
+
+  function addGalleryItem() {
+    if (!selectedPackage) return;
+    updatePackage("gallery", [...(selectedPackage.gallery || []), { id: `gallery-${Date.now()}`, label: "Dokumentasi baru", tag: "Perjalanan", caption: "", alt: "", imageUrl: "" }]);
+  }
+
+  function removeGalleryItem(index: number) {
+    if (!selectedPackage) return;
+    updatePackage("gallery", (selectedPackage.gallery || []).filter((_, itemIndex) => itemIndex !== index));
+  }
+
   async function saveData() {
     if (!data) return;
     setSaving(true);
@@ -176,7 +221,7 @@ export default function CmsDashboard() {
       const result = await response.json() as SiteData & { error?: string };
       if (!response.ok) throw new Error(result.error || "Perubahan tidak dapat disimpan.");
       setData(result);
-      setMessage("Perubahan tersimpan ke content/site-data.json.");
+      setMessage(isSupabaseConfigured ? "Perubahan tersimpan ke Supabase dan akan tampil global." : "Perubahan tersimpan ke server lokal.");
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : "Perubahan tidak dapat disimpan.");
     } finally {
@@ -192,8 +237,9 @@ export default function CmsDashboard() {
       const response = await fetch("/api/cms", { method: "PUT", headers: { "Content-Type": "application/json", ...(authorizationToken ? { Authorization: `Bearer ${authorizationToken}` } : {}) }, body: JSON.stringify({ reset: true }) });
       if (!response.ok) throw new Error("Reset tidak diizinkan.");
       const nextData = await response.json() as SiteData;
-      setData(nextData);
-      setSelectedPackageId(nextData.packages[0]?.id || null);
+      const normalizedData = normalizeSiteData(nextData);
+      setData(normalizedData);
+      setSelectedPackageId(normalizedData.packages[0]?.id || null);
       setMessage("Data dikembalikan ke seed awal.");
     } catch (resetError) {
       setError(resetError instanceof Error ? resetError.message : "Reset gagal.");
@@ -240,8 +286,9 @@ export default function CmsDashboard() {
       try {
         const parsed = JSON.parse(String(reader.result)) as SiteData;
         if (!parsed.company || !Array.isArray(parsed.packages)) throw new Error("Struktur JSON tidak sesuai CMS.");
-        setData(parsed);
-        setSelectedPackageId(parsed.packages[0]?.id || null);
+        const normalizedData = normalizeSiteData(parsed);
+        setData(normalizedData);
+        setSelectedPackageId(normalizedData.packages[0]?.id || null);
         setMessage("File diimpor ke editor. Tekan Simpan untuk menerapkannya.");
       } catch (importError) {
         setError(importError instanceof Error ? importError.message : "File JSON tidak valid.");
@@ -275,6 +322,8 @@ export default function CmsDashboard() {
   const certification = company.certification;
   const financing = company.financing;
 
+  if (tab === "media") return <MediaManager data={data} supabase={supabase} selectedPackageId={selectedPackageId} setSelectedPackageId={setSelectedPackageId} updateCompany={updateCompany} updateLeader={updateLeader} updateDocumentationImage={updateDocumentationImage} updateGalleryItem={updateGalleryItem} addGalleryItem={addGalleryItem} removeGalleryItem={removeGalleryItem} saveData={saveData} saving={saving} message={message} error={error} />;
+
   return (
     <main className="min-h-screen bg-[#f4f1e9] text-slate-dark">
       <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[260px_1fr]">
@@ -285,11 +334,11 @@ export default function CmsDashboard() {
           </div>
           <p className="mt-8 text-xs leading-5 text-white/60">Kelola konten yang tampil di website tanpa mengubah source code.</p>
           <nav className="mt-8 grid grid-cols-2 gap-2 lg:grid-cols-1">
-            {([['packages', 'Paket'], ['company', 'Profil & legal'], ['financing', 'Pembiayaan'], ['payments', 'Rekening'], ['transfer', 'Import / export']] as [Tab, string][]).map(([value, label]) => (
+            {([['packages', 'Paket'], ['company', 'Profil & legal'], ['media', 'Media'], ['financing', 'Pembiayaan'], ['payments', 'Rekening'], ['transfer', 'Import / export']] as [Tab, string][]).map(([value, label]) => (
               <button key={value} type="button" onClick={() => setTab(value)} className={`rounded-button px-3 py-3 text-left text-sm font-semibold transition ${tab === value ? "bg-gold-accent text-slate-dark" : "text-white/75 hover:bg-white/10 hover:text-white"}`}>{label}</button>
             ))}
           </nav>
-          <div className="mt-8 hidden rounded-card border border-white/10 bg-white/5 p-4 text-xs leading-5 text-white/60 lg:block">Perubahan disimpan lokal di server ini. Untuk production, set <code className="text-gold-accent">CMS_ADMIN_TOKEN</code>.</div>
+          <div className="mt-8 hidden rounded-card border border-white/10 bg-white/5 p-4 text-xs leading-5 text-white/60 lg:block">{isSupabaseConfigured ? "Perubahan tersimpan terpusat di Supabase dan terlihat oleh semua pengunjung." : <>Perubahan disimpan lokal di server ini. Untuk production, set <code className="text-gold-accent">CMS_ADMIN_TOKEN</code>.</>}</div>
         </aside>
 
         <section className="min-w-0 p-4 sm:p-7 lg:p-10">

@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "*.supabase.co" }],
+  },
   allowedDevOrigins: [
     "*.ngrok-free.app",
     "*.ngrok-free.dev",
@@ -11,4 +14,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

@@ -17,6 +17,8 @@ export interface GalleryItem {
   label: string;
   tag: string;
   caption: string;
+  imageUrl?: string;
+  alt?: string;
 }
 
 export interface ItineraryDay {

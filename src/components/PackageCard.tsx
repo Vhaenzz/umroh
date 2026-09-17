@@ -52,11 +52,11 @@ export default function PackageCard({ pkg, compareSelected = false, onToggleComp
         : pkg.statusType === "warning"
           ? "Kuota terbatas"
           : "Jadwal tersedia";
-  const packageImage = pkg.isHaji
+  const packageImage = pkg.gallery?.[0]?.imageUrl || (pkg.isHaji
     ? "/images/madina-pilgrims.webp"
     : pkg.slug.includes("dubai")
       ? "/images/travel-team.jpg"
-      : "/images/kaaba-courtyard.png";
+      : "/images/kaaba-courtyard.png");
 
   return (
     <article

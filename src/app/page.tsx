@@ -33,7 +33,7 @@ export default async function BerandaPage() {
       <LegalityTeaser company={company} />
 
       {/* 7. Dokumentasi perjalanan */}
-      <TestimonialsSection />
+      <TestimonialsSection company={company} />
 
       {/* 8. FAQ (Accordion) */}
       <FaqSection company={company} compact />

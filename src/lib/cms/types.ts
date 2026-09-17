@@ -13,7 +13,7 @@ type DeepMutable<T> = T extends readonly (infer U)[]
     ? { -readonly [K in keyof T]: DeepMutable<T[K]> }
     : T;
 
-export type EditableCompanyProfile = DeepMutable<typeof companyProfile>;
+export type EditableCompanyProfile = Omit<DeepMutable<typeof companyProfile>, "leaders"> & { leaders: Array<DeepMutable<(typeof companyProfile.leaders)[number]> & { imageUrl?: string }> };
 
 export interface SiteData {
   company: EditableCompanyProfile;
