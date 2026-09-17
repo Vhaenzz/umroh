@@ -1,6 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import PackageCatalogView from "@/components/PackageCatalogView";
+import { HajiOverviewSection } from "@/components/SiteContentPages";
 import { getSiteData } from "@/lib/cms/store";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -9,16 +10,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HajiCatalogPage() {
-  const { packages } = await getSiteData();
+  const { company, packages } = await getSiteData();
   const hajiPackages = packages.filter((p) => p.isHaji);
 
   return (
     <main>
+      <HajiOverviewSection company={company} />
       <PackageCatalogView
         initialPackages={hajiPackages}
         badgeLabel="Informasi Haji Khusus"
-        title="Perencanaan Haji Khusus"
-        subtitle="Pelajari detail paket, akomodasi, itinerary, dan komponen biaya. Ketersediaan kuota serta dokumen perlu dikonfirmasi sebelum pendaftaran."
+        title="Program Haji Khusus yang tersedia"
+        subtitle="Bandingkan jadwal, akomodasi, itinerary, dan komponen biaya. Bila belum ada keberangkatan yang tampil, konsultasikan rencana dan kuota melalui kanal resmi."
         defaultPackageType="khusus"
       />
     </main>

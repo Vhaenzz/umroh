@@ -15,8 +15,8 @@ export default async function AllPackagesPage() {
       <PackageCatalogView
         initialPackages={packages}
         badgeLabel="Katalog Lengkap"
-        title="Seluruh Paket Ibadah Umroh & Haji"
-        subtitle="Pilih dan bandingkan paket berdasarkan jadwal, kota embarkasi, durasi, hotel, fasilitas, dan tipe kamar. Konfirmasi data terbaru sebelum mendaftar."
+        title="Bandingkan seluruh paket ibadah"
+        subtitle="Saring berdasarkan jadwal, kota embarkasi, durasi, hotel, fasilitas, dan tipe kamar. Simpan hingga tiga paket untuk melihat perbedaannya dengan lebih cepat."
         defaultPackageType="all"
       />
     </main>

@@ -6,7 +6,7 @@ export default function FinancingSection({ company }: { company: CompanyProfile 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Rencana biaya</p>
-          <h2 className="font-sans text-2xl font-bold leading-tight text-teal-primary sm:text-3xl">Tiga langkah ke Baitullah</h2>
+          <h2 className="font-sans text-2xl font-bold leading-tight text-teal-primary sm:text-3xl">Pilihan menuju Baitullah</h2>
           <p className="mt-3 text-sm leading-6 text-slate-body sm:text-base">
             Skema di bawah ini mengikuti profil layanan Risalah Madina Tour. Nilai program, fasilitas, dan harga tetap perlu dikonfirmasi sebelum pembayaran.
           </p>

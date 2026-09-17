@@ -2,12 +2,11 @@ import React from "react";
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
 import FeaturedPackagesSection from "@/components/FeaturedPackagesSection";
-import FinancingSection from "@/components/FinancingSection";
 import WhyUsSection from "@/components/WhyUsSection";
-import CompanyProfileSection from "@/components/CompanyProfileSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import CtaBannerSection from "@/components/CtaBannerSection";
+import { HowItWorksSection, LegalityTeaser } from "@/components/SiteContentPages";
 import { getSiteData } from "@/lib/cms/store";
 
 export default async function BerandaPage() {
@@ -24,23 +23,23 @@ export default async function BerandaPage() {
       {/* 3. Featured Packages Section */}
       <FeaturedPackagesSection packages={packages} />
 
-      {/* 4. Skema pembiayaan dan perlengkapan */}
-      <FinancingSection company={company} />
-
-      {/* 5. Kenapa Memilih Kami (Why Us) */}
+      {/* 4. Kenapa Memilih Kami (Why Us) */}
       <WhyUsSection />
 
-      {/* 6. Profil Singkat Yayasan / Travel */}
-      <CompanyProfileSection company={company} />
+      {/* 5. Alur keberangkatan */}
+      <HowItWorksSection company={company} />
+
+      {/* 6. Teaser legalitas */}
+      <LegalityTeaser company={company} />
 
       {/* 7. Dokumentasi perjalanan */}
       <TestimonialsSection />
 
       {/* 8. FAQ (Accordion) */}
-      <FaqSection company={company} />
+      <FaqSection company={company} compact />
 
       {/* 9. CTA Penutup */}
-      <CtaBannerSection />
+      <CtaBannerSection company={company} />
     </main>
   );
 }

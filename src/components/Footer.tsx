@@ -76,18 +76,14 @@ export default function Footer({ company }: { company: CompanyProfile }) {
                   Paket Haji Khusus & Furoda
                 </Link>
               </li>
+              <li><Link href="/tentang" className="hover:text-white transition-colors">Tentang Kami</Link></li>
               <li>
-                <Link href="/#tentang" className="hover:text-white transition-colors">
-                  Tentang Kami
-                </Link>
-              </li>
-              <li>
-                <Link href="/#dokumentasi" className="hover:text-white transition-colors">
+                <Link href="/dokumentasi" className="hover:text-white transition-colors">
                   Dokumentasi Perjalanan
                 </Link>
               </li>
               <li>
-                <Link href="/#faq" className="hover:text-white transition-colors">
+                <Link href="/faq" className="hover:text-white transition-colors">
                   FAQ & Syarat Pendaftaran
                 </Link>
               </li>
@@ -100,29 +96,10 @@ export default function Footer({ company }: { company: CompanyProfile }) {
               Informasi Layanan
             </h4>
             <ul className="space-y-2 text-xs text-slate-caption font-sans">
-              <li>
-                <Link href="/#pembiayaan" className="hover:text-white transition-colors">Pembiayaan dan tabungan Umroh</Link>
-              </li>
-              <li>
-                <span>
-                  Pusat Bantuan & Kebijakan Reschedule
-                </span>
-              </li>
-              <li>
-                <span>
-                  Program Kemitraan & Perwakilan Daerah
-                </span>
-              </li>
-              <li>
-                <span>
-                  Jadwal Bimbingan Manasik Terpadu
-                </span>
-              </li>
-              <li>
-                <span>
-                  Profil Muthawwif & Tour Leader
-                </span>
-              </li>
+              <li><Link href="/pembiayaan" className="hover:text-white transition-colors">Pembiayaan dan tabungan Umroh</Link></li>
+              <li><Link href="/legalitas" className="hover:text-white transition-colors">Legalitas &amp; rekening resmi</Link></li>
+              <li><Link href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Lokasi kantor</Link></li>
+              <li><a href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0/, "62")}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Konsultasi WhatsApp</a></li>
             </ul>
           </div>
 

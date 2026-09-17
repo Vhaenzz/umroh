@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Package, StatusType } from "@/types/package";
+import { getPackageLifecycle } from "@/lib/package";
 
 // ── Status config object (pola Alsha: warna + teks eksplisit) ──
 const statusConfig: Record<StatusType, { bg: string; text: string; border: string; dot: string }> = {
@@ -34,16 +35,23 @@ const statusConfig: Record<StatusType, { bg: string; text: string; border: strin
 
 interface PackageCardProps {
   pkg: Package;
+  compareSelected?: boolean;
+  onToggleCompare?: (pkg: Package) => void;
 }
 
-export default function PackageCard({ pkg }: PackageCardProps) {
+export default function PackageCard({ pkg, compareSelected = false, onToggleCompare }: PackageCardProps) {
   const status = statusConfig[pkg.statusType];
-  const isSoldOut = pkg.statusType === "soldout";
-  const statusLabel = isSoldOut
-    ? "Kuota terisi penuh"
-    : pkg.statusType === "pending"
-      ? "Perlu dikonfirmasi"
-      : "Jadwal tersedia";
+  const lifecycle = getPackageLifecycle(pkg);
+  const isSoldOut = lifecycle === "sold_out" || pkg.statusType === "soldout";
+  const statusLabel = lifecycle === "departed"
+    ? "Telah berangkat"
+    : isSoldOut
+      ? "Kuota terisi penuh"
+      : pkg.statusType === "pending"
+        ? "Perlu dikonfirmasi"
+        : pkg.statusType === "warning"
+          ? "Kuota terbatas"
+          : "Jadwal tersedia";
   const packageImage = pkg.isHaji
     ? "/images/madina-pilgrims.webp"
     : pkg.slug.includes("dubai")
@@ -82,7 +90,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           <span className="font-sans font-semibold text-[11px] text-white truncate max-w-40">{pkg.airline}</span>
         </div>
 
-        {/* ── Category pill (pola Alsha badge--premium / Ventour category) ── */}
+        {/* Category is kept in the body so the image stays quiet. */}
       </div>
 
       {/* ── Card Body ── */}
@@ -96,13 +104,13 @@ export default function PackageCard({ pkg }: PackageCardProps) {
 
         {/* ── Detail List (pola Alsha .alsha-list) ── */}
         <ul className="space-y-0 text-[13px] font-sans text-slate-body border-t border-b border-warm-border/60 py-2 mb-3">
-          {[
+            {[
             { key: "Keberangkatan", val: pkg.departureDate, bold: true },
             { key: "Embarkasi", val: pkg.departureCity, bold: false },
             { key: "Hotel Makkah", val: pkg.hotelMakkah, bold: false },
             { key: "Hotel Madinah", val: pkg.hotelMadinah, bold: false },
-          ].map((row) => (
-            <li key={row.key} className="flex items-start justify-between gap-3 py-1.5 border-b border-warm-border/40 last:border-0">
+          ].map((row, index) => (
+            <li key={row.key} className={`${index > 1 ? "hidden sm:flex" : "flex"} items-start justify-between gap-3 py-1.5 border-b border-warm-border/40 last:border-0`}>
               <span className="text-slate-muted shrink-0">{row.key}</span>
               <span className={`text-right truncate max-w-42.5 ${row.bold ? "font-bold text-teal-primary" : "font-semibold text-slate-dark"}`}>
                 {row.val}
@@ -115,20 +123,21 @@ export default function PackageCard({ pkg }: PackageCardProps) {
         <div className="mt-auto pt-3 flex items-center justify-between gap-3">
           {/* Price block */}
           <div className="min-w-0">
-            <span className="text-[10px] uppercase font-bold text-slate-caption block">Biaya Paket</span>
+            <span className="text-[10px] uppercase font-bold text-slate-caption block">Mulai dari / orang</span>
             {pkg.originalPrice && (
               <span className="text-xs text-slate-caption line-through font-mono block">{pkg.originalPrice}</span>
             )}
             <span className={`text-base font-bold font-sans block ${isSoldOut ? "text-slate-muted" : "text-status-soldout"}`}>
-              {pkg.discountedPrice}
+              {pkg.roomPricing?.length ? pkg.roomPricing.reduce((lowest, room) => room.numeric > 0 && room.numeric < lowest ? room.numeric : lowest, Number.MAX_SAFE_INTEGER) !== Number.MAX_SAFE_INTEGER ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(pkg.roomPricing.reduce((lowest, room) => room.numeric > 0 && room.numeric < lowest ? room.numeric : lowest, Number.MAX_SAFE_INTEGER)) : pkg.discountedPrice : pkg.discountedPrice}
             </span>
           </div>
 
           {/* One clear next step; contact details are shown only when verified. */}
-          <div className="flex gap-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
+            {onToggleCompare && <label className="flex min-h-10 items-center gap-1.5 rounded-button border border-warm-border px-2.5 text-[11px] font-bold text-slate-body"><input type="checkbox" checked={compareSelected} onChange={() => onToggleCompare(pkg)} /> Bandingkan</label>}
             {isSoldOut ? (
               <Link
-                href="/umroh"
+                href={pkg.isHaji ? "/haji" : "/umroh"}
                 id={`catalog-${pkg.id}`}
                 className="px-3.5 py-2 rounded-button bg-white text-slate-dark border border-warm-border hover:bg-warm-muted text-xs font-bold transition-colors shadow-xs"
               >
@@ -136,7 +145,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
               </Link>
             ) : (
               <Link
-                href={`/umroh/${pkg.slug}`}
+                href={`/${pkg.isHaji ? "haji" : "umroh"}/${pkg.slug}`}
                 id={`detail-${pkg.id}`}
                 className="px-3.5 py-2 rounded-button bg-gold-accent text-slate-dark text-xs font-bold hover:bg-gold-hover transition-colors shadow-card flex items-center gap-1"
               >

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { CompanyProfile } from "@/data/company";
+import { getGeneralWhatsAppUrl } from "@/lib/contact";
 
 /**
  * HEADER GLOBAL COMPONENT
@@ -18,11 +19,11 @@ export default function Header({ company }: { company: CompanyProfile }) {
   // Navigation Links
   const navLinks = [
     { name: "Beranda", href: "/" },
-    { name: "Paket Umroh", href: "/umroh" },
-    { name: "Paket Haji", href: "/haji" },
-    { name: "Tentang Kami", href: "/#tentang" },
-    { name: "Dokumentasi", href: "/#dokumentasi" },
-    { name: "FAQ", href: "/#faq" },
+    { name: "Umroh", href: "/umroh" },
+    { name: "Haji", href: "/haji" },
+    { name: "Tentang", href: "/tentang" },
+    { name: "Dokumentasi", href: "/dokumentasi" },
+    { name: "FAQ", href: "/faq" },
   ];
 
   // Detect scroll for subtle shadow adjustment
@@ -76,7 +77,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
           {/* Desktop Navigation (>=1024px) */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.name}
@@ -96,10 +97,12 @@ export default function Header({ company }: { company: CompanyProfile }) {
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
             <Link
-              href="/umroh"
+              href={getGeneralWhatsAppUrl(company.phone)}
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-4 py-2.5 rounded-button bg-gold-accent hover:bg-gold-hover text-slate-dark font-sans text-xs font-semibold shadow-card transition-all duration-200 flex items-center gap-2 group"
             >
-              <span>Lihat Jadwal Umroh</span>
+              <span>Konsultasi</span>
               <svg
                 className="w-3.5 h-3.5 text-gold-accent transform group-hover:translate-x-0.5 transition-transform"
                 fill="none"
@@ -182,7 +185,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
           <div className="p-5 border-b border-warm-border flex items-center justify-between bg-warm-surface">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-badge bg-teal-primary text-gold-accent font-serif font-bold text-base flex items-center justify-center">
-                PA
+                RM
               </div>
               <span className="font-serif font-bold text-teal-primary text-base">
                 {company.brandName}
@@ -217,7 +220,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
               Navigasi Utama
             </div>
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.name}
@@ -253,10 +256,12 @@ export default function Header({ company }: { company: CompanyProfile }) {
           {/* Bottom CTA Block (Thumb Reach Priority) */}
           <div className="p-5 border-t border-warm-border bg-warm-surface space-y-3">
             <Link
-              href="/umroh"
+              href={getGeneralWhatsAppUrl(company.phone)}
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full min-h-12 px-5 py-3 rounded-button bg-teal-primary text-white font-sans text-sm font-semibold shadow-card flex items-center justify-center gap-2"
             >
-              <span>Lihat Jadwal Umroh</span>
+              <span>Konsultasi via WhatsApp</span>
               <svg
                 className="w-4 h-4 text-gold-accent"
                 fill="none"
@@ -272,9 +277,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
               </svg>
             </Link>
 
-            <div className="text-center text-[11px] text-slate-caption">
-              Pilih paket dan periksa detailnya sebelum mendaftar.
-            </div>
+            <div className="text-center text-[11px] text-slate-caption">Tim kami siap membantu memilih jadwal yang sesuai.</div>
           </div>
         </div>
       </div>

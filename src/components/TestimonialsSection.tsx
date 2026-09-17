@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function TestimonialsSection() {
   return (
@@ -12,6 +13,9 @@ export default function TestimonialsSection() {
           <p className="mt-3 text-sm leading-6 text-slate-body sm:text-base">
             Perjalanan ibadah terasa lebih tenang ketika orang, tempat, dan prosesnya terlihat jelas.
           </p>
+          <Link href="/dokumentasi" className="mt-4 inline-flex min-h-11 items-center text-sm font-bold text-teal-primary hover:text-gold-hover">
+            Buka dokumentasi lengkap <span aria-hidden="true" className="ml-2">→</span>
+          </Link>
         </div>
 
         <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr]">

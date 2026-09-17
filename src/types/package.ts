@@ -1,5 +1,6 @@
 export type StatusType = "available" | "warning" | "soldout" | "pending";
 export type PackageCategoryType = "reguler" | "plus" | "khusus";
+export type PackageLifecycle = "draft" | "upcoming" | "low_seats" | "sold_out" | "closed" | "departed" | "archived";
 
 export interface RoomPrice {
   type: "Quad" | "Triple" | "Double";
@@ -40,6 +41,7 @@ export interface Package {
   flightType: string; // e.g. "Direct Flight" | "1x Transit"
   airline: string;
   statusType: StatusType;
+  lifecycle?: PackageLifecycle;
   originalPrice: string | null;
   discountedPrice: string;
   priceNumeric: number; // in IDR (0 for 'Hubungi Kami' / custom)

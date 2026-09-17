@@ -10,7 +10,18 @@ function getClient(accessToken?: string) {
   if (!supabaseUrl || !supabaseAnonKey) return null;
   return createClient(supabaseUrl, supabaseAnonKey, {
     auth: { autoRefreshToken: false, persistSession: false },
-    global: accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : undefined,
+    global: {
+      ...(accessToken ? { headers: { Authorization: `Bearer ${accessToken}` } } : {}),
+      fetch: async (input, init) => {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 8000);
+        try {
+          return await fetch(input, { ...init, signal: controller.signal });
+        } finally {
+          clearTimeout(timeout);
+        }
+      },
+    },
   });
 }
 

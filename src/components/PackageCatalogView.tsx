@@ -1,7 +1,9 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import PackageCard from "@/components/PackageCard";
 import { Package, FilterState } from "@/types/package";
+import { parseDepartureDate } from "@/lib/package";
 
 interface PackageCatalogViewProps {
   initialPackages: Package[];
@@ -26,13 +28,34 @@ export default function PackageCatalogView({
   badgeLabel,
   defaultPackageType = "all",
 }: PackageCatalogViewProps) {
-  const [filters, setFilters] = useState<FilterState>({
-    ...initialFilterState,
-    packageType: defaultPackageType,
-  });
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [filters, setFilters] = useState<FilterState>(() => ({
+    month: searchParams.get("bulan") || "all",
+    city: searchParams.get("kota") || "all",
+    duration: searchParams.get("durasi") || "all",
+    priceRange: searchParams.get("harga") || "all",
+    packageType: searchParams.get("tipe") || defaultPackageType,
+  }));
 
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState(() => searchParams.get("q") || "");
+  const [sortOrder, setSortOrder] = useState(() => searchParams.get("urut") || "nearest");
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const query = new URLSearchParams();
+    if (filters.month !== "all") query.set("bulan", filters.month);
+    if (filters.city !== "all") query.set("kota", filters.city);
+    if (filters.duration !== "all") query.set("durasi", filters.duration);
+    if (filters.priceRange !== "all") query.set("harga", filters.priceRange);
+    if (filters.packageType !== defaultPackageType && filters.packageType !== "all") query.set("tipe", filters.packageType);
+    if (searchKeyword.trim()) query.set("q", searchKeyword.trim());
+    if (sortOrder !== "nearest") query.set("urut", sortOrder);
+    router.replace(`${pathname}${query.toString() ? `?${query.toString()}` : ""}`, { scroll: false });
+  }, [filters, searchKeyword, sortOrder, pathname, router, defaultPackageType]);
 
   // Lock body scroll when mobile bottom sheet is open
   useEffect(() => {
@@ -92,12 +115,17 @@ export default function PackageCatalogView({
   // Filtering logic
   const filteredPackages = useMemo(() => {
     return initialPackages.filter((pkg) => {
+      if (pkg.lifecycle === "draft" || pkg.lifecycle === "archived") return false;
       // Search keyword filter
       if (
         searchKeyword &&
         !pkg.name.toLowerCase().includes(searchKeyword.toLowerCase()) &&
         !pkg.airline.toLowerCase().includes(searchKeyword.toLowerCase()) &&
-        !pkg.hotelMakkah.toLowerCase().includes(searchKeyword.toLowerCase())
+        !pkg.hotelMakkah.toLowerCase().includes(searchKeyword.toLowerCase()) &&
+        !pkg.hotelMadinah.toLowerCase().includes(searchKeyword.toLowerCase()) &&
+        !pkg.departureMonth.toLowerCase().includes(searchKeyword.toLowerCase()) &&
+        !pkg.departureCity.toLowerCase().includes(searchKeyword.toLowerCase()) &&
+        !pkg.flightType.toLowerCase().includes(searchKeyword.toLowerCase())
       ) {
         return false;
       }
@@ -143,6 +171,13 @@ export default function PackageCatalogView({
     });
   }, [initialPackages, filters, searchKeyword]);
 
+  const sortedPackages = useMemo(() => [...filteredPackages].sort((a, b) => {
+    if (sortOrder === "price-low") return a.priceNumeric - b.priceNumeric;
+    if (sortOrder === "price-high") return b.priceNumeric - a.priceNumeric;
+    if (sortOrder === "duration") return a.durationDays - b.durationDays;
+    return parseDepartureDate(a.departureDate) - parseDepartureDate(b.departureDate);
+  }), [filteredPackages, sortOrder]);
+
   const activeFilterCount = useMemo(() => {
     let count = 0;
     if (filters.month !== "all") count++;
@@ -155,9 +190,13 @@ export default function PackageCatalogView({
   }, [filters, searchKeyword]);
 
   const handleResetFilters = () => {
-    setFilters(initialFilterState);
+    setFilters({ ...initialFilterState, packageType: defaultPackageType });
     setSearchKeyword("");
+    setSortOrder("nearest");
   };
+
+  const toggleCompare = (pkg: Package) => setCompareIds((current) => current.includes(pkg.id) ? current.filter((id) => id !== pkg.id) : current.length < 3 ? [...current, pkg.id] : current);
+  const comparePackages = sortedPackages.filter((pkg) => compareIds.includes(pkg.id));
 
   return (
     <div className="bg-warm-bg min-h-screen py-8 sm:py-12">
@@ -214,8 +253,18 @@ export default function PackageCatalogView({
           {/* Results Counter & Filter Buttons */}
           <div className="flex items-center justify-between sm:justify-end gap-3">
             <span className="text-xs font-sans text-slate-muted">
-              Menampilkan <strong className="text-teal-primary font-bold">{filteredPackages.length}</strong> dari {initialPackages.length} paket
+              <strong className="text-teal-primary font-bold">{sortedPackages.length}</strong> paket ditemukan
             </span>
+
+            <label className="hidden sm:flex items-center gap-2 text-xs font-semibold text-slate-muted">
+              <span>Urutkan</span>
+              <select aria-label="Urutkan paket" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)} className="min-h-11 rounded-button border border-warm-border bg-warm-bg px-3 text-xs text-slate-dark focus:border-teal-primary focus:outline-none">
+                <option value="nearest">Keberangkatan terdekat</option>
+                <option value="price-low">Harga terendah</option>
+                <option value="price-high">Harga tertinggi</option>
+                <option value="duration">Durasi terpendek</option>
+              </select>
+            </label>
 
             {/* Mobile & Tablet Trigger Button (<1024px) */}
             <button
@@ -227,7 +276,7 @@ export default function PackageCatalogView({
               <svg className="w-4 h-4 text-gold-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
               </svg>
-              <span>Filter</span>
+              <span>Filter{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}</span>
               {activeFilterCount > 0 && (
                 <span className="w-5 h-5 rounded-full bg-gold-accent text-teal-900 text-[10px] font-bold flex items-center justify-center font-mono">
                   {activeFilterCount}
@@ -235,6 +284,13 @@ export default function PackageCatalogView({
               )}
             </button>
           </div>
+        </div>
+
+        <div className="flex items-center justify-between gap-3 sm:hidden">
+          <p className="text-xs text-slate-muted">Bandingkan sampai 3 paket</p>
+          <select aria-label="Urutkan paket" value={sortOrder} onChange={(event) => setSortOrder(event.target.value)} className="min-h-11 rounded-button border border-warm-border bg-warm-surface px-3 text-xs font-semibold text-slate-dark">
+            <option value="nearest">Terdekat</option><option value="price-low">Harga terendah</option><option value="price-high">Harga tertinggi</option><option value="duration">Durasi terpendek</option>
+          </select>
         </div>
 
         {/* ── Active Filters Tag Bar ── */}
@@ -452,8 +508,8 @@ export default function PackageCatalogView({
           <div className="lg:col-span-8 space-y-6">
             {filteredPackages.length > 0 ? (
               <div className="mobile-rail md:grid-cols-2 gap-5 lg:gap-6">
-                {filteredPackages.map((pkg) => (
-                  <PackageCard key={pkg.id} pkg={pkg} />
+                {sortedPackages.map((pkg) => (
+                  <PackageCard key={pkg.id} pkg={pkg} compareSelected={compareIds.includes(pkg.id)} onToggleCompare={toggleCompare} />
                 ))}
               </div>
             ) : (
@@ -465,7 +521,7 @@ export default function PackageCatalogView({
                   </svg>
                 </div>
                 <h3 className="font-serif text-2xl font-bold text-teal-primary">
-                  Belum Ada Paket yang Cocok
+                  Tidak ada paket yang cocok
                 </h3>
                 <p className="font-sans text-sm text-slate-muted max-w-md mx-auto leading-relaxed">
                   Tidak ada jadwal atau paket yang memenuhi kombinasi filter yang Anda pilih. Coba sesuaikan bulan, kota, atau kisaran harga.
@@ -482,6 +538,8 @@ export default function PackageCatalogView({
               </div>
             )}
           </div>
+
+          {comparePackages.length >= 2 && <div className="mt-8 overflow-hidden rounded-card border border-teal-primary/20 bg-warm-surface shadow-card"><div className="flex items-center justify-between gap-3 border-b border-warm-border p-4 sm:p-5"><div><h2 className="font-serif text-xl font-bold text-teal-primary">Perbandingan paket</h2><p className="mt-1 text-xs text-slate-muted">Pilih hingga tiga paket untuk dibandingkan.</p></div><button type="button" onClick={() => setCompareIds([])} className="min-h-10 rounded-button border border-warm-border px-3 text-xs font-bold text-slate-muted hover:text-red-700">Hapus pilihan</button></div><div className="overflow-x-auto"><table className="min-w-[42rem] w-full text-left text-sm"><thead><tr className="border-b border-warm-border">{["Poin", ...comparePackages.map((pkg) => pkg.name)].map((heading) => <th key={heading} className="p-4 align-top text-xs font-bold uppercase tracking-wider text-slate-muted">{heading}</th>)}</tr></thead><tbody>{[["Tanggal", ...comparePackages.map((pkg) => pkg.departureDate)], ["Durasi", ...comparePackages.map((pkg) => pkg.duration)], ["Maskapai", ...comparePackages.map((pkg) => pkg.airline)], ["Hotel Makkah", ...comparePackages.map((pkg) => pkg.hotelMakkah)], ["Hotel Madinah", ...comparePackages.map((pkg) => pkg.hotelMadinah)], ["Mulai / orang", ...comparePackages.map((pkg) => pkg.discountedPrice)]].map((row) => <tr key={row[0]} className="border-b border-warm-border/70 last:border-0">{row.map((cell, index) => <td key={`${row[0]}-${index}`} className={`p-4 align-top leading-6 ${index === 0 ? "font-semibold text-teal-primary" : "text-slate-body"}`}>{cell}</td>)}</tr>)}</tbody></table></div></div>}
 
         </div>
 

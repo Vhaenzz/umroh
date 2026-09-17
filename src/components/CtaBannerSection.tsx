@@ -1,13 +1,15 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import type { CompanyProfile } from "@/data/company";
+import { getGeneralWhatsAppUrl } from "@/lib/contact";
 
 /**
  * CTA BANNER SECTION — Section CTA Penutup
  * Menutup halaman dengan ajakan yang mengarahkan pengguna ke detail paket.
  */
 
-export default function CtaBannerSection() {
+export default function CtaBannerSection({ company }: { company: CompanyProfile }) {
   return (
     <section className="py-14 sm:py-20 bg-teal-primary text-white relative overflow-hidden">
       {/* Background Decorative Pattern */}
@@ -45,21 +47,23 @@ export default function CtaBannerSection() {
             <span>Lihat Jadwal Umroh</span>
           </Link>
 
-          <Link
-            href="#umroh"
+          <a
+            href={getGeneralWhatsAppUrl(company.phone)}
+            target="_blank"
+            rel="noopener noreferrer"
             id="cta-penutup-lihat-paket"
             className="w-full sm:w-auto px-7 py-3.5 rounded-button border border-white/30 hover:bg-white/10 text-white font-sans font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98]"
           >
-            <span>Lihat Semua Paket</span>
+            <span>Konsultasi WhatsApp</span>
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-          </Link>
+          </a>
         </div>
 
         {/* Reassurance text */}
         <p className="mt-6 text-xs text-white/70 font-sans">
-          Bandingkan jadwal, hotel, itinerary, dan pilihan kamar sebelum mendaftar.
+          Tim kami membantu mencocokkan pilihan paket dengan rencana perjalanan Anda.
         </p>
 
       </div>

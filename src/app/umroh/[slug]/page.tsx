@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
+import { getPackageWhatsAppUrl } from "@/lib/contact";
+import SharePackageButton from "@/components/SharePackageButton";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +15,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const { company, packages } = await getSiteData();
-  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase());
+  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase() && item.isUmroh);
 
   if (!pkg) {
     return {
@@ -29,8 +31,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function PackageDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const { packages } = await getSiteData();
-  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase());
+  const { company, packages } = await getSiteData();
+  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase() && item.isUmroh);
 
   if (!pkg) {
     notFound();
@@ -43,6 +45,16 @@ export default async function PackageDetailPage({ params }: PageProps) {
   const itineraryDays = pkg.itinerary || [];
   const facilitiesIncluded = pkg.facilitiesIncluded || [];
   const facilitiesExcluded = pkg.facilitiesExcluded || [];
+  const whatsappUrl = getPackageWhatsAppUrl(company.phone, pkg);
+  const lifecycleLabel = pkg.lifecycle === "sold_out" || pkg.statusType === "soldout"
+    ? "Kuota terisi penuh"
+    : pkg.lifecycle === "departed"
+      ? "Telah berangkat"
+      : pkg.statusType === "pending"
+        ? "Perlu dikonfirmasi"
+        : pkg.statusType === "warning"
+          ? "Kuota terbatas"
+          : "Jadwal tersedia";
 
   return (
     <div className="bg-warm-bg min-h-screen py-6 sm:py-10">
@@ -74,11 +86,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
             {/* Quota Status */}
             <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-badge text-[11px] sm:text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-              {pkg.statusType === "soldout"
-                ? "Kuota terisi penuh"
-                : pkg.statusType === "pending"
-                  ? "Perlu dikonfirmasi"
-                  : "Jadwal tersedia"}
+              {lifecycleLabel}
             </span>
 
             {/* Flight Type Badge */}
@@ -98,6 +106,10 @@ export default async function PackageDetailPage({ params }: PageProps) {
           <p className="font-sans text-sm sm:text-base text-slate-body leading-relaxed max-w-4xl">
             Perjalanan ibadah {pkg.duration} dari {pkg.departureCity} dengan {pkg.flightType.toLowerCase()} bersama <strong className="text-teal-primary">{pkg.airline}</strong>. Tinjau itinerary, fasilitas, akomodasi, dan tipe kamar pada halaman ini sebelum mendaftar.
           </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <SharePackageButton title={pkg.name} />
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-button bg-teal-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-teal-900">Konsultasi paket ini</a>
+          </div>
         </div>
 
         {/* ── 3. Galeri paket ── */}
@@ -405,7 +417,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
                       {item.title}
                     </h3>
                     <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-badge bg-gold-light text-teal-primary border border-gold-accent/20">
-                      📍 {item.location}
+                      <span aria-hidden="true">Lokasi:</span> {item.location}
                     </span>
                   </div>
                   <p className="font-sans text-xs text-slate-body leading-relaxed">
@@ -440,18 +452,20 @@ export default async function PackageDetailPage({ params }: PageProps) {
               Periksa kembali detail paket, komponen biaya, dokumen, dan pilihan kamar sebelum menghubungi kanal resmi.
             </p>
 
-            {/* One clear next step; contact details are shown only after verification. */}
+            {/* One clear next step with package context already prepared. */}
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3.5">
-              <Link
-                href="/umroh"
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 id="cta-detail-katalog"
                 className="w-full sm:w-auto min-h-13 px-7 py-3.5 rounded-button bg-gold-accent hover:bg-gold-hover text-teal-900 font-sans font-bold text-sm shadow-card flex items-center justify-center gap-2.5 transition-all active:scale-[0.98]"
               >
                 <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
                 </svg>
-                <span>Kembali ke Katalog Paket</span>
-              </Link>
+                <span>Konsultasi Paket Ini</span>
+              </a>
 
               <Link
                 href="/umroh"
@@ -463,7 +477,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
             </div>
 
             <p className="text-xs text-white/70 font-sans pt-2">
-              Kanal kontak resmi akan ditampilkan setelah data layanan terverifikasi.
+              Pesan WhatsApp sudah menyertakan nama paket, tanggal, dan durasi agar konsultasi lebih cepat.
             </p>
           </div>
         </section>
@@ -481,16 +495,18 @@ export default async function PackageDetailPage({ params }: PageProps) {
           </span>
         </div>
 
-        <Link
-          href="/umroh"
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           id="mobile-sticky-cta-katalog"
           className="min-h-11 px-5 py-2.5 rounded-button bg-teal-primary text-white font-sans text-xs font-bold shadow-card flex items-center gap-2 shrink-0 active:scale-[0.98]"
         >
           <svg className="w-4 h-4 text-emerald-400 fill-current" viewBox="0 0 24 24">
             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
           </svg>
-          <span>Lihat Katalog</span>
-        </Link>
+          <span>WhatsApp admin</span>
+        </a>
       </div>
 
     </div>
