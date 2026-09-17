@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -13,8 +12,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Yayasan Travel — Travel Haji (Reguler & Plus) & Umroh Resmi",
-  description: "Layanan perjalanan ibadah Haji & Umroh terpercaya dengan bimbingan syariah, akomodasi dekat masjid, dan kepastian jadwal.",
+  title: "Pondok Abdurrahman bin Auf — Paket Umroh & Haji",
+  description: "Bandingkan paket Umroh dan Haji berdasarkan jadwal, hotel, itinerary, fasilitas, dan pilihan kamar.",
 };
 
 export default function RootLayout({
@@ -35,13 +34,10 @@ export default function RootLayout({
         {/* Global Header */}
         <Header />
 
-        {/* Main Content Area with padding-bottom to prevent floating WA overlap */}
+        {/* Main Content Area */}
         <div className="flex-1 pb-16">
           {children}
         </div>
-
-        {/* Global Floating Multi-CS WhatsApp Button */}
-        <FloatingWhatsApp />
 
         {/* Global Footer */}
         <Footer />

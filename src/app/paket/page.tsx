@@ -4,9 +4,9 @@ import PackageCatalogView from "@/components/PackageCatalogView";
 import { dummyPackages } from "@/data/packages";
 
 export const metadata: Metadata = {
-  title: "Semua Paket Haji & Umroh — Yayasan Travel",
+  title: "Semua Paket Haji & Umroh — Pondok Abdurrahman bin Auf",
   description:
-    "Jadwal lengkap keberangkatan paket Umroh Reguler, Umroh Plus, dan Haji Khusus dengan fasilitas hotel bintang dekat masjid dan harga transparan.",
+    "Katalog paket Haji dan Umroh dengan jadwal, fasilitas, itinerary, dan harga yang dapat dibandingkan.",
 };
 
 export default function AllPackagesPage() {
@@ -16,7 +16,7 @@ export default function AllPackagesPage() {
         initialPackages={dummyPackages}
         badgeLabel="Katalog Lengkap"
         title="Seluruh Paket Ibadah Umroh & Haji"
-        subtitle="Pilih dan bandingkan paket perjalanan ibadah sesuai kebutuhan keluarga Anda. Terintegrasi SISKOPATUH dan berizin PPIU resmi Kemenag RI."
+        subtitle="Pilih dan bandingkan paket berdasarkan jadwal, kota embarkasi, durasi, hotel, fasilitas, dan tipe kamar. Konfirmasi data terbaru sebelum mendaftar."
         defaultPackageType="all"
       />
     </main>

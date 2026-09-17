@@ -3,13 +3,13 @@ import React from "react";
 import Image from "next/image";
 
 /**
- * COMPANY PROFILE SECTION — Profil Singkat Yayasan / Travel
+ * COMPANY PROFILE SECTION — Profil Singkat Pondok Abdurrahman bin Auf
  * Layout: 2-column dengan visual media box besar di satu sisi & ringkasan profil di sisi lain.
  */
 
 export default function CompanyProfileSection() {
   return (
-    <section className="py-12 sm:py-16 bg-warm-bg border-t border-warm-border relative overflow-hidden">
+    <section id="tentang" className="scroll-mt-24 py-12 sm:py-16 bg-warm-bg border-t border-warm-border relative overflow-hidden">
       {/* Background grain */}
       <div className="absolute inset-0 subtle-grain opacity-25 pointer-events-none" />
 
@@ -57,17 +57,17 @@ export default function CompanyProfileSection() {
               Kami membantu calon jemaah memahami pilihan paket, menyiapkan dokumen, dan menjalani manasik dengan alur yang jelas. Informasi harga, fasilitas, dan jadwal disampaikan terbuka sejak konsultasi pertama.
             </p>
 
-            {/* Badges strip (mengikuti trust bar Fase 2) */}
+            {/* Factual service points; legal badges stay hidden until their source is available. */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
               <div className="p-3.5 rounded-card bg-warm-surface border border-warm-border shadow-xs">
                 <div className="flex items-center gap-2 text-teal-primary mb-1">
                   <svg className="w-4 h-4 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="font-serif font-bold text-xs">Izin PPIU Resmi</span>
+                  <span className="font-serif font-bold text-xs">Detail paket</span>
                 </div>
                 <p className="text-[11px] text-slate-muted font-sans">
-                  Verifikasi legalitas tersedia saat konsultasi
+                  Jadwal, hotel, itinerary, dan fasilitas ditulis pada halaman paket.
                 </p>
               </div>
 
@@ -76,10 +76,10 @@ export default function CompanyProfileSection() {
                   <svg className="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span className="font-serif font-bold text-xs">Aktif SISKOPATUH</span>
+                  <span className="font-serif font-bold text-xs">Dokumen perjalanan</span>
                 </div>
                 <p className="text-[11px] text-slate-muted font-sans">
-                  Sistem Komputerisasi Kemenag
+                  Persyaratan dan tenggat perlu dikonfirmasi sesuai tanggal keberangkatan.
                 </p>
               </div>
 
@@ -88,10 +88,10 @@ export default function CompanyProfileSection() {
                   <svg className="w-4 h-4 text-teal-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   </svg>
-                  <span className="font-serif font-bold text-xs">Kantor Resmi</span>
+                  <span className="font-serif font-bold text-xs">Pendampingan</span>
                 </div>
                 <p className="text-[11px] text-slate-muted font-sans">
-                  Konsultasi dari Jakarta &amp; online
+                  Informasi manasik dan proses pendaftaran dijelaskan sebelum pembayaran.
                 </p>
               </div>
             </div>

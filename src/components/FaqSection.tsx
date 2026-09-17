@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 
 /**
  * FAQ SECTION — Pertanyaan yang Sering Diajukan
- * Full-width accordion dengan 5 pertanyaan placeholder resmi dari Yayasan.
+ * Menjawab keberatan utama calon jemaah sebelum mereka perlu menghubungi admin.
  */
 
 const faqs = [
@@ -13,24 +14,39 @@ const faqs = [
     answer: "Mulai dari konsultasi kebutuhan dan pilihan jadwal, lanjut melengkapi dokumen, memilih tipe kamar, lalu menerima invoice resmi dan jadwal manasik.",
   },
   {
-    id: "cicilan-syariah",
-    question: "Apakah tersedia cicilan/pembiayaan syariah?",
-    answer: "Ketersediaan cicilan atau pembiayaan mengikuti paket dan kebijakan yang sedang berlaku. Tim kami akan menjelaskan simulasi dan syaratnya secara transparan.",
+    id: "harga-termasuk",
+    question: "Apa saja yang termasuk dalam harga paket?",
+    answer: "Buka detail setiap paket untuk melihat tiket, visa, hotel, makan, itinerary, manasik, dan perlengkapan yang termasuk. Komponen yang belum termasuk ditulis terpisah agar mudah diperiksa.",
   },
   {
-    id: "dokumen-syarat",
-    question: "Dokumen apa saja yang perlu disiapkan?",
-    answer: "Umumnya diperlukan paspor yang masih berlaku, KTP, kartu keluarga, pas foto, dan dokumen kesehatan sesuai ketentuan perjalanan yang berlaku.",
+    id: "visa-kesehatan",
+    question: "Bagaimana dengan visa, paspor, dan vaksin?",
+    answer: "Paspor, visa, dan persyaratan kesehatan mengikuti ketentuan perjalanan yang berlaku. Detail dokumen dan tenggatnya perlu dikonfirmasi berdasarkan tanggal keberangkatan paket yang dipilih.",
   },
   {
-    id: "kebijakan-pembatalan",
-    question: "Bagaimana kebijakan pembatalan/reschedule?",
-    answer: "Ketentuan pembatalan dan perubahan jadwal mengikuti komponen tiket, visa, hotel, serta kebijakan maskapai. Detailnya tercantum di invoice sebelum pembayaran.",
+    id: "tipe-kamar",
+    question: "Apa perbedaan kamar quad, triple, dan double?",
+    answer: "Quad untuk empat orang, triple untuk tiga orang, dan double untuk dua orang. Harga tiap tipe kamar ditampilkan pada halaman detail paket dan dikonfirmasi kembali sebelum pendaftaran.",
   },
   {
-    id: "kemitraan-agen",
-    question: "Apakah bisa menjadi agen/mitra?",
-    answer: "Program kemitraan dapat dibicarakan melalui WhatsApp. Tim kami akan menjelaskan area layanan, materi produk, dan alur pendaftarannya.",
+    id: "hotel-itinerary",
+    question: "Seberapa jauh hotel dari masjid dan bagaimana itinerary-nya?",
+    answer: "Jarak hotel, nama hotel, rute, dan aktivitas harus diperiksa pada detail paket karena dapat berbeda antar keberangkatan. Jangan mengandalkan label umum seperti hotel pilihan.",
+  },
+  {
+    id: "lansia",
+    question: "Apakah paket cocok untuk lansia?",
+    answer: "Kesesuaian bergantung pada kondisi kesehatan, jarak hotel, ritme itinerary, dan kebutuhan pendampingan. Pilih paket setelah meninjau detailnya dan siapkan informasi kebutuhan jemaah saat pendaftaran.",
+  },
+  {
+    id: "pembatalan",
+    question: "Bagaimana aturan DP, pembatalan, dan perubahan jadwal?",
+    answer: "Ketentuannya dapat berbeda menurut tiket, visa, hotel, dan kebijakan maskapai. Minta seluruh biaya, tenggat pembayaran, serta aturan reschedule atau refund tertulis sebelum membayar.",
+  },
+  {
+    id: "cara-daftar-lanjutan",
+    question: "Apa langkah setelah menemukan paket yang cocok?",
+    answer: "Simpan detail paket, periksa komponen biaya dan dokumen, lalu hubungi kanal resmi yang tercantum di website untuk konfirmasi kuota dan proses pendaftaran.",
   },
 ];
 
@@ -42,7 +58,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="py-12 sm:py-16 bg-warm-surface border-t border-warm-border">
+    <section id="faq" className="scroll-mt-24 py-12 sm:py-16 bg-warm-surface border-t border-warm-border">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -95,7 +111,7 @@ export default function FaqSection() {
                   </div>
                 </button>
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 text-xs text-slate-body leading-relaxed border-t border-warm-border/40 font-sans sm:pl-14">
+                  <div className="px-5 pb-5 pt-1 text-sm text-slate-body leading-relaxed border-t border-warm-border/40 font-sans sm:pl-14">
                     {faq.answer}
                   </div>
                 )}
@@ -108,14 +124,12 @@ export default function FaqSection() {
         <div className="mt-8 text-center bg-warm-muted/50 p-4 rounded-button border border-warm-border/60">
           <p className="text-xs text-slate-muted font-sans">
             Memiliki pertanyaan lain yang belum terjawab?{" "}
-            <a
-              href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C+saya+ingin+tanya+seputar+paket+dan+layanan"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/umroh"
               className="text-teal-primary font-bold hover:underline"
             >
-              Hubungi Tim Konsultasi Kami via WhatsApp &rarr;
-            </a>
+              Kembali ke katalog paket &rarr;
+            </Link>
           </p>
         </div>
 

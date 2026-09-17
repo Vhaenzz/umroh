@@ -40,8 +40,6 @@ export interface Package {
   flightType: string; // e.g. "Direct Flight" | "1x Transit"
   airline: string;
   statusType: StatusType;
-  statusLabel: string;
-  seatLeftText: string;
   originalPrice: string | null;
   discountedPrice: string;
   priceNumeric: number; // in IDR (0 for 'Hubungi Kami' / custom)
@@ -49,8 +47,6 @@ export interface Package {
   hotelMadinah: string;
   hotelMakkahDetail?: string;
   hotelMadinahDetail?: string;
-  rating: number;
-  reviewCount: number;
   isUmroh: boolean;
   isHaji: boolean;
   

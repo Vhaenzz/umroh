@@ -4,9 +4,9 @@ import PackageCatalogView from "@/components/PackageCatalogView";
 import { dummyPackages } from "@/data/packages";
 
 export const metadata: Metadata = {
-  title: "Katalog Paket Umroh Resmi & Terpercaya — Yayasan Travel",
+  title: "Katalog Paket Umroh — Pondok Abdurrahman bin Auf",
   description:
-    "Pilihan paket Umroh Reguler, Umroh Plus, dan VVIP dengan kepastian jadwal keberangkatan, hotel ring 1 pelataran Masjidil Haram, dan bimbingan syariah.",
+    "Bandingkan jadwal, maskapai, hotel, itinerary, fasilitas, dan pilihan kamar paket Umroh.",
 };
 
 export default function UmrohCatalogPage() {
@@ -19,7 +19,7 @@ export default function UmrohCatalogPage() {
         initialPackages={umrohPackages}
         badgeLabel="Jadwal Keberangkatan Umroh"
         title="Katalog Paket Umroh 1448H / 2026M"
-        subtitle="Temukan paket ibadah umroh terbaik yang sesuai dengan jadwal, kota embarkasi, dan anggaran keluarga Anda. Semua harga transparan tanpa biaya tersembunyi."
+        subtitle="Bandingkan tanggal, kota embarkasi, durasi, hotel, fasilitas, dan harga sebelum menghubungi admin. Detail kuota dan komponen biaya perlu dikonfirmasi sebelum mendaftar."
         defaultPackageType="all"
       />
     </main>

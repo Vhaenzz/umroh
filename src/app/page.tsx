@@ -5,7 +5,6 @@ import FeaturedPackagesSection from "@/components/FeaturedPackagesSection";
 import WhyUsSection from "@/components/WhyUsSection";
 import CompanyProfileSection from "@/components/CompanyProfileSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import PartnerSection from "@/components/PartnerSection";
 import FaqSection from "@/components/FaqSection";
 import CtaBannerSection from "@/components/CtaBannerSection";
 
@@ -30,13 +29,10 @@ export default function BerandaPage() {
       {/* 6. Testimoni (Video 9:16 + Teks dengan format privasi Kloter) */}
       <TestimonialsSection />
 
-      {/* 7. Partner Maskapai & Jaringan Hotel */}
-      <PartnerSection />
-
-      {/* 8. FAQ (Accordion) */}
+      {/* 7. FAQ (Accordion) */}
       <FaqSection />
 
-      {/* 9. CTA Penutup */}
+      {/* 8. CTA Penutup */}
       <CtaBannerSection />
     </main>
   );

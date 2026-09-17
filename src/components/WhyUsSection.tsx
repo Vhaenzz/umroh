@@ -8,7 +8,7 @@ import React from "react";
 
 const features = [
   {
-    id: "legalitas-resmi",
+    id: "bandingkan-paket",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -19,9 +19,8 @@ const features = [
         />
       </svg>
     ),
-    title: "Legal & Terdaftar Resmi",
-    desc: "Status legalitas dan dokumen perjalanan dijelaskan terbuka sebelum pendaftaran.",
-    badge: "Izin Kemenag",
+    title: "Bandingkan paket dengan tenang",
+    desc: "Jadwal, durasi, maskapai, hotel, itinerary, dan fasilitas tersedia dalam satu alur informasi.",
   },
   {
     id: "tour-leader",
@@ -35,9 +34,8 @@ const features = [
         />
       </svg>
     ),
-    title: "Tour Leader Berpengalaman",
-    desc: "Pembimbing dan tour leader hadir sejak manasik hingga rangkaian ibadah di Tanah Suci.",
-    badge: "Pembimbing Syariah",
+    title: "Rincian sebelum daftar",
+    desc: "Komponen yang termasuk dan belum termasuk dipisahkan agar keluarga dapat menilai biaya dengan lebih jelas.",
   },
   {
     id: "hotel-dekat",
@@ -51,12 +49,11 @@ const features = [
         />
       </svg>
     ),
-    title: "Hotel Dekat Masjid",
-    desc: "Pilihan hotel disampaikan dengan jarak dan fasilitas yang mudah dibandingkan.",
-    badge: "Ring 1 Pelataran",
+    title: "Pilihan kamar terlihat",
+    desc: "Quad, triple, dan double dijelaskan sebagai pilihan terpisah dengan harga per orang.",
   },
   {
-    id: "cicilan-syariah",
+    id: "pendampingan",
     icon: (
       <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path
@@ -67,9 +64,8 @@ const features = [
         />
       </svg>
     ),
-    title: "Cicilan Syariah Tersedia",
-    desc: "Tim konsultasi membantu menyusun rencana biaya sesuai kebutuhan keluarga dan tipe kamar.",
-    badge: "Tanpa Riba",
+    title: "Pendampingan yang tertata",
+    desc: "Alur dokumen, manasik, keberangkatan, dan konfirmasi akhir dijelaskan sesuai paket yang dipilih.",
   },
 ];
 
@@ -88,7 +84,7 @@ export default function WhyUsSection() {
             Kenapa Memilih Kami
           </h2>
           <p className="font-sans text-sm text-slate-muted mt-2 leading-relaxed">
-            Komitmen kami untuk menghadirkan kenyamanan, kepastian, dan kemabruran dalam setiap langkah perjalanan ibadah Anda.
+            Mulai dari informasi yang dapat diperiksa, lalu konfirmasi data terbaru sebelum pendaftaran.
           </p>
         </div>
 
@@ -108,15 +104,12 @@ export default function WhyUsSection() {
 
               {/* Text content */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2 mb-1.5">
+                <div className="flex items-center gap-2 mb-1.5">
                   <h3 className="font-serif text-lg font-bold text-teal-primary group-hover:text-teal-700 transition-colors">
                     {f.title}
                   </h3>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-badge bg-teal-primary/5 text-teal-primary border border-teal-primary/10 shrink-0">
-                    {f.badge}
-                  </span>
                 </div>
-                <p className="font-sans text-xs text-slate-body leading-relaxed">
+                <p className="font-sans text-sm text-slate-body leading-relaxed">
                   {f.desc}
                 </p>
               </div>

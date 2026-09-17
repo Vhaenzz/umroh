@@ -14,7 +14,7 @@ export default function FeaturedPackagesSection() {
   const featuredList = dummyPackages.slice(0, 3);
 
   return (
-    <section id="paket-unggulan" className="py-12 sm:py-16 bg-warm-bg">
+    <section id="umroh" className="scroll-mt-24 py-12 sm:py-16 bg-warm-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
 
         {/* ── Section Header (pola Ventour: left-aligned + sub-CTA kanan) ── */}
@@ -22,13 +22,13 @@ export default function FeaturedPackagesSection() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
               <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-              Keberangkatan Terverifikasi
+              Paket Umroh &amp; Haji
             </div>
             <h2 className="font-serif text-3xl sm:text-[2.25rem] font-bold text-teal-primary leading-tight">
               Pilihan Paket Umroh &amp; Haji Terpopuler
             </h2>
             <p className="text-xs sm:text-sm text-slate-muted mt-2 font-sans max-w-xl">
-              Tanggal, kuota seat tersisa, maskapai, dan harga tampil jelas — tanpa biaya tersembunyi.
+              Tanggal, maskapai, hotel, fasilitas, dan harga ditampilkan agar mudah dibandingkan.
             </p>
           </div>
 

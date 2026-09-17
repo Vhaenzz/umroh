@@ -20,7 +20,7 @@ export default function Header() {
     { name: "Paket Umroh", href: "/umroh" },
     { name: "Paket Haji", href: "/haji" },
     { name: "Tentang Kami", href: "/#tentang" },
-    { name: "Testimoni", href: "/#testimoni" },
+    { name: "Dokumentasi", href: "/#dokumentasi" },
     { name: "FAQ", href: "/#faq" },
   ];
 
@@ -56,20 +56,18 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-gold-accent rounded-button"
-            aria-label="Yayasan Travel Beranda"
+            aria-label="Pondok Abdurrahman bin Auf Beranda"
           >
-            {/* Logo Badge: Text-based placeholder "YT" inside rounded box */}
-            {/* PLACEHOLDER — logo sementara sampai logo resmi tersedia */}
+            {/* Monogram keeps the header identifiable while the official logo is unavailable. */}
             <div className="w-10 h-10 rounded-button bg-teal-primary text-gold-accent font-serif font-bold text-xl flex items-center justify-center shadow-sm group-hover:bg-teal-900 transition-colors">
-              YT
+              PA
             </div>
             <div className="flex flex-col">
-              {/* PLACEHOLDER — menunggu nama brand final dari Yayasan */}
               <span className="font-serif text-lg font-bold text-teal-primary leading-none tracking-tight">
-                Yayasan Travel
+                Abdurrahman bin Auf
               </span>
               <span className="text-[10px] font-sans text-slate-muted uppercase tracking-wider font-semibold mt-0.5">
-                Haji & Umroh Resmi
+                Umroh &amp; Haji
               </span>
             </div>
           </Link>
@@ -96,13 +94,11 @@ export default function Header() {
 
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center gap-3">
-            <a
-              href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20ibadah"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/umroh"
               className="px-4 py-2.5 rounded-button bg-gold-accent hover:bg-gold-hover text-slate-dark font-sans text-xs font-semibold shadow-card transition-all duration-200 flex items-center gap-2 group"
             >
-              <span>Konsultasi Gratis</span>
+              <span>Lihat Jadwal Umroh</span>
               <svg
                 className="w-3.5 h-3.5 text-gold-accent transform group-hover:translate-x-0.5 transition-transform"
                 fill="none"
@@ -116,20 +112,18 @@ export default function Header() {
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
 
           {/* Tablet & Mobile Hamburger Button (<=1023px) */}
           <div className="flex items-center gap-2 lg:hidden">
             {/* Compact CTA for Mobile/Tablet */}
-            <a
-              href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20ibadah"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/umroh"
               className="sm:flex hidden px-3.5 py-2 rounded-button bg-gold-accent text-slate-dark text-xs font-semibold items-center gap-1.5 shadow-sm"
             >
-              <span>Konsultasi</span>
-            </a>
+              <span>Lihat Paket</span>
+            </Link>
 
             {/* Hamburger Icon with Animated Morphing (Smooth Lines Transition) */}
             <button
@@ -187,10 +181,10 @@ export default function Header() {
           <div className="p-5 border-b border-warm-border flex items-center justify-between bg-warm-surface">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-badge bg-teal-primary text-gold-accent font-serif font-bold text-base flex items-center justify-center">
-                YT
+                PA
               </div>
               <span className="font-serif font-bold text-teal-primary text-base">
-                Yayasan Travel
+                Abdurrahman bin Auf
               </span>
             </div>
 
@@ -257,13 +251,11 @@ export default function Header() {
 
           {/* Bottom CTA Block (Thumb Reach Priority) */}
           <div className="p-5 border-t border-warm-border bg-warm-surface space-y-3">
-            <a
-              href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C%20saya%20ingin%20konsultasi%20tentang%20paket%20ibadah"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="/umroh"
               className="w-full min-h-12 px-5 py-3 rounded-button bg-teal-primary text-white font-sans text-sm font-semibold shadow-card flex items-center justify-center gap-2"
             >
-              <span>Konsultasi Syariah via WA</span>
+              <span>Lihat Jadwal Umroh</span>
               <svg
                 className="w-4 h-4 text-gold-accent"
                 fill="none"
@@ -277,11 +269,10 @@ export default function Header() {
                   d="M14 5l7 7m0 0l-7 7m7-7H3"
                 />
               </svg>
-            </a>
+            </Link>
 
             <div className="text-center text-[11px] text-slate-caption">
-              {/* PLACEHOLDER — info layanan */}
-              Layanan CS Aktif: 08.00 - 20.00 WIB
+              Pilih paket dan periksa detailnya sebelum mendaftar.
             </div>
           </div>
         </div>

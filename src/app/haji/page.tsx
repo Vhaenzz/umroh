@@ -4,9 +4,9 @@ import PackageCatalogView from "@/components/PackageCatalogView";
 import { dummyPackages } from "@/data/packages";
 
 export const metadata: Metadata = {
-  title: "Katalog Paket Haji Plus & Khusus — Yayasan Travel",
+  title: "Katalog Paket Haji Plus & Khusus — Pondok Abdurrahman bin Auf",
   description:
-    "Pilihan paket Haji Khusus dan Haji Furoda resmi Kemenag RI dengan kepastian kuota, akomodasi maktab VIP, dan bimbingan ibadah intensif.",
+    "Bandingkan jadwal, akomodasi, itinerary, fasilitas, dan pilihan paket Haji yang tersedia.",
 };
 
 export default function HajiCatalogPage() {
@@ -18,7 +18,7 @@ export default function HajiCatalogPage() {
         initialPackages={hajiPackages.length > 0 ? hajiPackages : dummyPackages}
         badgeLabel="Pendaftaran Haji Resmi"
         title="Paket Haji Khusus & Plus 1448H"
-        subtitle="Wujudkan panggilan suci rukun Islam kelima dengan kepastian porsi haji Kemenag RI, akomodasi tenda VIP Arafah & Mina, serta pembimbing ibadah berpengalaman."
+        subtitle="Pelajari detail paket, akomodasi, itinerary, dan komponen biaya. Ketersediaan kuota serta dokumen perlu dikonfirmasi sebelum pendaftaran."
         defaultPackageType="khusus"
       />
     </main>

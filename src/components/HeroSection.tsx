@@ -4,7 +4,7 @@ import Image from "next/image";
 
 /**
  * HERO SECTION
- * Referensi utama: Alsha (video background overlay, trust badge PPIU, CTA dual)
+ * Referensi utama: Alsha (media-led hero, restrained accent, CTA dual)
  *                  Ventour (subtext value proposition, trust stripe horizontal)
  *
  * Struktur: Left-column teks + Right-column media placeholder (4:3)
@@ -25,51 +25,24 @@ export default function HeroSection() {
           {/* ── LEFT COLUMN ── */}
           <div className="lg:col-span-7 space-y-6 order-1 lg:order-1">
 
-            {/* ── Trust Badge: PPIU Kemenag ── */}
-            {/* PLACEHOLDER — nomor izin PPIU & akreditasi final dari Yayasan */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-teal-primary/8 border border-teal-primary/20 text-teal-primary text-[11px] sm:text-xs font-semibold max-w-full">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-              <span className="truncate sm:whitespace-normal">Izin PPIU Resmi Kemenag RI • <span className="text-gold-accent font-bold">Dokumen tersedia saat konsultasi</span></span>
-            </div>
-
             {/* ── Headline ── */}
             <div className="space-y-4">
-              {/* PLACEHOLDER — headline final dari tim marketing Yayasan */}
               <h1 className="font-serif text-2xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-teal-primary leading-[1.2]">
-                Wujudkan Perjalanan Ibadah yang{" "}
-                <span className="relative whitespace-nowrap">
-                  <span className="relative z-10">Tenang &amp; Terpercaya</span>
-                  {/* Gold underline accent — seperti pola Alsha */}
-                  <svg
-                    className="absolute -bottom-1 left-0 w-full h-2 text-gold-accent opacity-40"
-                    viewBox="0 0 300 8"
-                    fill="none"
-                    preserveAspectRatio="none"
-                  >
-                    <path
-                      d="M0 6 Q75 1 150 5 T300 3"
-                      stroke="currentColor"
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </span>
+                Umroh bersama Pondok Abdurrahman bin Auf
               </h1>
 
-              {/* PLACEHOLDER — value prop spesifik menunggu arahan Yayasan */}
               <p className="font-sans text-sm sm:text-base text-slate-body leading-relaxed max-w-xl">
-                Layanan Haji &amp; Umroh dengan <strong className="text-teal-primary font-semibold">bimbingan manasik penuh</strong>,
-                transparansi biaya tanpa beban tersembunyi, dan kepastian akomodasi ring satu pelataran Masjidil Haram &amp; Masjid Nabawi.
+                Keberangkatan terjadwal dengan bimbingan ibadah sejak manasik, rincian biaya yang transparan, dan pendampingan jamaah hingga kembali ke Indonesia.
               </p>
             </div>
 
             {/* ── Key Trust Points (terinspirasi feature strip Ventour) ── */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 font-sans text-sm text-slate-body">
-              {[
-                { icon: "✓", label: "Keberangkatan Pasti Sesuai Jadwal" },
-                { icon: "✓", label: "Hotel Ring 1 Masjidil Haram" },
-                { icon: "✓", label: "Tour Leader Berpengalaman" },
-                { icon: "✓", label: "Harga Transparan, Tanpa Biaya Tersembunyi" },
+                {[
+                { icon: "✓", label: "Tanggal keberangkatan tercantum" },
+                { icon: "✓", label: "Pilihan hotel dan kamar terlihat jelas" },
+                { icon: "✓", label: "Bimbingan sejak manasik" },
+                { icon: "✓", label: "Rincian biaya sebelum mendaftar" },
               ].map((point) => (
                 <li key={point.label} className="flex items-start gap-2">
                   <span className="mt-0.5 shrink-0 w-4 h-4 rounded-full bg-teal-primary/10 text-teal-primary text-[10px] font-bold flex items-center justify-center">
@@ -80,10 +53,10 @@ export default function HeroSection() {
               ))}
             </ul>
 
-            {/* ── Dual CTAs (pola Alsha: Lihat Jadwal + Hubungi Kami) ── */}
+            {/* ── Dual CTAs: detail paket dulu, pertanyaan umum sesudahnya ── */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
               <a
-                href="#paket-unggulan"
+                href="#umroh"
                 id="hero-cta-lihat-paket"
                 className="min-h-13 px-7 py-3.5 rounded-button bg-gold-accent hover:bg-gold-hover active:scale-[0.98] text-slate-dark font-sans text-sm font-bold shadow-card transition-all duration-200 flex items-center justify-center gap-2 group"
               >
@@ -96,32 +69,25 @@ export default function HeroSection() {
                 </svg>
               </a>
 
-              {/* PLACEHOLDER — nomor WA CS Utama */}
               <a
-                href="https://wa.me/6281200000001?text=Assalamu%27alaikum%2C+saya+ingin+konsultasi+paket+Haji+%2F+Umroh"
-                target="_blank"
-                rel="noopener noreferrer"
-                id="hero-cta-wa-konsultasi"
+                href="#faq"
+                id="hero-cta-info-pendaftaran"
                 className="min-h-13 px-7 py-3.5 rounded-button border border-gold-accent/70 bg-warm-surface hover:bg-gold-light active:scale-[0.98] text-teal-primary font-sans text-sm font-bold transition-all duration-200 flex items-center justify-center gap-2 shadow-xs"
               >
-                <svg className="w-4 h-4 text-[#25D366]" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                <svg className="w-4 h-4 text-gold-hover" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5h8m-8 4h8m-8 4h5m-9 7h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2Z" />
                 </svg>
-                <span>Konsultasi via WhatsApp</span>
+                <span>Lihat Info Pendaftaran</span>
               </a>
             </div>
 
-            {/* ── Micro Social Proof (pola: rating + jumlah jamaah) ── */}
+            {/* ── Practical next step ── */}
             <div className="flex items-center gap-3 pt-2 border-t border-warm-border/60">
-              <div className="flex text-amber-500 text-base leading-none tracking-tighter" aria-label="Rating 4,9 dari 5">
-                {[0, 1, 2, 3, 4].map((star) => (
-                  <svg key={star} className="h-4 w-4 fill-current" viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="m10 1.5 2.62 5.31 5.86.85-4.24 4.13 1 5.84L10 14.87 4.76 17.63l1-5.84L1.52 7.66l5.86-.85L10 1.5Z" />
-                  </svg>
-                ))}
-              </div>
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gold-light text-gold-hover" aria-hidden="true">
+                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14m-6-6 6 6-6 6" /></svg>
+              </span>
               <p className="text-xs text-slate-muted font-sans">
-                Rating <strong className="text-slate-dark">4.9/5</strong> · Pendampingan dari pendaftaran sampai pulang
+                Bandingkan jadwal, hotel, dan pilihan kamar sebelum berkonsultasi.
               </p>
             </div>
           </div>
@@ -148,9 +114,9 @@ export default function HeroSection() {
               <div className="bg-warm-surface border-t border-warm-border px-5 py-3 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-xs text-slate-body font-sans">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span className="font-semibold text-teal-primary">Hotel Ring 1</span>
+                  <span className="font-semibold text-teal-primary">Akomodasi paket</span>
                 </div>
-                <span className="text-[11px] text-slate-caption font-mono">± 150m Masjidil Haram</span>
+                <span className="text-[11px] text-slate-muted font-mono">Cek nama hotel &amp; jaraknya</span>
               </div>
             </div>
           </div>
