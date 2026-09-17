@@ -12,8 +12,8 @@ export default function FinancingSection({ company }: { company: CompanyProfile 
           </p>
         </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-          <div className="rounded-card border border-warm-border bg-warm-bg p-5 sm:p-6">
+        <div className="mt-8 grid min-w-0 gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+          <div className="min-w-0 rounded-card border border-warm-border bg-warm-bg p-5 sm:p-6">
             <h3 className="font-sans text-lg font-bold text-teal-primary">Pilihan pembayaran</h3>
             <div className="mt-4 space-y-3">
               {company.financing.options.map((option, index) => (
@@ -30,7 +30,7 @@ export default function FinancingSection({ company }: { company: CompanyProfile 
             <p className="mt-4 text-xs leading-5 text-slate-muted">Catatan: {company.financing.note}</p>
           </div>
 
-          <div className="rounded-card border border-warm-border bg-warm-bg p-5 sm:p-6">
+          <div className="min-w-0 rounded-card border border-warm-border bg-warm-bg p-5 sm:p-6">
             <div className="flex flex-wrap items-end justify-between gap-3">
               <div>
                 <h3 className="font-sans text-lg font-bold text-teal-primary">Tabungan Umroh</h3>
