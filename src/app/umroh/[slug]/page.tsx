@@ -2,116 +2,47 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { dummyPackages, getPackageBySlug } from "@/data/packages";
+import { getSiteData } from "@/lib/cms/store";
+
+export const dynamic = "force-dynamic";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return dummyPackages.map((pkg) => ({
-    slug: pkg.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const pkg = getPackageBySlug(slug);
+  const { company, packages } = await getSiteData();
+  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase());
 
   if (!pkg) {
     return {
-      title: "Paket Tidak Ditemukan — Pondok Abdurrahman bin Auf",
+      title: `Paket Tidak Ditemukan — ${company.brandName}`,
     };
   }
 
   return {
-    title: `${pkg.name} — Detail Paket, Harga & Jadwal | Pondok Abdurrahman bin Auf`,
+    title: `${pkg.name} — Detail Paket, Harga & Jadwal | ${company.brandName}`,
     description: `Detail jadwal, fasilitas, rincian harga per kamar, maskapai ${pkg.airline}, dan akomodasi ${pkg.hotelMakkah} untuk ${pkg.name}.`,
   };
 }
 
 export default async function PackageDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const pkg = getPackageBySlug(slug);
+  const { packages } = await getSiteData();
+  const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase());
 
   if (!pkg) {
     notFound();
   }
 
-  const roomPrices = pkg.roomPricing || [
-    {
-      type: "Quad",
-      label: "Kamar Quad (Sekamar Ber-4)",
-      capacity: "4 Orang / Kamar",
-      price: pkg.discountedPrice,
-      numeric: pkg.priceNumeric,
-      description: "Paling hemat, sharing kamar 4 orang.",
-      isPopular: true,
-    },
-    {
-      type: "Triple",
-      label: "Kamar Triple (Sekamar Ber-3)",
-      capacity: "3 Orang / Kamar",
-      price: "Rp 38.900.000",
-      numeric: 38900000,
-      description: "Nyaman untuk 3 orang / keluarga kecil.",
-      isPopular: false,
-    },
-    {
-      type: "Double",
-      label: "Kamar Double (Sekamar Ber-2)",
-      capacity: "2 Orang / Kamar",
-      price: "Rp 41.900.000",
-      numeric: 41900000,
-      description: "Privasi maksimal untuk pasangan suami-istri.",
-      isPopular: false,
-    },
-  ];
+  const roomPrices = pkg.roomPricing || [];
 
-  const galleryItems = pkg.gallery || [
-    {
-      id: "gal-1",
-      label: "Akomodasi Makkah",
-      tag: "Hotel Makkah Bintang 4",
-      caption: "Akomodasi Nyaman Dekat Pelataran Masjidil Haram",
-    },
-    {
-      id: "gal-2",
-      label: "Akomodasi Madinah",
-      tag: "Hotel Madinah Bintang 4",
-      caption: "Akomodasi Strategis Selangkah ke Masjid Nabawi",
-    },
-    {
-      id: "gal-3",
-      label: "City tour Thaif",
-      tag: "City Tour Thaif",
-      caption: "Napak Tilas Sejarah & Suasana Sejuk Perkebunan Thaif",
-    },
-    {
-      id: "gal-4",
-      label: "Bimbingan manasik",
-      tag: "Bimbingan Manasik",
-      caption: "Manasik Komprehensif 3x Pertemuan Sebelum Keberangkatan",
-    },
-  ];
+  const galleryItems = pkg.gallery || [];
 
   const itineraryDays = pkg.itinerary || [];
-  const facilitiesIncluded = pkg.facilitiesIncluded || [
-    "City Tour Thaif",
-    "Manasik 3x",
-    "Perlengkapan Umroh",
-    "Muthawif Berpengalaman",
-    "Tiket Pesawat PP Saudia Airlines Direct",
-    "Visa Umroh & Asuransi Perjalanan",
-    "Hotel Makkah & Madinah Bintang 4",
-    "Makan 3x Sehari Menu Nusantara",
-  ];
-
-  const facilitiesExcluded = pkg.facilitiesExcluded || [
-    "Biaya Pembuatan / Perpanjangan Paspor",
-    "Vaksin Meningitis / Polio",
-    "Pengeluaran Pribadi (Laundry, Roaming Internet, Kursi Roda Mandiri)",
-  ];
+  const facilitiesIncluded = pkg.facilitiesIncluded || [];
+  const facilitiesExcluded = pkg.facilitiesExcluded || [];
 
   return (
     <div className="bg-warm-bg min-h-screen py-6 sm:py-10">
@@ -143,7 +74,11 @@ export default async function PackageDetailPage({ params }: PageProps) {
             {/* Quota Status */}
             <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-badge text-[11px] sm:text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-              {pkg.statusType === "soldout" ? "Kuota terisi penuh" : "Jadwal tersedia"}
+              {pkg.statusType === "soldout"
+                ? "Kuota terisi penuh"
+                : pkg.statusType === "pending"
+                  ? "Perlu dikonfirmasi"
+                  : "Jadwal tersedia"}
             </span>
 
             {/* Flight Type Badge */}
@@ -166,6 +101,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
         </div>
 
         {/* ── 3. Galeri paket ── */}
+        {galleryItems.length > 0 && (
         <section aria-labelledby="gallery-heading" className="space-y-3">
           <h2 id="gallery-heading" className="sr-only">Galeri Dokumentasi Paket</h2>
           
@@ -226,6 +162,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
             *Dokumentasi asli akomodasi &amp; kegiatan jemaah akan dimuat sesuai izin publikasi
           </p>
         </section>
+        )}
 
         {/* ── 4. KEY SPECIFICATIONS SUMMARY STRIP ── */}
         <section aria-labelledby="specs-heading" className="bg-warm-surface rounded-card border border-warm-border p-5 sm:p-7 shadow-card">
@@ -293,7 +230,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
         </section>
 
         {/* ── 5. RINCIAN HARGA PER TIPE KAMAR (STACKED CARDS ON MOBILE) ── */}
-        <section aria-labelledby="pricing-heading" className="space-y-5">
+        {roomPrices.length > 0 && <section aria-labelledby="pricing-heading" className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-warm-border pb-3">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-gold-light text-teal-primary text-xs font-bold uppercase tracking-wider mb-1 border border-gold-accent/20">
@@ -363,7 +300,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
                 </div>
               ))}
           </div>
-        </section>
+        </section>}
 
         {/* ── 6. FASILITAS TERMASUK & TIDAK TERMASUK (BADGES & LIST) ── */}
         <section aria-labelledby="facilities-heading" className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -382,7 +319,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
 
             {/* Featured Highlight Badges */}
             <div className="flex flex-wrap gap-2 pt-1 pb-2">
-              {["City Tour Thaif", "Manasik 3x", "Perlengkapan Umroh", "Muthawif Berpengalaman"].map((badge) => (
+              {facilitiesIncluded.slice(0, 4).map((badge) => (
                 <span
                   key={badge}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-badge bg-teal-primary text-white text-xs font-bold shadow-xs"
@@ -418,11 +355,11 @@ export default async function PackageDetailPage({ params }: PageProps) {
               </h3>
             </div>
 
-            <p className="font-sans text-xs text-slate-muted leading-relaxed">
-              Biaya personal yang tidak tercakup dalam paket reguler kami:
+            <p className="font-sans text-sm text-slate-muted leading-relaxed">
+              Komponen yang belum termasuk dalam paket ini:
             </p>
 
-            <ul className="space-y-2.5 font-sans text-xs text-slate-body">
+            <ul className="space-y-2.5 font-sans text-sm text-slate-body">
               {facilitiesExcluded.map((item) => (
                 <li key={item} className="flex items-start gap-2">
                   <span className="w-4 h-4 rounded-full bg-red-100 text-red-700 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
@@ -433,14 +370,15 @@ export default async function PackageDetailPage({ params }: PageProps) {
               ))}
             </ul>
 
-            <div className="p-3 bg-warm-muted/70 rounded-button border border-warm-border text-[11px] text-slate-caption font-sans">
-              💡 Seluruh rincian biaya di atas bersifat mengikat dan tertuang jelas pada Akad Perjanjian Perjalanan Ibadah Umroh.
+            <div className="p-3 bg-warm-muted/70 rounded-button border border-warm-border text-xs text-slate-muted font-sans">
+              Minta rincian tertulis dan ketentuan pembayaran sebelum melakukan transfer.
             </div>
           </div>
 
         </section>
 
-        {/* ── 7. ITINERARY RINCI 10 HARI (DAY-BY-DAY TIMELINE) ── */}
+        {/* ── 7. ITINERARY ── */}
+        {itineraryDays.length > 0 && (
         <section aria-labelledby="itinerary-heading" className="bg-warm-surface rounded-card border border-warm-border p-6 sm:p-8 shadow-card space-y-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-2 border border-teal-primary/15">
@@ -448,14 +386,13 @@ export default async function PackageDetailPage({ params }: PageProps) {
               Rencana Perjalanan
             </div>
             <h2 id="itinerary-heading" className="font-serif text-2xl sm:text-3xl font-bold text-teal-primary">
-              Itinerary Perjalanan 10 Hari
+              Itinerary Perjalanan {pkg.duration}
             </h2>
             <p className="font-sans text-xs sm:text-sm text-slate-muted mt-1 leading-relaxed">
               Jadwal tersusun optimal agar jemaah dapat beribadah khusyuk tanpa kelelahan yang berlebihan.
             </p>
           </div>
 
-          {/* 10 Baris Placeholder Timeline */}
           <div className="space-y-4 border-l-2 border-teal-primary/20 ml-3 sm:ml-4 pl-4 sm:pl-6">
             {itineraryDays.map((item) => (
               <div key={item.day} className="relative group">
@@ -483,6 +420,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
             *Jadwal itinerary dapat disesuaikan di lapangan mengikuti kondisi lalu lintas, izin tasreh Raudhah (Nusuk), dan kebijakan otoritas Arab Saudi tanpa mengurangi hak ibadah jemaah.
           </p>
         </section>
+        )}
 
         {/* ── 8. LARGE CTA BOX ── */}
         <section aria-labelledby="cta-heading" className="rounded-box bg-teal-primary text-white p-8 sm:p-12 shadow-elevated relative overflow-hidden text-center">

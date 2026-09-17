@@ -1,5 +1,24 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## CMS Supabase multi-user
+
+Schema database tersedia di [supabase/migrations/001_cms.sql](/Users/muhammadnizaralfaris/Documents/tour-and-travel/supabase/migrations/001_cms.sql). Jalankan seluruh file tersebut di Supabase SQL Editor.
+
+1. Buat project Supabase.
+2. Jalankan migration SQL.
+3. Salin `.env.example` menjadi `.env.local`, lalu isi `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` dari Project Settings → API.
+4. Buat user admin/editor di Authentication → Users.
+5. Masukkan UUID user ke SQL berikut:
+
+```sql
+insert into public.cms_members (user_id, role)
+values ('UUID_USER_DARI_SUPABASE_AUTH', 'admin');
+```
+
+6. Jalankan aplikasi, buka `/admin`, login dengan user tersebut, lalu tekan **Simpan perubahan** untuk mengunggah data seed paket dan profil ke Supabase.
+
+Jika environment Supabase belum diisi, aplikasi tetap menggunakan CMS file lokal sebagai fallback.
+
 ## Getting Started
 
 First, run the development server:

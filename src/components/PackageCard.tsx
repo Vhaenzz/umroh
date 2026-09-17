@@ -18,6 +18,12 @@ const statusConfig: Record<StatusType, { bg: string; text: string; border: strin
     border: "border-amber-200",
     dot: "bg-amber-500",
   },
+  pending: {
+    bg: "bg-amber-50",
+    text: "text-amber-800",
+    border: "border-amber-200",
+    dot: "bg-amber-500",
+  },
   soldout: {
     bg: "bg-red-50",
     text: "text-red-600",
@@ -33,7 +39,11 @@ interface PackageCardProps {
 export default function PackageCard({ pkg }: PackageCardProps) {
   const status = statusConfig[pkg.statusType];
   const isSoldOut = pkg.statusType === "soldout";
-  const statusLabel = isSoldOut ? "Kuota terisi penuh" : "Jadwal tersedia";
+  const statusLabel = isSoldOut
+    ? "Kuota terisi penuh"
+    : pkg.statusType === "pending"
+      ? "Perlu dikonfirmasi"
+      : "Jadwal tersedia";
   const packageImage = pkg.isHaji
     ? "/images/madina-pilgrims.webp"
     : pkg.slug.includes("dubai")

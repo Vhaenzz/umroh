@@ -1,4 +1,4 @@
-export type StatusType = "available" | "warning" | "soldout";
+export type StatusType = "available" | "warning" | "soldout" | "pending";
 export type PackageCategoryType = "reguler" | "plus" | "khusus";
 
 export interface RoomPrice {

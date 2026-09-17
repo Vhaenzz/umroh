@@ -1,13 +1,14 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import type { CompanyProfile } from "@/data/company";
 
 /**
- * COMPANY PROFILE SECTION — Profil Singkat Pondok Abdurrahman bin Auf
+ * COMPANY PROFILE SECTION — Profil Risalah Madina Tour
  * Layout: 2-column dengan visual media box besar di satu sisi & ringkasan profil di sisi lain.
  */
 
-export default function CompanyProfileSection() {
+export default function CompanyProfileSection({ company }: { company: CompanyProfile }) {
   return (
     <section id="tentang" className="scroll-mt-24 py-12 sm:py-16 bg-warm-bg border-t border-warm-border relative overflow-hidden">
       {/* Background grain */}
@@ -34,9 +35,9 @@ export default function CompanyProfileSection() {
               <div className="p-4 bg-warm-surface border-t border-warm-border flex items-center justify-between text-xs font-sans">
                 <div className="flex items-center gap-2 text-teal-primary font-semibold">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
-                  <span>Pelayanan Berkelanjutan</span>
+                  <span>{company.legalName}</span>
                 </div>
-                <span className="text-slate-caption text-[11px]">Layanan tatap muka &amp; online</span>
+                <span className="text-slate-muted text-[11px]">{company.phone}</span>
               </div>
             </div>
           </div>
@@ -49,50 +50,56 @@ export default function CompanyProfileSection() {
                 Profil Singkat
               </div>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-teal-primary leading-tight">
-                Melayani Jemaah dengan Amanah
+                Mengenal Risalah Madina Tour
               </h2>
             </div>
 
             <p className="font-sans text-sm sm:text-base text-slate-body leading-relaxed">
-              Kami membantu calon jemaah memahami pilihan paket, menyiapkan dokumen, dan menjalani manasik dengan alur yang jelas. Informasi harga, fasilitas, dan jadwal disampaikan terbuka sejak konsultasi pertama.
+              <strong>{company.brandName}</strong> adalah brand dari {company.legalName}. Layanan yang ditawarkan meliputi Umroh Reguler dan Plus, Haji Khusus, Badal Haji dan Umroh, serta perjalanan domestik dan internasional. Informasi paket di halaman ini bersumber dari profil layanan yang diberikan.
             </p>
 
-            {/* Factual service points; legal badges stay hidden until their source is available. */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-              <div className="p-3.5 rounded-card bg-warm-surface border border-warm-border shadow-xs">
-                <div className="flex items-center gap-2 text-teal-primary mb-1">
-                  <svg className="w-4 h-4 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
-                  <span className="font-serif font-bold text-xs">Detail paket</span>
-                </div>
-                <p className="text-[11px] text-slate-muted font-sans">
-                  Jadwal, hotel, itinerary, dan fasilitas ditulis pada halaman paket.
-                </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-sm font-sans">
+              <div className="rounded-card border border-warm-border bg-warm-surface p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-muted">SK PPIU Kemenag RI</p>
+                <p className="mt-1 font-bold text-teal-primary">{company.legal.ppiu}</p>
               </div>
-
-              <div className="p-3.5 rounded-card bg-warm-surface border border-warm-border shadow-xs">
-                <div className="flex items-center gap-2 text-teal-primary mb-1">
-                  <svg className="w-4 h-4 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="font-serif font-bold text-xs">Dokumen perjalanan</span>
-                </div>
-                <p className="text-[11px] text-slate-muted font-sans">
-                  Persyaratan dan tenggat perlu dikonfirmasi sesuai tanggal keberangkatan.
-                </p>
+              <div className="rounded-card border border-warm-border bg-warm-surface p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-muted">SK PIHK</p>
+                <p className="mt-1 font-bold text-teal-primary">{company.legal.pihk}</p>
               </div>
+              <div className="rounded-card border border-warm-border bg-warm-surface p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-muted">Sertifikasi</p>
+                <p className="mt-1 font-bold text-teal-primary">{company.certification.number} · Akreditasi {company.certification.accreditation}</p>
+                <p className="mt-1 text-xs text-slate-muted">Berlaku {company.certification.validUntil}</p>
+              </div>
+              <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener noreferrer" className="rounded-card border border-warm-border bg-warm-surface p-4 hover:border-teal-primary/40 transition-colors">
+                <p className="text-xs font-semibold uppercase tracking-wider text-slate-muted">Kantor pusat</p>
+                <p className="mt-1 font-bold text-teal-primary">{company.address}</p>
+                <p className="mt-1 text-xs text-gold-hover">Buka lokasi di Maps →</p>
+              </a>
+            </div>
 
-              <div className="p-3.5 rounded-card bg-warm-surface border border-warm-border shadow-xs">
-                <div className="flex items-center gap-2 text-teal-primary mb-1">
-                  <svg className="w-4 h-4 text-teal-primary shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  </svg>
-                  <span className="font-serif font-bold text-xs">Pendampingan</span>
-                </div>
-                <p className="text-[11px] text-slate-muted font-sans">
-                  Informasi manasik dan proses pendaftaran dijelaskan sebelum pembayaran.
-                </p>
+            <details className="rounded-card border border-warm-border bg-warm-surface p-4 text-sm">
+              <summary className="cursor-pointer font-bold text-teal-primary">Lihat data legalitas lainnya</summary>
+              <dl className="mt-4 grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
+                <div><dt className="text-xs text-slate-muted">Akte pendirian</dt><dd className="mt-1 font-semibold text-slate-body">{company.legal.deed}</dd></div>
+                <div><dt className="text-xs text-slate-muted">SK Kemenkumham</dt><dd className="mt-1 font-semibold text-slate-body">{company.legal.kemenkumham}</dd></div>
+                <div><dt className="text-xs text-slate-muted">Nomor Induk Berusaha</dt><dd className="mt-1 font-semibold text-slate-body">{company.legal.nib}</dd></div>
+                <div><dt className="text-xs text-slate-muted">NPWP</dt><dd className="mt-1 font-semibold text-slate-body">{company.legal.npwp}</dd></div>
+                <div className="sm:col-span-2"><dt className="text-xs text-slate-muted">Penerbit sertifikat</dt><dd className="mt-1 font-semibold text-slate-body">{company.certification.issuer}</dd><dd className="mt-1 text-xs text-slate-muted">Diterbitkan {company.certification.issuedAt}; batas akhir survailen {company.certification.surveillanceDeadline}.</dd></div>
+              </dl>
+            </details>
+
+            <div className="border-t border-warm-border pt-5">
+              <h3 className="font-sans text-base font-bold text-teal-primary">Tim kepemimpinan</h3>
+              <div className="mobile-rail sm:grid-cols-3 gap-3 mt-3">
+                {company.leaders.map((leader) => (
+                  <article key={leader.name} className="rounded-card border border-warm-border bg-warm-surface p-4">
+                    <h4 className="font-sans text-sm font-bold text-teal-primary">{leader.name}</h4>
+                    <p className="mt-1 text-xs font-semibold text-gold-hover">{leader.role}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-body">{leader.description}</p>
+                  </article>
+                ))}
               </div>
             </div>
 

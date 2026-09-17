@@ -2,16 +2,16 @@
 import React from "react";
 import Link from "next/link";
 import PackageCard from "@/components/PackageCard";
-import { dummyPackages } from "@/data/packages";
+import type { Package } from "@/types/package";
 
 /**
  * FEATURED PACKAGES SECTION
  * Menggunakan komponen PackageCard terpadu (Fase 2) untuk konsistensi.
  */
 
-export default function FeaturedPackagesSection() {
+export default function FeaturedPackagesSection({ packages }: { packages: Package[] }) {
   // Ambil 3 paket unggulan pertama untuk halaman Beranda
-  const featuredList = dummyPackages.slice(0, 3);
+  const featuredList = packages.slice(0, 3);
 
   return (
     <section id="umroh" className="scroll-mt-24 py-12 sm:py-16 bg-warm-bg">

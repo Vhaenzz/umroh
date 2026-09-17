@@ -3,13 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { CompanyProfile } from "@/data/company";
 
 /**
  * HEADER GLOBAL COMPONENT
  * Sticky header with responsive navigation, mobile drawer with thumb-reach optimization,
  * and smooth animated hamburger icon.
  */
-export default function Header() {
+export default function Header({ company }: { company: CompanyProfile }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -56,15 +57,15 @@ export default function Header() {
           <Link
             href="/"
             className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-gold-accent rounded-button"
-            aria-label="Pondok Abdurrahman bin Auf Beranda"
+            aria-label={`${company.brandName} Beranda`}
           >
             {/* Monogram keeps the header identifiable while the official logo is unavailable. */}
             <div className="w-10 h-10 rounded-button bg-teal-primary text-gold-accent font-serif font-bold text-xl flex items-center justify-center shadow-sm group-hover:bg-teal-900 transition-colors">
-              PA
+              RM
             </div>
             <div className="flex flex-col">
               <span className="font-serif text-lg font-bold text-teal-primary leading-none tracking-tight">
-                Abdurrahman bin Auf
+                {company.brandName}
               </span>
               <span className="text-[10px] font-sans text-slate-muted uppercase tracking-wider font-semibold mt-0.5">
                 Umroh &amp; Haji
@@ -184,7 +185,7 @@ export default function Header() {
                 PA
               </div>
               <span className="font-serif font-bold text-teal-primary text-base">
-                Abdurrahman bin Auf
+                {company.brandName}
               </span>
             </div>
 

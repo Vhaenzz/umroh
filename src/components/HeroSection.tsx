@@ -1,16 +1,17 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import type { CompanyProfile } from "@/data/company";
 
 /**
  * HERO SECTION
  * Referensi utama: Alsha (media-led hero, restrained accent, CTA dual)
  *                  Ventour (subtext value proposition, trust stripe horizontal)
  *
- * Struktur: Left-column teks + Right-column media placeholder (4:3)
+ * Struktur: Left-column teks + Right-column dokumentasi (4:3)
  * Tidak memakai 100vh / full-height hero — lebih compact & trust-forward.
  */
-export default function HeroSection() {
+export default function HeroSection({ company }: { company: CompanyProfile }) {
   return (
     <section className="relative bg-warm-bg overflow-hidden">
       {/* ── Subtle background grain texture ── */}
@@ -28,7 +29,7 @@ export default function HeroSection() {
             {/* ── Headline ── */}
             <div className="space-y-4">
               <h1 className="font-serif text-2xl sm:text-4xl lg:text-[2.75rem] font-bold tracking-tight text-teal-primary leading-[1.2]">
-                Umroh bersama Pondok Abdurrahman bin Auf
+                Umroh bersama {company.brandName}
               </h1>
 
               <p className="font-sans text-sm sm:text-base text-slate-body leading-relaxed max-w-xl">

@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { getSiteData } from "@/lib/cms/store";
 import "./globals.css";
+
+export const dynamic = "force-dynamic";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -11,16 +14,21 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Pondok Abdurrahman bin Auf — Paket Umroh & Haji",
-  description: "Bandingkan paket Umroh dan Haji berdasarkan jadwal, hotel, itinerary, fasilitas, dan pilihan kamar.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { company } = await getSiteData();
+  return {
+    title: `${company.brandName} — Paket Umroh & Haji`,
+    description: "Bandingkan paket Umroh dan Haji berdasarkan jadwal, hotel, itinerary, fasilitas, dan pilihan kamar.",
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { company } = await getSiteData();
+
   return (
     <html
       lang="id"
@@ -32,7 +40,7 @@ export default function RootLayout({
         className="min-h-full bg-warm-bg text-slate-dark flex flex-col selection:bg-gold-accent/20 selection:text-teal-primary"
       >
         {/* Global Header */}
-        <Header />
+        <Header company={company} />
 
         {/* Main Content Area */}
         <div className="flex-1 pb-16">
@@ -40,7 +48,7 @@ export default function RootLayout({
         </div>
 
         {/* Global Footer */}
-        <Footer />
+        <Footer company={company} />
       </body>
     </html>
   );

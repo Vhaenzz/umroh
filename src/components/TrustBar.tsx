@@ -1,17 +1,18 @@
 "use client";
 import React from "react";
+import type { CompanyProfile } from "@/data/company";
 
 /**
  * TRUST BAR — Strip horizontal kepercayaan
  * Referensi: Alsha (strip informasi yang ringkas)
  *            Ventour (feature strip icon-box: jadwal dan fasilitas)
- *                     Pelayanan Responsif, Perlengkapan Eksklusif)
+ *                     informasi paket yang bisa dibandingkan)
  *
  * Di mobile: scroll-snap horizontal.
  * Di desktop: flex row dengan divider vertikal.
  */
 
-const trustItems = [
+const getTrustItems = (company: CompanyProfile) => [
   {
     id: "jadwal",
     icon: (
@@ -20,8 +21,8 @@ const trustItems = [
           d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
       </svg>
     ),
-    label: "Jadwal & maskapai",
-    sublabel: "Tanggal keberangkatan terlihat",
+    label: "SK PPIU tercantum",
+    sublabel: company.legal.ppiu,
   },
   {
     id: "kamar",
@@ -31,8 +32,8 @@ const trustItems = [
           d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
       </svg>
     ),
-    label: "Pilihan kamar",
-    sublabel: "Quad, triple, atau double",
+    label: "Sertifikasi tercantum",
+    sublabel: company.certification.number,
   },
   {
     id: "harga",
@@ -67,12 +68,13 @@ const trustItems = [
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
-    label: "Konsultasi paket",
-    sublabel: "Bantuan sebelum mendaftar",
+    label: "Kantor pusat Cirebon",
+    sublabel: company.phone,
   },
 ];
 
-export default function TrustBar() {
+export default function TrustBar({ company }: { company: CompanyProfile }) {
+  const trustItems = getTrustItems(company);
   return (
     <div className="bg-warm-surface border-y border-warm-border py-5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

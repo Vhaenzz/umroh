@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import type { CompanyProfile } from "@/data/company";
 
 /**
  * FAQ SECTION — Pertanyaan yang Sering Diajukan
  * Menjawab keberatan utama calon jemaah sebelum mereka perlu menghubungi admin.
  */
 
-const faqs = [
+const getFaqs = (company: CompanyProfile) => [
   {
     id: "cara-daftar",
     question: "Bagaimana cara mendaftar umroh?",
@@ -17,6 +18,11 @@ const faqs = [
     id: "harga-termasuk",
     question: "Apa saja yang termasuk dalam harga paket?",
     answer: "Buka detail setiap paket untuk melihat tiket, visa, hotel, makan, itinerary, manasik, dan perlengkapan yang termasuk. Komponen yang belum termasuk ditulis terpisah agar mudah diperiksa.",
+  },
+  {
+    id: "dp-umrah",
+    question: "Berapa DP Umrah dan bagaimana aturannya?",
+    answer: `DP Umrah tercantum sebesar ${company.financing.umrahDp}. Menurut profil layanan, DP tidak dapat dikembalikan namun dapat diwariskan. Minta ketentuan tertulis sebelum membayar.`,
   },
   {
     id: "visa-kesehatan",
@@ -44,14 +50,25 @@ const faqs = [
     answer: "Ketentuannya dapat berbeda menurut tiket, visa, hotel, dan kebijakan maskapai. Minta seluruh biaya, tenggat pembayaran, serta aturan reschedule atau refund tertulis sebelum membayar.",
   },
   {
+    id: "pembayaran",
+    question: "Ke rekening mana pembayaran dilakukan?",
+    answer: `Profil layanan mencantumkan rekening atas nama Risalah Madina: BSI ${company.bankAccounts[0].account}, BJB ${company.bankAccounts[1].account}, dan Bank Muamalat ${company.bankAccounts[2].account}. Konfirmasi kembali nama penerima sebelum transfer.`,
+  },
+  {
+    id: "haji-khusus",
+    question: "Bagaimana skema Haji Khusus?",
+    answer: `DP Haji tercantum ${company.financing.hajjDp}. Program tabungan menggunakan tenor 72 bulan dan estimasi masa tunggu 6 tahun; nilai USD mengikuti kurs saat transaksi.`,
+  },
+  {
     id: "cara-daftar-lanjutan",
     question: "Apa langkah setelah menemukan paket yang cocok?",
     answer: "Simpan detail paket, periksa komponen biaya dan dokumen, lalu hubungi kanal resmi yang tercantum di website untuk konfirmasi kuota dan proses pendaftaran.",
   },
 ];
 
-export default function FaqSection() {
+export default function FaqSection({ company }: { company: CompanyProfile }) {
   const [openId, setOpenId] = useState<string | null>("cara-daftar");
+  const faqs = getFaqs(company);
 
   const toggleFaq = (id: string) => {
     setOpenId(openId === id ? null : id);
