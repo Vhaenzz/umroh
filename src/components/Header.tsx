@@ -9,7 +9,7 @@ import { getGeneralWhatsAppUrl } from "@/lib/contact";
 /**
  * HEADER GLOBAL COMPONENT
  * Sticky header with responsive navigation, mobile drawer with thumb-reach optimization,
- * and smooth animated hamburger icon.
+ * precise active link matching, and smooth animated hamburger icon.
  */
 export default function Header({ company }: { company: CompanyProfile }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -44,6 +44,12 @@ export default function Header({ company }: { company: CompanyProfile }) {
     }
   }, [isMobileMenuOpen]);
 
+  // Helper for active matching
+  const checkIsActive = (href: string) => {
+    if (href === "/") return pathname === "/";
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
       <header
@@ -60,7 +66,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
             className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-gold-accent rounded-button"
             aria-label={`${company.brandName} Beranda`}
           >
-            {/* Monogram keeps the header identifiable while the official logo is unavailable. */}
+            {/* Monogram */}
             <div className="w-10 h-10 rounded-button bg-teal-primary text-gold-accent font-serif font-bold text-xl flex items-center justify-center shadow-sm group-hover:bg-teal-900 transition-colors">
               RM
             </div>
@@ -77,14 +83,14 @@ export default function Header({ company }: { company: CompanyProfile }) {
           {/* Desktop Navigation (>=1024px) */}
           <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navLinks.map((link) => {
-              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              const isActive = checkIsActive(link.href);
               return (
                 <Link
                   key={link.name}
                   href={link.href}
                   className={`px-3 py-2 rounded-button text-xs font-semibold font-sans transition-all duration-200 ${
                     isActive
-                      ? "text-teal-primary bg-warm-muted"
+                      ? "text-teal-primary bg-warm-muted font-bold"
                       : "text-slate-body hover:text-teal-primary hover:bg-warm-muted/60"
                   }`}
                 >
@@ -104,7 +110,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
             >
               <span>Konsultasi</span>
               <svg
-                className="w-3.5 h-3.5 text-gold-accent transform group-hover:translate-x-0.5 transition-transform"
+                className="w-3.5 h-3.5 text-slate-dark transform group-hover:translate-x-0.5 transition-transform"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -129,7 +135,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
               <span>Lihat Paket</span>
             </Link>
 
-            {/* Hamburger Icon with Animated Morphing (Smooth Lines Transition) */}
+            {/* Hamburger Icon with Animated Morphing */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               type="button"
@@ -159,7 +165,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
         </div>
       </header>
 
-      {/* MOBILE DRAWER OVERLAY & PANEL (With Thumb-Reach Optimization & Smooth Scale/Fade Animation) */}
+      {/* MOBILE DRAWER OVERLAY & PANEL */}
       <div
         className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
           isMobileMenuOpen
@@ -175,7 +181,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
           onClick={() => setIsMobileMenuOpen(false)}
         />
 
-        {/* Drawer Content Panel (Optimized for thumb reach: items in easy reach) */}
+        {/* Drawer Content Panel */}
         <div
           className={`absolute top-0 right-0 w-full max-w-sm h-full bg-warm-bg shadow-elevated border-l border-warm-border flex flex-col justify-between transition-transform duration-300 ease-out ${
             isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
@@ -214,13 +220,13 @@ export default function Header({ company }: { company: CompanyProfile }) {
             </button>
           </div>
 
-          {/* Navigation Items (Middle Section - Easily reachable by thumb) */}
+          {/* Navigation Items */}
           <div className="px-5 py-6 overflow-y-auto space-y-1.5 flex-1 flex flex-col justify-center">
             <div className="text-[11px] font-bold uppercase tracking-widest text-slate-caption mb-2 px-3">
               Navigasi Utama
             </div>
             {navLinks.map((link) => {
-              const isActive = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);
+              const isActive = checkIsActive(link.href);
               return (
                 <Link
                   key={link.name}
@@ -228,7 +234,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`flex items-center justify-between px-4 py-3 rounded-button text-sm font-semibold font-sans transition-all duration-200 ${
                     isActive
-                      ? "bg-teal-primary text-white shadow-sm"
+                      ? "bg-teal-primary text-white shadow-sm font-bold"
                       : "text-slate-body hover:bg-warm-muted hover:text-teal-primary"
                   }`}
                 >
@@ -253,7 +259,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
             })}
           </div>
 
-          {/* Bottom CTA Block (Thumb Reach Priority) */}
+          {/* Bottom CTA Block */}
           <div className="p-5 border-t border-warm-border bg-warm-surface space-y-3">
             <Link
               href={getGeneralWhatsAppUrl(company.phone)}
@@ -277,7 +283,9 @@ export default function Header({ company }: { company: CompanyProfile }) {
               </svg>
             </Link>
 
-            <div className="text-center text-[11px] text-slate-caption">Tim kami siap membantu memilih jadwal yang sesuai.</div>
+            <div className="text-center text-[11px] text-slate-caption">
+              Tim kami siap membantu memilih jadwal yang sesuai.
+            </div>
           </div>
         </div>
       </div>

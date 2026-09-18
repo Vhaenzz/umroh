@@ -6,7 +6,10 @@ import { getSiteData } from "@/lib/cms/store";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  return { title: `Katalog Paket Haji Plus & Khusus — ${company.brandName}`, description: "Bandingkan jadwal, akomodasi, itinerary, fasilitas, dan pilihan paket Haji yang tersedia." };
+  return {
+    title: `Katalog Paket Haji Plus & Khusus — ${company.brandName}`,
+    description: "Bandingkan jadwal, akomodasi, itinerary, fasilitas, dan pilihan paket Haji yang tersedia.",
+  };
 }
 
 export default async function HajiCatalogPage() {
@@ -19,9 +22,10 @@ export default async function HajiCatalogPage() {
       <PackageCatalogView
         initialPackages={hajiPackages}
         badgeLabel="Informasi Haji Khusus"
-        title="Program Haji Khusus yang tersedia"
-        subtitle="Bandingkan jadwal, akomodasi, itinerary, dan komponen biaya. Bila belum ada keberangkatan yang tampil, konsultasikan rencana dan kuota melalui kanal resmi."
+        title="Program Haji Khusus & Kuota Resmi"
+        subtitle="Bandingkan jadwal, akomodasi, itinerary, dan komponen biaya haji khusus. Konsultasikan antrean nomor porsi dan kuota melalui kanal resmi."
         defaultPackageType="khusus"
+        catalogScope="haji"
       />
     </main>
   );

@@ -5,7 +5,10 @@ import { getSiteData } from "@/lib/cms/store";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  return { title: `Katalog Paket Umroh — ${company.brandName}`, description: "Bandingkan jadwal, maskapai, hotel, itinerary, fasilitas, dan pilihan kamar paket Umroh." };
+  return {
+    title: `Katalog Paket Umroh — ${company.brandName}`,
+    description: "Bandingkan jadwal, maskapai, hotel, itinerary, fasilitas, dan pilihan kamar paket Umroh.",
+  };
 }
 
 export default async function UmrohCatalogPage() {
@@ -20,6 +23,7 @@ export default async function UmrohCatalogPage() {
         title="Katalog Paket Umroh 1448H / 2026M"
         subtitle="Bandingkan tanggal, kota embarkasi, durasi, hotel, fasilitas, dan harga sebelum menghubungi admin. Detail kuota dan komponen biaya perlu dikonfirmasi sebelum mendaftar."
         defaultPackageType="all"
+        catalogScope="umroh"
       />
     </main>
   );

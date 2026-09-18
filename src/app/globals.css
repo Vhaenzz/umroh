@@ -9,6 +9,13 @@
   --line: #e5e7eb;
 }
 
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -18,11 +25,7 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
-}
-
-html {
-  max-width: 100%;
-  overflow-x: clip;
+  position: relative;
 }
 
 ::selection {
@@ -31,8 +34,8 @@ html {
 }
 
 :focus-visible {
-  outline: 3px solid var(--gold);
-  outline-offset: 3px;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -46,23 +49,29 @@ html {
   }
 }
 
-/* Subtle background grain to add organic depth */
-.subtle-grain { display: none; }
+/* Hide scrollbars cleanly */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
 
-/* Alsha-style horizontal rails: compact mobile browsing without a long stack. */
+/* Horizontal rails for featured sections on mobile */
 .mobile-rail {
   display: flex;
   gap: 0.75rem;
   overflow-x: auto;
-  margin-inline: -1rem;
-  padding-inline: 1rem 1.5rem;
   padding-bottom: 0.5rem;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
 
-.mobile-rail::-webkit-scrollbar { display: none; }
+.mobile-rail::-webkit-scrollbar {
+  display: none;
+}
 
 .mobile-rail > * {
   flex: 0 0 min(82vw, 22rem);
@@ -72,19 +81,19 @@ html {
 @media (min-width: 640px) {
   .mobile-rail {
     display: grid;
-    margin-inline: 0;
-    padding-inline: 0;
     padding-bottom: 0;
     overflow: visible;
   }
 
-  .mobile-rail > * { flex: initial; }
+  .mobile-rail > * {
+    flex: initial;
+  }
 }
 
-/* Custom Scrollbar for elegant feel */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -97,5 +106,5 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C59B4E;
+  background: #91AD3E;
 }

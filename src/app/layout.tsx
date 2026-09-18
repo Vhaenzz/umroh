@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieNotice from "@/components/CookieNotice";
+import AnalyticsScript from "@/components/AnalyticsScript";
 import { getSiteData } from "@/lib/cms/store";
 import "./globals.css";
 
@@ -14,11 +16,80 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#0B3B2E",
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://risalahmadina.com";
+
   return {
-    title: `${company.brandName} — Paket Umroh & Haji`,
-    description: "Bandingkan paket Umroh dan Haji berdasarkan jadwal, hotel, itinerary, fasilitas, dan pilihan kamar.",
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: `${company.brandName} — Paket Umroh & Haji Khusus Resmi Kemenag`,
+      template: `%s | ${company.brandName}`,
+    },
+    description:
+      "Biro perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI. Transparansi biaya, kepastian jadwal, akomodasi hotel dekat masjid, dan bimbingan ibadah terpercaya.",
+    keywords: [
+      "Umroh 2026",
+      "Paket Umroh Murah",
+      "Haji Khusus",
+      "Biro Umroh Resmi Kemenag",
+      "Umroh Plus Turki",
+      "Umroh Plus Thaif",
+      company.brandName,
+      company.legalName,
+    ],
+    authors: [{ name: company.brandName }],
+    creator: company.brandName,
+    publisher: company.legalName,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    openGraph: {
+      type: "website",
+      locale: "id_ID",
+      url: siteUrl,
+      title: `${company.brandName} — Paket Umroh & Haji Khusus Resmi`,
+      description:
+        "Bandingkan jadwal, maskapai, hotel, dan biaya paket Umroh & Haji Khusus secara transparan bersama bimbingan muthowwif berpengalaman.",
+      siteName: company.brandName,
+      images: [
+        {
+          url: company.media?.heroUrl || "/images/kaaba-courtyard.png",
+          width: 1200,
+          height: 630,
+          alt: `Suasana Ibadah ${company.brandName}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${company.brandName} — Paket Umroh & Haji Khusus`,
+      description:
+        "Penyelenggara perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI.",
+      images: [company.media?.heroUrl || "/images/kaaba-courtyard.png"],
+    },
+    alternates: {
+      canonical: "/",
+    },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon.ico",
+      apple: "/favicon.ico",
+    },
   };
 }
 
@@ -39,16 +110,22 @@ export default async function RootLayout({
         suppressHydrationWarning
         className="min-h-full bg-warm-bg text-slate-dark flex flex-col selection:bg-gold-accent/20 selection:text-teal-primary"
       >
+        {/* Global Analytics Script (GA4/GTM) */}
+        <AnalyticsScript />
+
         {/* Global Header */}
         <Header company={company} />
 
         {/* Main Content Area */}
-        <div className="flex-1 pb-16">
+        <div className="flex-1">
           {children}
         </div>
 
         {/* Global Footer */}
         <Footer company={company} />
+
+        {/* Unobtrusive Cookie Consent Notice */}
+        <CookieNotice />
       </body>
     </html>
   );

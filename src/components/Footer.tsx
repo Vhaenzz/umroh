@@ -1,152 +1,143 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import type { CompanyProfile } from "@/data/company";
+import { getGeneralWhatsAppUrl } from "@/lib/contact";
 
 /**
- * GLOBAL FOOTER COMPONENT
- * Responsive layout: 4 balanced columns on desktop (>=1024px), 2 columns on tablet (768px-1023px), 1 column on mobile (<768px).
- * Keeps navigation useful without publishing unverified legal, contact, or social claims.
+ * HUMAN MINIMALIST FOOTER
+ * Desain bersih, elegan, manusiawi, dan tanpa clutter generic AI.
+ * Menyajikan informasi esensial: legalitas PPIU Kemenag RI, rekening resmi,
+ * kanal komunikasi langsung, dan navigasi terstruktur.
  */
 export default function Footer({ company }: { company: CompanyProfile }) {
   const currentYear = new Date().getFullYear();
+  const waUrl = getGeneralWhatsAppUrl(company.phone);
 
   return (
-    <footer className="bg-slate-dark text-white border-t border-warm-border/20 pt-14 pb-12 relative z-20 overflow-hidden">
-      {/* Subtle overlay texture */}
-      <div className="absolute inset-0 subtle-grain opacity-[0.03] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
-        {/* Main Grid: 4 Columns (Desktop) / 2 Columns (Tablet) / 1 Column (Mobile) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+    <footer className="bg-[#0e1715] text-[#d6dedb] border-t border-[#1d2b27] pt-12 pb-10 relative overflow-hidden font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        
+        {/* ── Top Row: Brand & Official Trust Badges ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10 border-b border-[#1d2b27] items-start">
           
-          {/* COLUMN 1: Brand & Overview */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-button bg-teal-primary text-gold-accent font-serif font-bold text-xl flex items-center justify-center border border-gold-accent/30 shadow-sm">
+          {/* Brand & Mission (5 Cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <Link href="/" className="inline-flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-button bg-teal-primary text-gold-accent font-serif font-bold text-lg flex items-center justify-center border border-gold-accent/30 shadow-xs group-hover:bg-teal-900 transition-colors">
                 RM
               </div>
               <div>
-                <h3 className="font-serif text-lg font-bold text-white leading-tight">
+                <span className="font-serif text-xl font-bold text-white leading-none block">
                   {company.brandName}
-                </h3>
-                <p className="text-[10px] font-sans text-gold-accent uppercase tracking-wider font-semibold">
-                  Umroh &amp; Haji
-                </p>
+                </span>
+                <span className="text-[10px] text-gold-accent uppercase tracking-widest font-semibold mt-0.5 block">
+                  Penyelenggara Perjalanan Ibadah Umroh &amp; Haji
+                </span>
               </div>
-            </div>
+            </Link>
 
-            <p className="text-xs text-slate-caption leading-relaxed font-sans">
-              Informasi paket Umroh dan Haji yang disusun agar jadwal, fasilitas, itinerary, dan pilihan kamar dapat dibandingkan dengan jelas.
+            <p className="text-xs text-[#9bb0a8] leading-relaxed max-w-md">
+              Membimbing ibadah ke Tanah Suci dengan kepastian jadwal, akomodasi hotel yang terverifikasi, transparansi rincian biaya, dan pendampingan muthowwif berkompeten.
             </p>
 
-            <div className="space-y-2 pt-1 text-xs text-slate-caption font-sans">
-              <div className="flex items-start gap-2">
-                <svg className="w-4 h-4 text-gold-accent shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>{company.address}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-                <a href={`tel:${company.phone.replace(/[^\d+]/g, "")}`} className="hover:text-white transition-colors">{company.phone}</a>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-4 shrink-0 text-center text-gold-accent" aria-hidden="true">@</span>
-                <a href={`mailto:${company.email}`} className="hover:text-white transition-colors">{company.email}</a>
-              </div>
+            {/* Official Certification Chip */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-button bg-[#152320] border border-[#233833] text-xs text-[#c0d4cc]">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+              <span>Izin Resmi PPIU Kemenag RI: <strong className="text-white font-mono">{company.legal.ppiu}</strong></span>
             </div>
           </div>
 
-          {/* COLUMN 2: Navigasi Utama */}
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-gold-accent font-sans">
-              Navigasi Situs
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-caption font-sans">
-              <li>
-                <Link href="/#umroh" className="hover:text-white transition-colors">
-                  Paket Umroh Reguler & Plus
-                </Link>
-              </li>
-              <li>
-                <Link href="/haji" className="hover:text-white transition-colors">
-                  Paket Haji Khusus & Furoda
-                </Link>
-              </li>
-              <li><Link href="/tentang" className="hover:text-white transition-colors">Tentang Kami</Link></li>
-              <li>
-                <Link href="/dokumentasi" className="hover:text-white transition-colors">
-                  Dokumentasi Perjalanan
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-white transition-colors">
-                  FAQ & Syarat Pendaftaran
-                </Link>
-              </li>
-            </ul>
+          {/* Navigation Links (4 Cols) */}
+          <div className="lg:col-span-4 grid grid-cols-2 gap-6 text-xs">
+            <div className="space-y-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white">
+                Katalog Program
+              </span>
+              <ul className="space-y-2 text-[#9bb0a8]">
+                <li><Link href="/umroh" className="hover:text-white transition-colors">Paket Umroh Reguler</Link></li>
+                <li><Link href="/umroh" className="hover:text-white transition-colors">Umroh Plus (Thaif / Turki)</Link></li>
+                <li><Link href="/haji" className="hover:text-white transition-colors">Haji Khusus &amp; Furoda</Link></li>
+                <li><Link href="/pembiayaan" className="hover:text-white transition-colors">Skema Tabungan Ibadah</Link></li>
+              </ul>
+            </div>
+
+            <div className="space-y-3">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-white">
+                Informasi
+              </span>
+              <ul className="space-y-2 text-[#9bb0a8]">
+                <li><Link href="/tentang" className="hover:text-white transition-colors">Tentang Kami</Link></li>
+                <li><Link href="/legalitas" className="hover:text-white transition-colors">Legalitas &amp; Izin Usaha</Link></li>
+                <li><Link href="/dokumentasi" className="hover:text-white transition-colors">Galeri Perjalanan</Link></li>
+                <li><Link href="/faq" className="hover:text-white transition-colors">FAQ &amp; Syarat Paspor</Link></li>
+              </ul>
+            </div>
           </div>
 
-          {/* COLUMN 3: Informasi Layanan */}
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-gold-accent font-sans">
-              Informasi Layanan
-            </h4>
-            <ul className="space-y-2 text-xs text-slate-caption font-sans">
-              <li><Link href="/pembiayaan" className="hover:text-white transition-colors">Pembiayaan dan tabungan Umroh</Link></li>
-              <li><Link href="/legalitas" className="hover:text-white transition-colors">Legalitas &amp; rekening resmi</Link></li>
-              <li><Link href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Lokasi kantor</Link></li>
-              <li><a href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0/, "62")}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Konsultasi WhatsApp</a></li>
-            </ul>
-          </div>
+          {/* Direct Human Contacts (3 Cols) */}
+          <div className="lg:col-span-3 space-y-3 text-xs">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-white block">
+              Kantor &amp; Kontak Resmi
+            </span>
+            
+            <p className="text-[#9bb0a8] leading-relaxed">
+              {company.address}
+            </p>
 
-          {/* COLUMN 4: Pembayaran */}
-          <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-gold-accent font-sans">
-              Sebelum Pembayaran
-            </h4>
+            <div className="pt-1 space-y-1.5">
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-gold-accent hover:text-white transition-colors font-semibold"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                </svg>
+                <span>WhatsApp: {company.phone}</span>
+              </a>
 
-            <div className="p-3.5 rounded-card bg-white/5 border border-white/10 space-y-3 font-sans text-xs">
-              <div>
-                <span className="text-[10px] text-slate-caption block">SK PPIU Kemenag RI</span>
-                <span className="font-semibold text-white text-[11px]">{company.legal.ppiu}</span>
-              </div>
-
-              <div className="pt-2 border-t border-white/10">
-                <span className="text-[10px] text-slate-caption block">Badan usaha</span>
-                <span className="font-semibold text-white text-[11px]">{company.legalName}</span>
-              </div>
-
-              <div className="pt-2 border-t border-white/10">
-                <span className="text-[10px] text-slate-caption block">Rekening pembayaran atas nama Risalah Madina</span>
-                <ul className="mt-1 space-y-1 text-[10px] text-white">
-                  {company.bankAccounts.map((account) => (
-                    <li key={account.bank} className="flex justify-between gap-2">
-                      <span>{account.bank}</span>
-                      <span className="font-mono text-gold-accent">{account.account}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <p className="text-[#9bb0a8]">
+                Email: <a href={`mailto:${company.email}`} className="hover:text-white transition-colors">{company.email}</a>
+              </p>
             </div>
           </div>
 
         </div>
 
-        {/* Social Media & Bottom Divider */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-sans text-slate-caption">
-          {/* Copyright notice */}
+        {/* ── Official Bank Account Notice (Anti-Fraud Security Strip) ── */}
+        <div className="bg-[#121c19] border border-[#1d2b27] rounded-card p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
           <div>
-            © {currentYear} {company.brandName}. Seluruh hak cipta dilindungi undang-undang.
-            <span className="block sm:inline sm:ml-2 text-gold-accent/80 text-[11px]">
-            Perjalanan ibadah dengan informasi yang jelas.
+            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400 block mb-0.5">
+              Himbauan Keamanan Pembayaran
             </span>
+            <p className="text-[#9bb0a8] max-w-2xl text-[11px] sm:text-xs">
+              Seluruh pembayaran pendaftaran dan pelunasan hanya ditransfer ke rekening resmi an. <strong className="text-white">{company.legalName}</strong>. Kami tidak pernah menggunakan rekening pribadi.
+            </p>
           </div>
 
-          <a href={`https://www.instagram.com/${company.instagramHandle.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="text-center md:text-right hover:text-white transition-colors">Instagram {company.instagramHandle}</a>
+          <div className="flex flex-wrap gap-2 shrink-0">
+            {company.bankAccounts.map((bank) => (
+              <span key={bank.bank} className="px-2.5 py-1 rounded-badge bg-[#182723] border border-[#273d37] text-[11px] text-white">
+                <span className="text-gold-accent font-semibold">{bank.bank}:</span> <span className="font-mono">{bank.account}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Bottom Bar: Copyright & Attribution ── */}
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-[#72857e]">
+          <p>© {currentYear} {company.brandName} ({company.legalName}). Seluruh hak cipta dilindungi.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/legalitas" className="hover:text-white transition-colors">Legalitas</Link>
+            <span>•</span>
+            <Link href="/faq" className="hover:text-white transition-colors">Ketentuan &amp; Syarat</Link>
+            <span>•</span>
+            <a href={`https://instagram.com/${company.instagramHandle.replace("@", "")}`} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+              Instagram {company.instagramHandle}
+            </a>
+          </div>
         </div>
 
       </div>
