@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CookieNotice from "@/components/CookieNotice";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import AnalyticsScript from "@/components/AnalyticsScript";
 import { getSiteData } from "@/lib/cms/store";
 import "./globals.css";
@@ -124,7 +125,10 @@ export default async function RootLayout({
         {/* Global Footer */}
         <Footer company={company} />
 
-        {/* Unobtrusive Cookie Consent Notice */}
+        {/* Floating WhatsApp Action Button */}
+        <FloatingWhatsApp company={company} />
+
+        {/* Unobtrusive Cookie Consent Toast */}
         <CookieNotice />
       </body>
     </html>
