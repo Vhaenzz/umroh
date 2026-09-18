@@ -31,21 +31,68 @@ export const companyProfile = {
     "Badal Haji dan Umroh",
   ],
   destinations: ["Mekah", "Madinah", "Mesir", "Dubai", "Turki", "China", "Aqsha", "Uzbekistan"],
+  destinationsList: [
+    {
+      id: "turki",
+      title: "Turki",
+      sub: "Umroh Plus Turki",
+      desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan perjalanan wisata ke Turki, menjelajahi keindahan sejarah Islam, budaya, dan destinasi ikonik yang memukau.",
+      img: "/images/destinations/turki.jpg",
+    },
+    {
+      id: "dubai",
+      title: "Dubai",
+      sub: "Umroh Plus Dubai",
+      desc: "Rasakan ibadah umroh yang nyaman sekaligus pengalaman wisata modern di Dubai dengan destinasi kelas dunia, fasilitas mewah, dan suasana kota yang spektakuler.",
+      img: "/images/destinations/dubai.jpg",
+    },
+    {
+      id: "mesir",
+      title: "Mesir",
+      sub: "Umroh Plus Mesir",
+      desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Mesir, mengunjungi jejak sejarah Islam dan peradaban dunia yang penuh makna dan inspirasi.",
+      img: "/images/destinations/mesir.jpg",
+    },
+    {
+      id: "al-ula",
+      title: "Al Ula",
+      sub: "City Tour Al Ula",
+      desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Al Ula, menikmati keindahan alam eksotis, situs bersejarah, dan suasana menenangkan penuh keagungan.",
+      img: "/images/destinations/al-ula.jpg",
+    },
+    {
+      id: "thaif",
+      title: "Thaif",
+      sub: "City Tour Thaif",
+      desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan kunjungan ke Thaif, kota sejuk dengan pemandangan pegunungan, kebun mawar, dan udara menyegarkan.",
+      img: "/images/destinations/thaif.jpg",
+    },
+    {
+      id: "mekkah",
+      title: "Mekkah",
+      sub: "Umroh Reguler Khusyuk",
+      desc: "Raih kemabruran ibadah Umroh langsung di hadapan Ka'bah dan Masjidil Haram dengan hotel dekat serta bimbingan muthowwif berpengalaman.",
+      img: "/images/destinations/mekkah.jpg",
+    },
+  ],
   leaders: [
     {
       name: "dr. Hj. Astry Avianty, SpM",
       role: "Direktur Utama PT Risalah Madina",
       description: "Dokter Spesialis Mata di 3 Rumah Sakit, dosen Fakultas Kedokteran Universitas Gunung Jati Cirebon, dan dokter pendamping jamaah Umroh dan Haji Plus.",
+      imageUrl: "",
     },
     {
       name: "dr. H. Pahmi Budiman S.B, Sp-THT",
       role: "Komisaris Utama PT Risalah Madina",
       description: "Dokter Spesialis THT di 3 Rumah Sakit, dosen Fakultas Kedokteran Universitas Gunung Jati Cirebon, dan dokter pendamping jamaah Umroh dan Haji Plus.",
+      imageUrl: "",
     },
     {
       name: "Hj. Tengku Marina",
       role: "Direktur Marketing PT Risalah Madina",
       description: "Entrepreneur dan fashion maker, expert marketer dengan 20 tahun pengalaman, berpengalaman di dunia travel Umroh lebih dari 14 tahun, dan telah memberangkatkan lebih dari 5.000 jamaah.",
+      imageUrl: "",
     },
   ],
   financing: {
@@ -77,9 +124,17 @@ export const companyProfile = {
   ],
   equipment: ["Koper bagasi", "Koper kabin", "Kain ihram / mukena", "Tas punggung", "Slayer", "Buku doa", "Sabuk / ikat pinggang"],
   media: {
-    heroUrl: "",
-    aboutUrl: "",
-    documentationUrls: ["", "", ""],
+    heroUrl: "/images/minaret-hero.jpg",
+    heroVideoUrl: "https://ventour-wp.s3.ap-southeast-3.amazonaws.com/wp-content/uploads/2026/04/30054426/REVISI-VIDEO-WEBSITE-IT_2.mp4",
+    aboutUrl: "/images/travel-team.jpg",
+    documentationUrls: [
+      "/images/destinations/turki.jpg",
+      "/images/destinations/dubai.jpg",
+      "/images/destinations/al-ula.jpg",
+      "/images/destinations/thaif.jpg",
+      "/images/destinations/mesir.jpg",
+      "/images/destinations/mekkah.jpg",
+    ],
   },
 } as const;
 
@@ -95,5 +150,16 @@ type Mutable<T> = T extends readonly (infer U)[]
           ? { -readonly [K in keyof T]: Mutable<T[K]> }
           : T;
 
+export interface DestinationItem {
+  id: string;
+  title: string;
+  sub: string;
+  desc: string;
+  img: string;
+}
+
 export type CompanyLeader = Mutable<(typeof companyProfile.leaders)[number]> & { imageUrl?: string };
-export type CompanyProfile = Omit<Mutable<typeof companyProfile>, "leaders"> & { leaders: CompanyLeader[] };
+export type CompanyProfile = Omit<Mutable<typeof companyProfile>, "leaders" | "destinationsList"> & {
+  leaders: CompanyLeader[];
+  destinationsList: DestinationItem[];
+};

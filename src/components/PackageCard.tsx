@@ -60,11 +60,15 @@ export default function PackageCard({
       ? "Kuota Penuh"
       : status.label;
 
-  const packageImage = pkg.gallery?.[0]?.imageUrl || (pkg.isHaji
-    ? "/images/madina-pilgrims.webp"
+  const packageImage = pkg.imageUrl || pkg.gallery?.[0]?.imageUrl || (pkg.isHaji
+    ? "/images/destinations/mekkah.jpg"
     : pkg.slug.includes("dubai")
-      ? "/images/travel-team.jpg"
-      : "/images/kaaba-courtyard.png");
+      ? "/images/destinations/dubai.jpg"
+      : pkg.slug.includes("turki")
+        ? "/images/destinations/turki.jpg"
+        : pkg.slug.includes("mesir")
+          ? "/images/destinations/mesir.jpg"
+          : "/images/destinations/mekkah.jpg");
 
   // Get lowest price numeric formatted
   const lowestRoomPrice = pkg.roomPricing?.length

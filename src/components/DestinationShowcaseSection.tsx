@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import type { CompanyProfile } from "@/data/company";
+import { companyProfile, type CompanyProfile } from "@/data/company";
 
 interface DestinationItem {
   id: string;
@@ -12,65 +12,33 @@ interface DestinationItem {
   img: string;
 }
 
-const destinations: DestinationItem[] = [
-  {
-    id: "turki",
-    title: "Turki",
-    sub: "Umroh Plus Turki",
-    desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan perjalanan wisata ke Turki, menjelajahi keindahan sejarah Islam, budaya, dan destinasi ikonik yang memukau.",
-    img: "/images/destinations/turki.jpg",
-  },
-  {
-    id: "dubai",
-    title: "Dubai",
-    sub: "Umroh Plus Dubai",
-    desc: "Rasakan ibadah umroh yang nyaman sekaligus pengalaman wisata modern di Dubai dengan destinasi kelas dunia, fasilitas mewah, dan suasana kota yang spektakuler.",
-    img: "/images/destinations/dubai.jpg",
-  },
-  {
-    id: "mesir",
-    title: "Mesir",
-    sub: "Umroh Plus Mesir",
-    desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Mesir, mengunjungi jejak sejarah Islam dan peradaban dunia yang penuh makna dan inspirasi.",
-    img: "/images/destinations/mesir.jpg",
-  },
-  {
-    id: "al-ula",
-    title: "Al Ula",
-    sub: "City Tour Al Ula",
-    desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Al Ula, menikmati keindahan alam eksotis, situs bersejarah, dan suasana menenangkan penuh keagungan.",
-    img: "/images/destinations/al-ula.jpg",
-  },
-  {
-    id: "thaif",
-    title: "Thaif",
-    sub: "City Tour Thaif",
-    desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan kunjungan ke Thaif, kota sejuk dengan pemandangan pegunungan, kebun mawar, dan udara menyegarkan.",
-    img: "/images/destinations/thaif.jpg",
-  },
-  {
-    id: "mekkah",
-    title: "Mekkah",
-    sub: "Umroh Reguler Khusyuk",
-    desc: "Raih kemabruran ibadah Umroh langsung di hadapan Ka'bah dan Masjidil Haram dengan hotel dekat serta bimbingan muthowwif berpengalaman.",
-    img: "/images/destinations/mekkah.jpg",
-  },
-];
+const defaultDestinations: DestinationItem[] = (companyProfile.destinationsList as unknown as DestinationItem[]) || [];
 
-export default function DestinationShowcaseSection({ company: _company }: { company: CompanyProfile }) {
+export default function DestinationShowcaseSection({ company }: { company: CompanyProfile }) {
+  const destinations: DestinationItem[] = company.destinationsList && company.destinationsList.length > 0
+    ? company.destinationsList
+    : defaultDestinations;
+
   const [current, setCurrent] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
   // Automatic auto-scroll interval every 4.5 seconds
   useEffect(() => {
+    if (!destinations.length) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % destinations.length);
     }, 4500);
 
     return () => clearInterval(timer);
-  }, [current]);
+  }, [destinations.length]);
 
-  const activeDest = destinations[current];
+  const activeDest = destinations[current] || destinations[0] || {
+    id: "turki",
+    title: "Turki",
+    sub: "Umroh Plus Turki",
+    desc: "Perjalanan ibadah dan wisata halal bersejarah.",
+    img: "/images/destinations/turki.jpg",
+  };
 
   // Mobile swipe support
   const handleTouchStart = (e: React.TouchEvent) => {

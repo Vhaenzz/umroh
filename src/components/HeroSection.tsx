@@ -71,32 +71,34 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
     },
   ];
 
+  const heroImage = company.media?.heroUrl || "/images/minaret-hero.jpg";
+  const heroVideo = company.media?.heroVideoUrl || "https://ventour-wp.s3.ap-southeast-3.amazonaws.com/wp-content/uploads/2026/04/30054426/REVISI-VIDEO-WEBSITE-IT_2.mp4";
+
   return (
     <section className="relative min-h-[580px] sm:min-h-[640px] lg:min-h-[760px] w-full flex flex-col justify-between overflow-hidden bg-slate-dark text-white select-none">
       {/* ── Atmospheric Background (Video + High-Res Minaret Fallback) ── */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/minaret-hero.jpg"
-          alt="Suasana Menara Masjid Suci"
+          src={heroImage}
+          alt={`Suasana Ibadah ${company.brandName}`}
           fill
           priority
           sizes="100vw"
           className="object-cover object-center"
         />
 
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover hidden sm:block opacity-60 mix-blend-screen"
-          poster="/images/minaret-hero.jpg"
-        >
-          <source
-            src="https://ventour-wp.s3.ap-southeast-3.amazonaws.com/wp-content/uploads/2026/04/30054426/REVISI-VIDEO-WEBSITE-IT_2.mp4"
-            type="video/mp4"
-          />
-        </video>
+        {heroVideo && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover hidden sm:block opacity-60 mix-blend-screen"
+            poster={heroImage}
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+        )}
 
         {/* Soft Vignette and Gradients for Proportional Contrast */}
         <div className="absolute inset-0 bg-linear-to-b from-black/50 via-black/20 to-black/80" />

@@ -53,6 +53,7 @@ export interface Package {
   hotelMadinahDetail?: string;
   isUmroh: boolean;
   isHaji: boolean;
+  imageUrl?: string;
   
   // Detail Page Specifications (Fase 4)
   roomPricing?: RoomPrice[];

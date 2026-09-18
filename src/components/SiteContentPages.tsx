@@ -30,9 +30,53 @@ export function LegalityPageContent({ company }: { company: CompanyProfile }) {
 }
 
 export function DocumentationPageContent({ company }: { company: CompanyProfile }) {
-  const documentationUrls = company.media?.documentationUrls || [];
-  const items = [{ src: documentationUrls[0] || "/images/kaaba-courtyard.png", alt: "Masjidil Haram", title: "Masjidil Haram", caption: "Dokumentasi perjalanan ibadah" }, { src: documentationUrls[1] || "/images/madina-pilgrims.webp", alt: "Jemaah di Madinah", title: "Madinah", caption: "Pendampingan jemaah di kota Nabi" }, { src: documentationUrls[2] || "/images/travel-team.jpg", alt: "Tim travel", title: "Tim pendamping", caption: "Persiapan dan pendampingan perjalanan" }];
-  return <main id="dokumentasi" className="bg-warm-bg"><div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8"><h1 className="font-serif text-4xl font-bold text-teal-primary sm:text-5xl">Dokumentasi perjalanan</h1><p className="mt-5 max-w-2xl text-base leading-7 text-slate-body">Lihat suasana tempat dan tim yang menjadi bagian dari perjalanan bersama Risalah Madina Tour.</p><div className="mt-10 grid gap-5 md:grid-cols-3">{items.map((item) => <figure key={item.title} className="overflow-hidden rounded-card border border-warm-border bg-warm-surface shadow-card"><div className="relative aspect-[4/3]"><Image src={item.src} alt={item.alt} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover" /></div><figcaption className="p-5"><h2 className="font-serif text-xl font-bold text-teal-primary">{item.title}</h2><p className="mt-1 text-sm text-slate-muted">{item.caption}</p></figcaption></figure>)}</div><p className="mt-8 text-xs italic text-slate-muted">Dokumentasi akan diperbarui sesuai izin publikasi dan keberangkatan yang tersedia.</p></div></main>;
+  const documentationUrls = (company.media?.documentationUrls || []).filter(Boolean);
+  const items = documentationUrls.length > 0
+    ? documentationUrls.map((url, i) => ({
+        src: url,
+        alt: `Dokumentasi Ibadah & Perjalanan #${i + 1}`,
+        title: `Dokumentasi Perjalanan #${i + 1}`,
+        caption: "Dokumentasi perjalanan ibadah jemaah Risalah Madina Tour",
+      }))
+    : [
+        { src: "/images/destinations/mekkah.jpg", alt: "Masjidil Haram", title: "Masjidil Haram", caption: "Dokumentasi perjalanan ibadah" },
+        { src: "/images/destinations/turki.jpg", alt: "Wisata Halal Turki", title: "Wisata Halal", caption: "Perjalanan sejarah Islam" },
+        { src: "/images/destinations/dubai.jpg", alt: "Wisata Halal Dubai", title: "City Tour Modern", caption: "Fasilitas dan pendampingan terbaik" },
+        { src: "/images/destinations/al-ula.jpg", alt: "Al Ula", title: "Situs Sejarah Al Ula", caption: "Keindahan alam dan sejarah" },
+        { src: "/images/destinations/thaif.jpg", alt: "Thaif", title: "City Tour Thaif", caption: "Kesejukan kota pegunungan" },
+        { src: "/images/destinations/mesir.jpg", alt: "Mesir", title: "Jejak Peradaban Mesir", caption: "Menjelajahi sejarah para nabi" },
+      ];
+
+  return (
+    <main id="dokumentasi" className="bg-warm-bg">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <h1 className="font-serif text-4xl font-bold text-teal-primary sm:text-5xl">Dokumentasi perjalanan</h1>
+        <p className="mt-5 max-w-2xl text-base leading-7 text-slate-body">
+          Lihat suasana tempat dan tim yang menjadi bagian dari perjalanan bersama Risalah Madina Tour.
+        </p>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+          {items.map((item, idx) => (
+            <figure key={idx} className="overflow-hidden rounded-card border border-warm-border bg-warm-surface shadow-card group">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <figcaption className="p-5">
+                <h2 className="font-serif text-xl font-bold text-teal-primary">{item.title}</h2>
+                <p className="mt-1 text-sm text-slate-muted">{item.caption}</p>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <p className="mt-8 text-xs italic text-slate-muted">Dokumentasi diperbarui secara berkala dari ruang CMS.</p>
+      </div>
+    </main>
+  );
 }
 
 export function HowItWorksSection({ company }: { company: CompanyProfile }) {

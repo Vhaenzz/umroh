@@ -133,21 +133,82 @@ function emptyPackage(index: number): Package {
 
 function normalizeSiteData(value: SiteData): SiteData {
   const next = structuredClone(value);
-  next.company.media = next.company.media || { heroUrl: "", aboutUrl: "", documentationUrls: ["", "", ""] };
-  next.company.media.documentationUrls = [...(next.company.media.documentationUrls || []), "", "", ""].slice(0, 3);
+  next.company.media = next.company.media || {
+    heroUrl: "/images/minaret-hero.jpg",
+    heroVideoUrl: "https://ventour-wp.s3.ap-southeast-3.amazonaws.com/wp-content/uploads/2026/04/30054426/REVISI-VIDEO-WEBSITE-IT_2.mp4",
+    aboutUrl: "/images/travel-team.jpg",
+    documentationUrls: [
+      "/images/destinations/turki.jpg",
+      "/images/destinations/dubai.jpg",
+      "/images/destinations/al-ula.jpg",
+      "/images/destinations/thaif.jpg",
+      "/images/destinations/mesir.jpg",
+      "/images/destinations/mekkah.jpg",
+    ],
+  };
+  if (!next.company.destinationsList || next.company.destinationsList.length === 0) {
+    next.company.destinationsList = [
+      {
+        id: "turki",
+        title: "Turki",
+        sub: "Umroh Plus Turki",
+        desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan perjalanan wisata ke Turki, menjelajahi keindahan sejarah Islam, budaya, dan destinasi ikonik yang memukau.",
+        img: "/images/destinations/turki.jpg",
+      },
+      {
+        id: "dubai",
+        title: "Dubai",
+        sub: "Umroh Plus Dubai",
+        desc: "Rasakan ibadah umroh yang nyaman sekaligus pengalaman wisata modern di Dubai dengan destinasi kelas dunia, fasilitas mewah, dan suasana kota yang spektakuler.",
+        img: "/images/destinations/dubai.jpg",
+      },
+      {
+        id: "mesir",
+        title: "Mesir",
+        sub: "Umroh Plus Mesir",
+        desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Mesir, mengunjungi jejak sejarah Islam dan peradaban dunia yang penuh makna dan inspirasi.",
+        img: "/images/destinations/mesir.jpg",
+      },
+      {
+        id: "al-ula",
+        title: "Al Ula",
+        sub: "City Tour Al Ula",
+        desc: "Sempurnakan ibadah umroh Anda dengan perjalanan ke Al Ula, menikmati keindahan alam eksotis, situs bersejarah, dan suasana menenangkan penuh keagungan.",
+        img: "/images/destinations/al-ula.jpg",
+      },
+      {
+        id: "thaif",
+        title: "Thaif",
+        sub: "City Tour Thaif",
+        desc: "Nikmati ibadah umroh yang khusyuk dilanjutkan dengan kunjungan ke Thaif, kota sejuk dengan pemandangan pegunungan, kebun mawar, dan udara menyegarkan.",
+        img: "/images/destinations/thaif.jpg",
+      },
+      {
+        id: "mekkah",
+        title: "Mekkah",
+        sub: "Umroh Reguler Khusyuk",
+        desc: "Raih kemabruran ibadah Umroh langsung di hadapan Ka'bah dan Masjidil Haram dengan hotel dekat serta bimbingan muthowwif berpengalaman.",
+        img: "/images/destinations/mekkah.jpg",
+      },
+    ];
+  }
   next.company.leaders = next.company.leaders.map((leader) => ({ ...leader, imageUrl: leader.imageUrl || "" }));
-  next.packages = next.packages.map((pkg) => ({ ...pkg, gallery: pkg.gallery || [] }));
+  next.packages = next.packages.map((pkg) => ({
+    ...pkg,
+    imageUrl: pkg.imageUrl || "",
+    gallery: pkg.gallery || [],
+  }));
   return next;
 }
 
 function MediaManager({
   data,
+  setData,
   supabase,
   selectedPackageId,
   setSelectedPackageId,
   updateCompany,
   updateLeader,
-  updateDocumentationImage,
   updateGalleryItem,
   addGalleryItem,
   removeGalleryItem,
@@ -157,12 +218,12 @@ function MediaManager({
   error,
 }: {
   data: SiteData;
+  setData: React.Dispatch<React.SetStateAction<SiteData | null>>;
   supabase: SupabaseClient | null;
   selectedPackageId: string | null;
   setSelectedPackageId: (value: string) => void;
   updateCompany: (path: string, value: FieldValue) => void;
   updateLeader: (index: number, key: "name" | "role" | "description" | "imageUrl", value: string) => void;
-  updateDocumentationImage: (index: number, value: string) => void;
   updateGalleryItem: (index: number, key: "label" | "tag" | "caption" | "alt" | "imageUrl", value: string) => void;
   addGalleryItem: () => void;
   removeGalleryItem: (index: number) => void;
@@ -175,30 +236,24 @@ function MediaManager({
   const selectedPackage = data.packages.find((item) => item.id === selectedPackageId) || null;
 
   return (
-    <main className="min-h-screen bg-[#f4f1e9] px-4 py-6 text-slate-dark sm:px-7 sm:py-10">
+    <main className="min-h-screen bg-[#f4f1e9] px-4 py-6 text-slate-dark sm:px-7 sm:py-10 font-sans">
       <div className="mx-auto max-w-7xl space-y-6">
         <div className="flex flex-col justify-between gap-4 border-b border-warm-border pb-6 sm:flex-row sm:items-end">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-gold-hover">CMS Media Management</p>
             <h1 className="mt-1 font-serif text-3xl font-bold text-teal-primary sm:text-4xl">Galeri &amp; Aset Media</h1>
             <p className="mt-1.5 max-w-2xl text-xs sm:text-sm leading-relaxed text-slate-muted">
-              Kelola foto utama homepage, dokumentasi jamaah, profil pimpinan, dan galeri paket.
+              Kelola foto latar hero, video sinematik, kartu destinasi wisata halal, dokumentasi jemaah, profil pimpinan, dan cover paket.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <a
-              href="/admin"
-              className="inline-flex min-h-10 items-center rounded-button border border-warm-border bg-white px-4 py-2 text-xs font-bold text-teal-primary hover:bg-warm-muted"
-            >
-              ← Kembali ke CMS
-            </a>
             <button
               type="button"
               onClick={() => void saveData()}
               disabled={saving}
-              className="min-h-10 rounded-button bg-gold-accent px-4 py-2 text-xs font-bold text-slate-dark hover:bg-gold-hover shadow-card disabled:opacity-60 transition-all"
+              className="min-h-10 rounded-button bg-gold-accent px-5 py-2 text-xs font-bold text-slate-dark hover:bg-gold-hover shadow-card disabled:opacity-60 transition-all flex items-center gap-1.5"
             >
-              {saving ? "Menyimpan…" : "Simpan Media"}
+              <span>{saving ? "Menyimpan…" : "Simpan Semua Media"}</span>
             </button>
           </div>
         </div>
@@ -214,42 +269,181 @@ function MediaManager({
         )}
 
         <div className="space-y-6">
+          {/* 1. Hero Section Media */}
           <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Foto Utama Website</h2>
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Hero Section (Bagian Atas Homepage)</h2>
             <p className="mt-1 text-xs text-slate-muted">
-              Upload foto atau masukkan URL eksternal (Storage bucket: <code>cms-media</code>).
+              Upload foto latar resolusi tinggi atau tautan video sinematik untuk background hero halaman depan.
             </p>
-            <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-5 grid gap-5 sm:grid-cols-2">
               <CmsMediaUpload
-                label="Foto Hero Homepage"
-                value={company.media?.heroUrl}
+                label="Foto Poster / Latar Menara Hero"
+                value={company.media?.heroUrl || "/images/minaret-hero.jpg"}
                 folder="site/hero"
                 supabase={supabase}
                 onChange={(value) => updateCompany("media.heroUrl", value)}
               />
-              <CmsMediaUpload
-                label="Foto Halaman Tentang"
-                value={company.media?.aboutUrl}
-                folder="site/about"
-                supabase={supabase}
-                onChange={(value) => updateCompany("media.aboutUrl", value)}
-              />
-              {[0, 1, 2].map((index) => (
-                <CmsMediaUpload
-                  key={index}
-                  label={`Dokumentasi ${index + 1}`}
-                  value={company.media?.documentationUrls?.[index]}
-                  folder={`site/documentation-${index + 1}`}
-                  supabase={supabase}
-                  onChange={(value) => updateDocumentationImage(index, value)}
+              <div className="space-y-3">
+                <Field
+                  label="URL Video Sinematik (MP4 / WebM)"
+                  value={company.media?.heroVideoUrl || ""}
+                  onChange={(value) => updateCompany("media.heroVideoUrl", value)}
+                  placeholder="https://.../video.mp4"
                 />
+                <p className="text-[11px] text-slate-muted leading-relaxed">
+                  Video akan otomatis di-loop secara hening di layar desktop. Jika video kosong, website otomatis menggunakan Foto Poster Hero di sebelah kiri.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* 2. Destination Showcase Slider */}
+          <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-warm-border pb-4">
+              <div>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">
+                  Destinasi Wisata Halal &amp; Umroh Plus (Slider Tengah)
+                </h2>
+                <p className="mt-1 text-xs text-slate-muted">
+                  Kelola foto, nama kota/negara, sub-label, dan deskripsi destinasi yang tampil pada slider interaktif beranda.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const newDest = {
+                    id: `dest-${Date.now()}`,
+                    title: "Destinasi Baru",
+                    sub: "Umroh Plus",
+                    desc: "Perjalanan ibadah dan wisata sejarah Islam yang memukau.",
+                    img: "/images/destinations/turki.jpg",
+                  };
+                  setData((curr) => {
+                    if (!curr) return curr;
+                    return {
+                      ...curr,
+                      company: {
+                        ...curr.company,
+                        destinationsList: [...(curr.company.destinationsList || []), newDest],
+                      },
+                    };
+                  });
+                }}
+                className="rounded-button bg-teal-primary px-3.5 py-2 text-xs font-bold text-white hover:bg-teal-900 transition-colors"
+              >
+                + Tambah Destinasi
+              </button>
+            </div>
+
+            <div className="mt-6 space-y-5">
+              {(company.destinationsList || []).map((dest, destIdx) => (
+                <div key={dest.id || destIdx} className="rounded-card border border-warm-border bg-warm-bg p-4 sm:p-5 space-y-4">
+                  <div className="flex items-center justify-between border-b border-warm-border pb-2.5">
+                    <span className="text-xs font-bold text-teal-primary uppercase tracking-wider font-mono">
+                      Destinasi #{destIdx + 1}: {dest.title}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setData((curr) => {
+                          if (!curr) return curr;
+                          const updated = (curr.company.destinationsList || []).filter((_, i) => i !== destIdx);
+                          return { ...curr, company: { ...curr.company, destinationsList: updated } };
+                        });
+                      }}
+                      className="text-xs font-bold text-red-600 hover:text-red-800"
+                    >
+                      Hapus Destinasi
+                    </button>
+                  </div>
+
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    <Field
+                      label="Nama Destinasi"
+                      value={dest.title}
+                      onChange={(val) => {
+                        setData((curr) => {
+                          if (!curr) return curr;
+                          const updated = (curr.company.destinationsList || []).map((item, i) =>
+                            i === destIdx ? { ...item, title: val } : item
+                          );
+                          return { ...curr, company: { ...curr.company, destinationsList: updated } };
+                        });
+                      }}
+                    />
+                    <Field
+                      label="Sub-label (e.g. Umroh Plus Turki)"
+                      value={dest.sub}
+                      onChange={(val) => {
+                        setData((curr) => {
+                          if (!curr) return curr;
+                          const updated = (curr.company.destinationsList || []).map((item, i) =>
+                            i === destIdx ? { ...item, sub: val } : item
+                          );
+                          return { ...curr, company: { ...curr.company, destinationsList: updated } };
+                        });
+                      }}
+                    />
+                  </div>
+
+                  <label className="block">
+                    <span className={labelClass}>Deskripsi Perjalanan</span>
+                    <textarea
+                      className={`${inputClass} min-h-16`}
+                      value={dest.desc}
+                      onChange={(e) => {
+                        setData((curr) => {
+                          if (!curr) return curr;
+                          const updated = (curr.company.destinationsList || []).map((item, i) =>
+                            i === destIdx ? { ...item, desc: e.target.value } : item
+                          );
+                          return { ...curr, company: { ...curr.company, destinationsList: updated } };
+                        });
+                      }}
+                    />
+                  </label>
+
+                  <CmsMediaUpload
+                    label={`Foto Kartu Destinasi ${dest.title}`}
+                    value={dest.img}
+                    folder={`destinations/${dest.id || destIdx}`}
+                    supabase={supabase}
+                    onChange={(val) => {
+                      setData((curr) => {
+                        if (!curr) return curr;
+                        const updated = (curr.company.destinationsList || []).map((item, i) =>
+                          i === destIdx ? { ...item, img: val } : item
+                        );
+                        return { ...curr, company: { ...curr.company, destinationsList: updated } };
+                      });
+                    }}
+                  />
+                </div>
               ))}
             </div>
           </section>
 
+          {/* 3. Profil Kantor & Tim Layanan (Tentang Kami) */}
           <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
-            <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Foto Tim Kepemimpinan</h2>
-            <p className="mt-1 text-xs text-slate-muted">Foto ditampilkan pada halaman profil Tentang Kami.</p>
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Foto Profil Perusahaan (Halaman Tentang)</h2>
+            <p className="mt-1 text-xs text-slate-muted">
+              Foto utama kantor atau tim pendamping yang tampil di halaman Tentang Kami dan section profil.
+            </p>
+            <div className="mt-5">
+              <CmsMediaUpload
+                label="Foto Kantor / Tim Pendamping"
+                value={company.media?.aboutUrl || "/images/travel-team.jpg"}
+                folder="site/about"
+                supabase={supabase}
+                onChange={(value) => updateCompany("media.aboutUrl", value)}
+              />
+            </div>
+          </section>
+
+          {/* 4. Foto Tim Kepemimpinan */}
+          <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
+            <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Foto Tim Kepemimpinan (Direksi &amp; Pimpinan)</h2>
+            <p className="mt-1 text-xs text-slate-muted">Foto profil direktur dan komisaris yang ditampilkan pada profil perusahaan.</p>
             <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {company.leaders.map((leader, index) => (
                 <div key={`${leader.name}-${index}`} className="space-y-3 rounded-card border border-warm-border p-4 bg-warm-bg">
@@ -269,14 +463,69 @@ function MediaManager({
             </div>
           </section>
 
+          {/* 5. Galeri Dokumentasi Jemaah */}
+          <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
+            <div className="flex items-center justify-between border-b border-warm-border pb-4">
+              <div>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Galeri Dokumentasi Jemaah</h2>
+                <p className="mt-1 text-xs text-slate-muted">
+                  Foto-foto suasana ibadah jemaah di Mekkah, Madinah, dan wisata halal (halaman Dokumentasi).
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  const currentDocs = company.media?.documentationUrls || [];
+                  updateCompany("media.documentationUrls", [...currentDocs, ""]);
+                }}
+                className="rounded-button bg-teal-primary px-3.5 py-2 text-xs font-bold text-white hover:bg-teal-900 transition-colors"
+              >
+                + Tambah Foto Dokumentasi
+              </button>
+            </div>
+
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {(company.media?.documentationUrls || []).map((url, docIdx) => (
+                <div key={docIdx} className="rounded-card border border-warm-border bg-warm-bg p-3.5 space-y-3">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-muted">
+                    <span>Foto Dokumentasi #{docIdx + 1}</span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const updated = (company.media?.documentationUrls || []).filter((_, i) => i !== docIdx);
+                        updateCompany("media.documentationUrls", updated);
+                      }}
+                      className="text-red-600 hover:text-red-800"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                  <CmsMediaUpload
+                    label={`Foto #${docIdx + 1}`}
+                    value={url}
+                    folder={`documentation/${docIdx + 1}`}
+                    supabase={supabase}
+                    onChange={(newUrl) => {
+                      const updated = (company.media?.documentationUrls || []).map((item, i) =>
+                        i === docIdx ? newUrl : item
+                      );
+                      updateCompany("media.documentationUrls", updated);
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* 6. Galeri Foto & Cover Tiap Paket */}
           <section className="rounded-card border border-warm-border bg-white p-5 shadow-card sm:p-7">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between border-b border-warm-border pb-4">
               <div>
-                <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Galeri Foto Paket</h2>
-                <p className="mt-1 text-xs text-slate-muted">Foto detail fasilitas dan itinerary paket.</p>
+                <h2 className="font-serif text-xl sm:text-2xl font-bold text-teal-primary">Foto Cover &amp; Galeri Paket</h2>
+                <p className="mt-1 text-xs text-slate-muted">Pilih paket untuk mengedit foto cover utama dan foto galeri detailnya.</p>
               </div>
               <label className="block sm:min-w-72">
-                <span className={labelClass}>Pilih Paket</span>
+                <span className={labelClass}>Pilih Paket Ibadah</span>
                 <select
                   className={inputClass}
                   value={selectedPackageId || ""}
@@ -292,45 +541,75 @@ function MediaManager({
             </div>
 
             {selectedPackage && (
-              <div className="mt-5 space-y-4">
-                {(selectedPackage.gallery || []).map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="grid gap-3 rounded-card border border-warm-border p-4 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-end bg-warm-bg"
-                  >
-                    <CmsMediaUpload
-                      label={`Foto ${index + 1}`}
-                      value={item.imageUrl}
-                      folder={`packages/${selectedPackage.slug}`}
-                      supabase={supabase}
-                      onChange={(value) => updateGalleryItem(index, "imageUrl", value)}
-                    />
-                    <Field label="Judul" value={item.label} onChange={(value) => updateGalleryItem(index, "label", value)} />
-                    <Field label="Tag" value={item.tag} onChange={(value) => updateGalleryItem(index, "tag", value)} />
-                    <Field
-                      label="Caption / Alt Text"
-                      value={item.caption}
-                      onChange={(value) => {
-                        updateGalleryItem(index, "caption", value);
-                        updateGalleryItem(index, "alt", value);
-                      }}
-                    />
-                    <button
-                      type="button"
-                      className="min-h-10 rounded-button border border-red-200 px-3 py-2 text-xs font-bold text-red-700 hover:bg-red-50 transition-colors"
-                      onClick={() => removeGalleryItem(index)}
+              <div className="mt-5 space-y-6">
+                {/* Main Package Cover Image */}
+                <div className="rounded-card border border-warm-border bg-warm-bg p-4">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-teal-primary mb-3">
+                    Foto Cover Utama: {selectedPackage.name}
+                  </h3>
+                  <CmsMediaUpload
+                    label="Cover / Banner Paket"
+                    value={selectedPackage.imageUrl || ""}
+                    folder={`packages/${selectedPackage.slug}`}
+                    supabase={supabase}
+                    onChange={(val) => {
+                      setData((curr) => {
+                        if (!curr) return curr;
+                        return {
+                          ...curr,
+                          packages: curr.packages.map((p) =>
+                            p.id === selectedPackage.id ? { ...p, imageUrl: val } : p
+                          ),
+                        };
+                      });
+                    }}
+                  />
+                </div>
+
+                {/* Additional Gallery Items */}
+                <div className="space-y-4">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-teal-primary">
+                    Galeri Tambahan Detail ({selectedPackage.gallery?.length || 0} Foto)
+                  </h3>
+                  {(selectedPackage.gallery || []).map((item, index) => (
+                    <div
+                      key={item.id}
+                      className="grid gap-3 rounded-card border border-warm-border p-4 lg:grid-cols-[1.2fr_1fr_1fr_1fr_auto] lg:items-end bg-warm-bg"
                     >
-                      Hapus
-                    </button>
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={addGalleryItem}
-                  className="min-h-10 rounded-button border border-teal-primary px-4 py-2.5 text-xs font-bold text-teal-primary hover:bg-teal-primary hover:text-white transition-colors"
-                >
-                  + Tambah Foto Galeri
-                </button>
+                      <CmsMediaUpload
+                        label={`Galeri ${index + 1}`}
+                        value={item.imageUrl}
+                        folder={`packages/${selectedPackage.slug}/gallery`}
+                        supabase={supabase}
+                        onChange={(value) => updateGalleryItem(index, "imageUrl", value)}
+                      />
+                      <Field label="Judul" value={item.label} onChange={(value) => updateGalleryItem(index, "label", value)} />
+                      <Field label="Tag" value={item.tag} onChange={(value) => updateGalleryItem(index, "tag", value)} />
+                      <Field
+                        label="Caption / Alt Text"
+                        value={item.caption}
+                        onChange={(value) => {
+                          updateGalleryItem(index, "caption", value);
+                          updateGalleryItem(index, "alt", value);
+                        }}
+                      />
+                      <button
+                        type="button"
+                        className="min-h-10 rounded-button border border-red-200 px-3 py-2 text-xs font-bold text-red-700 hover:bg-red-50 transition-colors"
+                        onClick={() => removeGalleryItem(index)}
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={addGalleryItem}
+                    className="min-h-10 rounded-button border border-teal-primary px-4 py-2.5 text-xs font-bold text-teal-primary hover:bg-teal-primary hover:text-white transition-colors"
+                  >
+                    + Tambah Foto Galeri Detail
+                  </button>
+                </div>
               </div>
             )}
           </section>
@@ -614,12 +893,12 @@ export default function CmsDashboard() {
     return (
       <MediaManager
         data={data}
+        setData={setData}
         supabase={supabase}
         selectedPackageId={selectedPackageId}
         setSelectedPackageId={setSelectedPackageId}
         updateCompany={updateCompany}
         updateLeader={updateLeader}
-        updateDocumentationImage={updateDocumentationImage}
         updateGalleryItem={updateGalleryItem}
         addGalleryItem={addGalleryItem}
         removeGalleryItem={removeGalleryItem}
@@ -940,6 +1219,16 @@ export default function CmsDashboard() {
                         Tampilkan di Katalog Haji
                       </label>
                     </div>
+
+                    <div className="mt-4 pt-4 border-t border-warm-border">
+                      <CmsMediaUpload
+                        label="Foto Cover / Thumbnail Paket"
+                        value={selectedPackage.imageUrl || ""}
+                        folder={`packages/${selectedPackage.slug}`}
+                        supabase={supabase}
+                        onChange={(value) => updatePackage("imageUrl", value)}
+                      />
+                    </div>
                   </div>
 
                   <div className="grid gap-6 lg:grid-cols-2">
@@ -1100,6 +1389,25 @@ export default function CmsDashboard() {
                           }
                         />
                       </label>
+                      <div className="mt-3">
+                        <CmsMediaUpload
+                          label="Foto Profil Pimpinan"
+                          value={leader.imageUrl || ""}
+                          folder={`leaders/${index + 1}`}
+                          supabase={supabase}
+                          onChange={(value) =>
+                            setData({
+                              ...data,
+                              company: {
+                                ...data.company,
+                                leaders: data.company.leaders.map((item, itemIndex) =>
+                                  itemIndex === index ? { ...item, imageUrl: value } : item
+                                ),
+                              },
+                            })
+                          }
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
