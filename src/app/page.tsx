@@ -1,7 +1,7 @@
 import React from "react";
 import HeroSection from "@/components/HeroSection";
-import TrustBar from "@/components/TrustBar";
 import FeaturedPackagesSection from "@/components/FeaturedPackagesSection";
+import DestinationShowcaseSection from "@/components/DestinationShowcaseSection";
 import WhyUsSection from "@/components/WhyUsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
@@ -14,25 +14,25 @@ export default async function BerandaPage() {
 
   return (
     <main>
-      {/* 1. Hero Section */}
+      {/* 1. Top Hero Section (Konsep Ventour: Video/Atmospheric background, Center Brand, Floating 4 Trust Pillars) */}
       <HeroSection company={company} />
 
-      {/* 2. Horizontal Trust Bar */}
-      <TrustBar company={company} />
-
-      {/* 3. Featured Packages Section */}
+      {/* 2. Featured Packages Section (Pilihan Paket Terpopuler) */}
       <FeaturedPackagesSection packages={packages} />
+
+      {/* 3. Middle Destination Showcase Section (Konsep Ventour: Interactive Destination Slider with Auto-Scroll) */}
+      <DestinationShowcaseSection company={company} />
 
       {/* 4. Kenapa Memilih Kami (Why Us) */}
       <WhyUsSection />
 
-      {/* 5. Alur keberangkatan */}
+      {/* 5. Alur Keberangkatan */}
       <HowItWorksSection company={company} />
 
-      {/* 6. Teaser legalitas */}
+      {/* 6. Teaser Legalitas */}
       <LegalityTeaser company={company} />
 
-      {/* 7. Dokumentasi perjalanan */}
+      {/* 7. Dokumentasi Perjalanan */}
       <TestimonialsSection company={company} />
 
       {/* 8. FAQ (Accordion) */}
