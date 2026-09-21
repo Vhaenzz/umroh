@@ -7,3 +7,17 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+<!-- antislop:start -->
+## antislop
+
+For UI, copy, accessibility, and responsive work, read the core filter and the matching project skill before editing:
+
+- Core rules: `skills/antislop/SKILL.md`
+- UI and visual: `skills/antislop-ui/SKILL.md`
+- Copy and text: `skills/antislop-copywriting/SKILL.md`
+- Accessibility and states: `skills/antislop-human/SKILL.md`
+- Responsive layout: `skills/antislop-layoutmobile/SKILL.md`
+
+Use the existing `DESIGN.md` as the visual direction. Apply the filter during implementation and run the Delivery Gate before shipping.
+<!-- antislop:end -->

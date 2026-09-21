@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import PackageCard from "@/components/PackageCard";
 import { Package, FilterState } from "@/types/package";
@@ -296,12 +295,8 @@ export default function PackageCatalogView({
         
         {/* ── Page Header Banner ── */}
         <div className="bg-warm-surface rounded-card sm:rounded-box border border-warm-border p-5 sm:p-8 lg:p-10 shadow-card relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-teal-primary/5 rounded-full blur-3xl pointer-events-none" />
           <div className="relative z-10 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-              {badgeLabel}
-            </div>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">{badgeLabel}</p>
             <h1 className="font-serif text-2xl sm:text-4xl lg:text-5xl font-bold text-teal-primary leading-tight">
               {title}
             </h1>
@@ -321,7 +316,7 @@ export default function PackageCatalogView({
               key={pill.id}
               type="button"
               onClick={() => handleQuickPill(pill.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
+              className={`min-h-10 px-3.5 py-1.5 rounded-button text-xs font-semibold whitespace-nowrap transition-all shrink-0 ${
                 quickPill === pill.id
                   ? "bg-teal-primary text-white shadow-xs font-bold"
                   : "bg-warm-surface text-slate-body border border-warm-border hover:bg-warm-muted"

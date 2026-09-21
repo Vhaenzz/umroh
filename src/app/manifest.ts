@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Risalah Madina — Umroh & Haji",
+    name: "Risalah Madina | Umroh & Haji",
     short_name: "Risalah Madina",
     description: "Penyelenggara Perjalanan Ibadah Umroh & Haji Khusus Resmi Kemenag RI",
     start_url: "/",

@@ -6,7 +6,7 @@ import { getSiteData } from "@/lib/cms/store";
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
   return {
-    title: `Kebijakan Privasi — ${company.brandName}`,
+    title: `Kebijakan Privasi | ${company.brandName}`,
     description: `Kebijakan privasi dan perlindungan data pribadi jemaah Umroh dan Haji pada ${company.brandName}.`,
   };
 }

@@ -20,12 +20,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!pkg) {
     return {
-      title: `Paket Tidak Ditemukan — ${company.brandName}`,
+      title: `Paket Tidak Ditemukan | ${company.brandName}`,
     };
   }
 
   return {
-    title: `${pkg.name} — Detail Paket, Harga & Jadwal | ${company.brandName}`,
+    title: `${pkg.name} | Detail Paket, Harga & Jadwal | ${company.brandName}`,
     description: `Detail jadwal, fasilitas, rincian harga per kamar, maskapai ${pkg.airline}, dan akomodasi ${pkg.hotelMakkah} untuk ${pkg.name}.`,
   };
 }
@@ -86,7 +86,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
 
             {/* Quota Status */}
             <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-badge text-[11px] sm:text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
               {lifecycleLabel}
             </span>
 
@@ -95,7 +95,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
               <svg className="w-3.5 h-3.5 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
               </svg>
-              {pkg.flightType || "Direct Flight"}
+              {pkg.flightType || "Tipe penerbangan belum dicantumkan"}
             </span>
 
           </div>
@@ -124,7 +124,6 @@ export default async function PackageDetailPage({ params }: PageProps) {
               <div className="aspect-4/3 w-full bg-linear-to-br from-teal-900 via-teal-primary to-teal-950 flex flex-col items-center justify-center p-6 text-center relative group">
                 {galleryItems[0].imageUrl && <Image src={galleryItems[0].imageUrl} alt={galleryItems[0].alt || galleryItems[0].label} fill sizes="(max-width: 768px) 100vw, 50vw" className="object-cover" />}
                 {galleryItems[0].imageUrl && <div className="absolute inset-0 bg-black/35" />}
-                <div className="absolute inset-0 subtle-grain opacity-25 pointer-events-none" />
                 <div className="relative z-10 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mb-3">
                   <svg className="w-7 h-7 text-gold-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -136,7 +135,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
                 <p className="relative z-10 font-sans text-gold-accent text-xs font-semibold mt-1">
                   {galleryItems[0].tag}
                 </p>
-                <span className="absolute top-3 left-3 px-2.5 py-1 bg-black/40 backdrop-blur-xs rounded-badge text-white font-mono text-[10px] font-bold">
+                  <span className="absolute top-3 left-3 px-2.5 py-1 bg-black/70 rounded-badge text-white font-mono text-[10px] font-bold">
                   Foto 1 / 4
                 </span>
                 <span className="absolute bottom-3 inset-x-3 text-[11px] text-white/70 font-sans text-center truncate">
@@ -157,14 +156,13 @@ export default async function PackageDetailPage({ params }: PageProps) {
                   <div className={`aspect-4/3 sm:aspect-auto ${idx === 2 ? "sm:h-44" : "sm:h-44"} w-full bg-linear-to-br from-teal-800 to-teal-900 flex flex-col items-center justify-center p-4 text-center relative`}>
                     {item.imageUrl && <Image src={item.imageUrl} alt={item.alt || item.label} fill sizes="(max-width: 768px) 100vw, 25vw" className="object-cover" />}
                     {item.imageUrl && <div className="absolute inset-0 bg-black/35" />}
-                    <div className="absolute inset-0 subtle-grain opacity-20 pointer-events-none" />
                     <p className="relative z-10 font-serif text-white font-bold text-xs sm:text-sm leading-snug">
                       {item.label}
                     </p>
                     <p className="relative z-10 font-sans text-gold-accent text-[11px] font-semibold mt-0.5">
                       {item.tag}
                     </p>
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/40 backdrop-blur-xs rounded-badge text-white font-mono text-[10px] font-bold">
+                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 bg-black/70 rounded-badge text-white font-mono text-[10px] font-bold">
                       Foto {idx + 2} / 4
                     </span>
                     <span className="absolute bottom-2 inset-x-2 text-[10px] text-white/60 font-sans text-center truncate">
@@ -441,13 +439,8 @@ export default async function PackageDetailPage({ params }: PageProps) {
 
         {/* ── 8. LARGE CTA BOX ── */}
         <section aria-labelledby="cta-heading" className="rounded-box bg-teal-primary text-white p-8 sm:p-12 shadow-elevated relative overflow-hidden text-center">
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#c5a059_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-          <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-gold-accent/15 rounded-full blur-3xl pointer-events-none" />
-
           <div className="max-w-3xl mx-auto space-y-4 relative z-10">
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-gold-accent/20 text-gold-accent text-xs font-bold uppercase tracking-wider border border-gold-accent/30">
-              Konsultasi &amp; Pendaftaran Resmi
-            </span>
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-gold-accent">Konsultasi dan pendaftaran resmi</p>
 
             <h2 id="cta-heading" className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-warm-bg leading-tight">
               Tertarik dengan Paket {pkg.name}?

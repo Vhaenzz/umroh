@@ -12,19 +12,8 @@ import { getGeneralWhatsAppUrl } from "@/lib/contact";
 export default function CtaBannerSection({ company }: { company: CompanyProfile }) {
   return (
     <section className="py-14 sm:py-20 bg-teal-primary text-white relative overflow-hidden">
-      {/* Background Decorative Pattern */}
-      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#c5a059_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-      
-      {/* Subtle gold glow blur in corner */}
-      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-gold-accent/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -top-20 -left-20 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-gold-accent/20 text-gold-accent text-xs font-bold uppercase tracking-wider mb-4 border border-gold-accent/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-          Langkah Awal Ibadah
-        </span>
+        <p className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-gold-accent">Langkah awal ibadah</p>
         
         <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-warm-bg leading-tight max-w-3xl mx-auto">
           Wujudkan Niat Ibadah Anda Tahun Ini
@@ -34,7 +23,7 @@ export default function CtaBannerSection({ company }: { company: CompanyProfile 
           Ceritakan rencana perjalanan Anda. Kami bantu membandingkan jadwal, fasilitas, dan pilihan kamar dengan jelas.
         </p>
 
-        {/* Action Buttons: Dual CTA */}
+        {/* Two actions with different jobs: browse first, ask the team second. */}
         <div className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/umroh"
@@ -55,9 +44,6 @@ export default function CtaBannerSection({ company }: { company: CompanyProfile 
             className="w-full sm:w-auto px-7 py-3.5 rounded-button border border-white/30 hover:bg-white/10 text-white font-sans font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98]"
           >
             <span>Konsultasi WhatsApp</span>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
           </a>
         </div>
 

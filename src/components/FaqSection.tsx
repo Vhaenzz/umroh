@@ -99,10 +99,7 @@ export default function FaqSection({ company, compact = false }: { company: Comp
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-gold-light text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-gold-accent/20">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-            Tanya Jawab
-          </div>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Tanya jawab</p>
           <h2 className="font-serif text-3xl sm:text-[2.2rem] font-bold text-teal-primary leading-tight">
             Pertanyaan yang Sering Diajukan
           </h2>

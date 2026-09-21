@@ -5,7 +5,7 @@ import { getSiteData } from "@/lib/cms/store";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  return { title: `Semua Paket Haji & Umroh — ${company.brandName}`, description: "Katalog paket Haji dan Umroh dengan jadwal, fasilitas, itinerary, dan harga yang dapat dibandingkan." };
+  return { title: `Semua Paket Haji & Umroh | ${company.brandName}`, description: "Katalog paket Haji dan Umroh dengan jadwal, fasilitas, itinerary, dan harga yang dapat dibandingkan." };
 }
 
 export default async function AllPackagesPage() {

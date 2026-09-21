@@ -76,10 +76,7 @@ export default function WhyUsSection() {
         
         {/* ── Section Header ── */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-            Keunggulan Layanan
-          </div>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Keunggulan layanan</p>
           <h2 className="font-serif text-3xl sm:text-[2.2rem] font-bold text-teal-primary leading-tight">
             Kenapa Memilih Kami
           </h2>

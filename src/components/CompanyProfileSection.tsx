@@ -12,7 +12,6 @@ export default function CompanyProfileSection({ company }: { company: CompanyPro
   return (
     <section id="tentang" className="scroll-mt-24 py-12 sm:py-16 bg-warm-bg border-t border-warm-border relative overflow-hidden">
       {/* Background grain */}
-      <div className="absolute inset-0 subtle-grain opacity-25 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -23,7 +22,7 @@ export default function CompanyProfileSection({ company }: { company: CompanyPro
               <div className="relative aspect-4/3 overflow-hidden bg-teal-primary">
                 <Image src={company.media?.aboutUrl || "/images/travel-team.jpg"} alt="Tim layanan travel yang mendampingi jemaah" fill sizes="(max-width: 1024px) 100vw, 42vw" className="object-cover" />
                 <div className="absolute inset-0 bg-linear-to-t from-teal-900/80 via-transparent to-transparent" />
-                <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/70 px-3 py-1.5 text-[10px] font-bold text-white backdrop-blur-sm">
+                <div className="absolute left-4 top-4 rounded-badge border border-white/20 bg-teal-900/85 px-3 py-1.5 text-[10px] font-bold text-white">
                   Tim pendamping jemaah
                 </div>
                 <p className="absolute bottom-4 left-5 right-5 font-serif text-lg font-bold leading-tight text-white">
@@ -45,10 +44,7 @@ export default function CompanyProfileSection({ company }: { company: CompanyPro
           {/* ── RIGHT COLUMN: Content & Trust Badges ── */}
           <div className="lg:col-span-7 space-y-6 order-1 lg:order-2">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-3 border border-teal-primary/15">
-                <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-                Profil Singkat
-              </div>
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Profil singkat</p>
               <h2 className="font-serif text-3xl sm:text-4xl font-bold text-teal-primary leading-tight">
                 Mengenal Risalah Madina Tour
               </h2>

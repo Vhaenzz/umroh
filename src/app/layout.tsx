@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: `${company.brandName} — Paket Umroh & Haji Khusus Resmi Kemenag`,
+      default: `${company.brandName} | Paket Umroh & Haji Khusus Resmi Kemenag`,
       template: `%s | ${company.brandName}`,
     },
     description:
@@ -63,7 +63,7 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "id_ID",
       url: siteUrl,
-      title: `${company.brandName} — Paket Umroh & Haji Khusus Resmi`,
+      title: `${company.brandName} | Paket Umroh & Haji Khusus Resmi`,
       description:
         "Bandingkan jadwal, maskapai, hotel, dan biaya paket Umroh & Haji Khusus secara transparan bersama bimbingan muthowwif berpengalaman.",
       siteName: company.brandName,
@@ -78,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${company.brandName} — Paket Umroh & Haji Khusus`,
+      title: `${company.brandName} | Paket Umroh & Haji Khusus`,
       description:
         "Penyelenggara perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI.",
       images: [company.media?.heroUrl || "/images/kaaba-courtyard.png"],

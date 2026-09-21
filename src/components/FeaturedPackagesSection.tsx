@@ -18,10 +18,7 @@ export default function FeaturedPackagesSection({ packages }: { packages: Packag
         {/* ── Section Header ── */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-warm-border pb-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-badge bg-teal-primary/8 text-teal-primary text-xs font-bold uppercase tracking-wider mb-2 border border-teal-primary/15">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold-accent" />
-              Paket Pilihan
-            </div>
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Paket pilihan</p>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-teal-primary leading-tight">
               Pilihan Paket Umroh &amp; Haji Terpopuler
             </h2>

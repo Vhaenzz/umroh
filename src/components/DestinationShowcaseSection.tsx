@@ -20,17 +20,18 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
     : defaultDestinations;
 
   const [current, setCurrent] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  // Automatic auto-scroll interval every 4.5 seconds
+  // Let visitors keep a destination still once they start interacting with it.
   useEffect(() => {
-    if (!destinations.length) return;
+    if (!destinations.length || isPaused) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % destinations.length);
-    }, 4500);
+    }, 6000);
 
     return () => clearInterval(timer);
-  }, [destinations.length]);
+  }, [destinations.length, isPaused]);
 
   const activeDest = destinations[current] || destinations[0] || {
     id: "turki",
@@ -43,6 +44,7 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
   // Mobile swipe support
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    setIsPaused(true);
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -60,10 +62,12 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
 
   return (
     <section
-      className="relative min-h-[540px] sm:min-h-[580px] lg:min-h-[640px] w-full bg-[#0b1015] text-white overflow-hidden py-12 sm:py-16 my-8 sm:my-12 select-none flex items-center"
+      className="relative min-h-[460px] sm:min-h-[540px] lg:min-h-[600px] w-full bg-[#0b1015] text-white overflow-hidden py-10 sm:py-14 my-8 sm:my-12 flex items-center"
       aria-label="Eksplorasi Destinasi Wisata Halal & Umroh Plus"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onMouseEnter={() => setIsPaused(true)}
+      onFocus={() => setIsPaused(true)}
     >
       {/* ── Background Crossfade ── */}
       {destinations.map((dest, idx) => (
@@ -147,10 +151,11 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
               {destinations.map((item, index) => {
                 const isActive = index === current;
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={item.id}
                     onClick={() => setCurrent(index)}
-                    className={`w-[260px] sm:w-[320px] shrink-0 cursor-pointer transition-all duration-500 select-none ${
+                    className={`w-[260px] sm:w-[320px] shrink-0 cursor-pointer text-left transition-all duration-500 ${
                       isActive ? "scale-100 opacity-100" : "scale-95 opacity-50 hover:opacity-80"
                     }`}
                   >
@@ -173,7 +178,7 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
 
                     {/* Image Card Container */}
                     <div
-                      className={`relative h-[320px] sm:h-[380px] w-full rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-500 shadow-2xl ${
+                      className={`relative h-[260px] sm:h-[340px] w-full rounded-card overflow-hidden border transition-all duration-500 shadow-elevated ${
                         isActive
                           ? "border-white/50 ring-2 ring-white/20 shadow-white/10"
                           : "border-white/15"
@@ -188,7 +193,7 @@ export default function DestinationShowcaseSection({ company }: { company: Compa
                       />
                       <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent" />
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>

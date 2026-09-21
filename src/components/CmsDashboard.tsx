@@ -715,15 +715,6 @@ export default function CmsDashboard() {
     );
   }
 
-  function updateDocumentationImage(index: number, value: string) {
-    setData((current) => {
-      if (!current) return current;
-      const urls = [...(current.company.media?.documentationUrls || []), "", "", ""].slice(0, 3);
-      urls[index] = value;
-      return { ...current, company: { ...current.company, media: { ...current.company.media, documentationUrls: urls } } };
-    });
-  }
-
   function updateGalleryItem(index: number, key: "label" | "tag" | "caption" | "alt" | "imageUrl", value: string) {
     if (!selectedPackage) return;
     updatePackage(

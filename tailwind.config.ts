@@ -22,7 +22,7 @@ const config: Config = {
         // Brand Accent - Muted Gold (Strategic use only)
         gold: {
           accent: "#91AD3E", // Accent green from Alsha's package system
-          hover: "#78952F",
+          hover: "#5F7624",
           light: "#F1F5E8",
           border: "#DCE8BF",
         },
@@ -38,7 +38,7 @@ const config: Config = {
           dark: "#111827",     // Near-black text
           body: "#334155",     // Standard body paragraph text
           muted: "#64748B",    // Secondary text
-          caption: "#94A3B8",   // Metadata & caption text
+          caption: "#64748B",   // Metadata & caption text, AA-safe on white
         },
         // Brand Status Indicators
         status: {

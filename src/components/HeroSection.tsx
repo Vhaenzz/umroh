@@ -5,10 +5,9 @@ import Image from "next/image";
 import type { CompanyProfile } from "@/data/company";
 
 /**
- * TOP HERO SECTION (Konsep Ventour - Screenshot 1 & 2)
- * Mobile-first optimization with 2-column feature grid on mobile,
- * auto-playing video background across mobile and desktop,
- * clamp-based proportional typography, and 85vh height for scroll affordance.
+ * Homepage opening: real travel footage, one clear brand statement, and four
+ * concrete service signals. The image and video carry the emotional weight;
+ * the interface stays quiet so the content remains readable.
  */
 export default function HeroSection({ company }: { company: CompanyProfile }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -79,7 +78,8 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
   const heroImage = company.media?.heroUrl || "/images/minaret-hero.jpg";
   const heroVideo = company.media?.heroVideoUrl || "https://ventour-wp.s3.ap-southeast-3.amazonaws.com/wp-content/uploads/2026/04/30054426/REVISI-VIDEO-WEBSITE-IT_2.mp4";
 
-  // Ensure video plays on mobile iOS/Android
+  // The video is ambient documentation, not a required interaction. The poster
+  // image remains the fallback when a browser or battery saver blocks autoplay.
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.play().catch(() => {
@@ -89,7 +89,7 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
   }, []);
 
   return (
-    <section className="relative min-h-[82vh] max-h-[88vh] sm:min-h-[600px] sm:max-h-none lg:min-h-[720px] w-full flex flex-col justify-between overflow-hidden bg-slate-dark text-white select-none">
+    <section className="relative min-h-[68svh] sm:min-h-[520px] lg:min-h-[640px] w-full flex flex-col justify-between overflow-hidden bg-slate-dark text-white">
       
       {/* ── Background Video with Seamless Mobile Autoplay + High-Res Poster ── */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -118,9 +118,8 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
           </video>
         )}
 
-        {/* Cinematic Multi-layered Vignette for AA Text Contrast */}
-        <div className="absolute inset-0 bg-linear-to-b from-black/60 via-black/30 to-black/85 pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.5)_100%)] pointer-events-none" />
+        {/* A single scrim keeps the headline legible over changing footage. */}
+        <div className="absolute inset-0 bg-linear-to-b from-black/55 via-black/25 to-black/80 pointer-events-none" />
       </div>
 
       {/* ── Top Spacer (Balanced for Navbar) ── */}
@@ -132,36 +131,26 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
           
           {/* Brand Logo & Name */}
           <div className="flex items-center justify-center gap-2 sm:gap-3.5">
-            {/* Elegant Gold Logo Emblem */}
-            <div className="w-8 h-8 sm:w-11 sm:h-11 md:w-13 md:h-13 shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 48 48" fill="none" className="w-full h-full text-gold-accent drop-shadow-md">
-                <path
-                  d="M8 38L24 10L40 38H31L24 24L17 38H8Z"
-                  fill="currentColor"
-                />
-                <path
-                  d="M24 28L28 36H20L24 28Z"
-                  fill="#F5D77F"
-                />
-              </svg>
+            {/* Existing brand monogram, reused without inventing a second logo. */}
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-button border border-gold-accent/50 bg-teal-primary/80 text-sm font-bold text-gold-accent sm:h-11 sm:w-11 sm:text-base">
+              RM
             </div>
 
-            <h1 className="font-sans font-extrabold tracking-tight text-white uppercase drop-shadow-lg text-[clamp(1.35rem,5.4vw,3.25rem)] leading-none">
+            <h1 className="font-sans font-extrabold tracking-tight text-white drop-shadow-lg text-[clamp(1.35rem,5.4vw,3.25rem)] leading-none">
               {company.brandName}
             </h1>
           </div>
 
-          {/* Clean Subtitle / Tagline with Responsive Letter Spacing */}
-          <p className="font-sans text-[10px] sm:text-xs md:text-sm font-semibold tracking-[0.16em] sm:tracking-[0.24em] text-white/90 uppercase drop-shadow-md">
-            TERPERCAYA, TERBUKTI, RECOMMENDED
+          <p className="font-sans text-xs sm:text-sm md:text-base font-medium text-white/90 drop-shadow-md">
+            Pendampingan Umroh dan Haji untuk keluarga Indonesia.
           </p>
 
         </div>
       </div>
 
-      {/* ── Bottom Floating 4 Pillars Trust Bar (2-Column Grid on Mobile, 4-Col on Desktop) ── */}
+      {/* Four real service signals, kept in a compact reading band. */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-3.5 sm:px-6 lg:px-8 pb-5 sm:pb-8 lg:pb-10">
-        <div className="bg-black/50 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/15 p-3 sm:p-5 lg:p-6 shadow-2xl">
+        <div className="rounded-card border border-white/20 bg-slate-dark/85 p-3 sm:p-5 lg:p-6 shadow-elevated">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6 divide-y-0 divide-x-0 lg:divide-x divide-white/10">
             {trustPillars.map((pillar, idx) => (
               <div

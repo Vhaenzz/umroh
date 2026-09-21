@@ -110,16 +110,16 @@ export default function PackageCard({
           {/* Top badges on image */}
           <div className="absolute top-3 left-3 right-3 flex justify-between items-center z-10">
             <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-badge text-[11px] font-bold border ${status.bg} ${status.text} ${status.border} shadow-xs`}>
-              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${status.dot} animate-pulse`} />
+              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${status.dot}`} />
               {statusLabel}
             </span>
-            <span className="px-2 py-0.5 rounded-badge bg-black/50 text-white text-[10px] font-mono font-semibold backdrop-blur-xs">
+            <span className="px-2 py-0.5 rounded-badge bg-black/70 text-white text-[10px] font-mono font-semibold">
               {pkg.duration}
             </span>
           </div>
 
           <div className="absolute bottom-3 left-3 z-10">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-badge bg-black/40 text-white text-[11px] font-medium backdrop-blur-xs border border-white/15">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-badge bg-black/70 text-white text-[11px] font-medium border border-white/15">
               <svg className="w-3 h-3 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
               </svg>
@@ -154,7 +154,7 @@ export default function PackageCard({
               </div>
               <div className="bg-warm-bg rounded-button p-2 border border-warm-border/50">
                 <span className="text-[10px] text-slate-caption block">Penerbangan</span>
-                <span className="font-semibold text-slate-dark truncate block">{pkg.flightType || "Direct Flight"}</span>
+                <span className="font-semibold text-slate-dark truncate block">{pkg.flightType || "Tipe penerbangan belum dicantumkan"}</span>
               </div>
               <div className="bg-warm-bg rounded-button p-2 border border-warm-border/50">
                 <span className="text-[10px] text-slate-caption block">Hotel Makkah</span>
@@ -206,6 +206,7 @@ export default function PackageCard({
                 rel="noopener noreferrer"
                 className="min-h-10 p-2.5 rounded-button border border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors flex items-center justify-center"
                 title="Tanya WhatsApp untuk paket ini"
+                aria-label={`Tanya WhatsApp tentang ${pkg.name}`}
               >
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
@@ -253,26 +254,26 @@ export default function PackageCard({
         {/* Top row: status badge + duration badge */}
         <div className="flex justify-between items-start gap-2 relative z-10">
           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-badge text-xs font-bold border ${status.bg} ${status.text} ${status.border} shadow-xs`}>
-            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${status.dot} animate-pulse`} />
+            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${status.dot}`} />
             {statusLabel}
           </span>
 
-          <span className="px-2.5 py-1 rounded-badge bg-black/45 text-white text-[11px] font-semibold backdrop-blur-xs font-mono border border-white/10">
+          <span className="px-2.5 py-1 rounded-badge bg-black/70 text-white text-[11px] font-semibold font-mono border border-white/10">
             {pkg.duration}
           </span>
         </div>
 
         {/* Bottom row on image: Airline pill + Flight type */}
         <div className="flex items-center justify-between gap-2 z-10">
-          <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-xs border border-white/15 px-2.5 py-1 rounded-badge text-white">
+          <div className="flex items-center gap-1.5 bg-black/70 border border-white/15 px-2.5 py-1 rounded-badge text-white">
             <svg className="w-3.5 h-3.5 text-gold-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
             <span className="font-sans font-semibold text-[11px] truncate max-w-[130px]">{pkg.airline}</span>
           </div>
 
-          <span className="text-[10px] text-white/90 bg-teal-900/60 backdrop-blur-xs border border-white/10 px-2 py-0.5 rounded-badge font-medium">
-            {pkg.flightType || "Direct"}
+          <span className="text-[10px] text-white/90 bg-teal-900/75 border border-white/10 px-2 py-0.5 rounded-badge font-medium">
+            {pkg.flightType || "Tipe penerbangan belum dicantumkan"}
           </span>
         </div>
       </div>
@@ -375,6 +376,7 @@ export default function PackageCard({
               rel="noopener noreferrer"
               className="col-span-1 min-h-11 rounded-button border border-emerald-300 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 active:scale-95 transition-all flex items-center justify-center"
               title="Konsultasi WhatsApp untuk paket ini"
+              aria-label={`Konsultasi WhatsApp tentang ${pkg.name}`}
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />

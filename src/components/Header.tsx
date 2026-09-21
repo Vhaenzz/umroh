@@ -55,15 +55,15 @@ export default function Header({ company }: { company: CompanyProfile }) {
       <header
         className={`sticky top-0 z-40 w-full transition-all duration-300 border-b ${
           isScrolled
-            ? "bg-warm-bg/95 backdrop-blur-md border-warm-border shadow-card py-3"
-            : "bg-warm-bg/90 backdrop-blur-sm border-warm-border/60 py-4"
+            ? "bg-warm-bg border-warm-border shadow-card py-3"
+            : "bg-warm-bg border-warm-border/60 py-4"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Logo Section */}
           <Link
             href="/"
-            className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-gold-accent rounded-button"
+            className="flex items-center gap-3 group focus:outline-none focus:ring-2 focus:ring-teal-primary rounded-button"
             aria-label={`${company.brandName} Beranda`}
           >
             {/* Monogram */}
@@ -139,7 +139,7 @@ export default function Header({ company }: { company: CompanyProfile }) {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               type="button"
-              className="w-11 h-11 rounded-button bg-warm-muted hover:bg-warm-border text-teal-primary flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-gold-accent"
+              className="w-11 h-11 rounded-button bg-warm-muted hover:bg-warm-border text-teal-primary flex items-center justify-center transition-colors focus:outline-none focus:ring-2 focus:ring-teal-primary"
               aria-expanded={isMobileMenuOpen}
               aria-label="Buka menu navigasi"
             >

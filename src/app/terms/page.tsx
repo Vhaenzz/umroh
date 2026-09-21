@@ -6,7 +6,7 @@ import { getSiteData } from "@/lib/cms/store";
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
   return {
-    title: `Syarat & Ketentuan Pendaftaran — ${company.brandName}`,
+    title: `Syarat & Ketentuan Pendaftaran | ${company.brandName}`,
     description: `Syarat, ketentuan pembayaran, prosedur pembatalan, dan hak kewajiban jemaah pada ${company.brandName}.`,
   };
 }

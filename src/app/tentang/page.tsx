@@ -4,7 +4,7 @@ import { AboutPageContent } from "@/components/SiteContentPages";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  return { title: `Tentang Kami — ${company.brandName}`, description: `Profil, layanan, dan tim ${company.brandName}.` };
+  return { title: `Tentang Kami | ${company.brandName}`, description: `Profil, layanan, dan tim ${company.brandName}.` };
 }
 
 export default async function TentangPage() {

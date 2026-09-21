@@ -4,7 +4,7 @@ import FinancingSection from "@/components/FinancingSection";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  return { title: `Pembiayaan — ${company.brandName}`, description: "Pilihan pembayaran dan skema tabungan Umroh serta Haji Khusus." };
+  return { title: `Pembiayaan | ${company.brandName}`, description: "Pilihan pembayaran dan skema tabungan Umroh serta Haji Khusus." };
 }
 
 export default async function PembiayaanPage() {
