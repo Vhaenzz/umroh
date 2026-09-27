@@ -81,7 +81,16 @@ export default async function PrivacyPolicyPage() {
 
           <section className="space-y-2">
             <h2 className="font-serif text-lg sm:text-xl font-bold text-teal-primary">
-              4. Keamanan &amp; Larangan Penjualan Data
+              4. Inquiry Konsultasi Website
+            </h2>
+            <p>
+              Saat calon jemaah meminta konsultasi melalui website, kami dapat menyimpan nama, nomor WhatsApp, pertanyaan, paket yang dilihat, dan sumber halaman untuk membantu tindak lanjut admin. Data ini disimpan pada sistem CMS terproteksi dan tidak dimasukkan ke URL WhatsApp.
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <h2 className="font-serif text-lg sm:text-xl font-bold text-teal-primary">
+              5. Keamanan &amp; Larangan Penjualan Data
             </h2>
             <p>
               Kami tidak pernah menjual, menyewakan, atau membagikan data pribadi jemaah kepada pihak ketiga untuk kepentingan komersial/iklan di luar ekosistem perjalanan ibadah Anda.
@@ -90,7 +99,7 @@ export default async function PrivacyPolicyPage() {
 
           <section className="space-y-2">
             <h2 className="font-serif text-lg sm:text-xl font-bold text-teal-primary">
-              5. Hak Jemaah &amp; Kontak Pengelola Data
+              6. Hak Jemaah &amp; Kontak Pengelola Data
             </h2>
             <p>
               Jemaah berhak untuk meminta pembaharuan, koreksi, atau penghapusan data setelah seluruh kewajiban administrasi keberangkatan selesai. Hubungi kami melalui:

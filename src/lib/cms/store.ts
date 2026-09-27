@@ -1,11 +1,19 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { unstable_cache } from "next/cache";
 import { getDefaultSiteData } from "@/lib/cms/default-data";
 import type { SiteData } from "@/lib/cms/types";
 import { getSupabaseSiteData, isSupabaseConfigured } from "@/lib/supabase/server";
 
 const contentDirectory = path.join(process.cwd(), "content");
 const contentPath = path.join(contentDirectory, "site-data.json");
+export const SITE_DATA_CACHE_TAG = "cms-site-data";
+
+const getCachedSupabaseSiteData = unstable_cache(
+  async () => getSupabaseSiteData(),
+  ["cms-site-data"],
+  { tags: [SITE_DATA_CACHE_TAG], revalidate: 300 },
+);
 
 function isSiteData(value: unknown): value is SiteData {
   if (!value || typeof value !== "object") return false;
@@ -15,7 +23,7 @@ function isSiteData(value: unknown): value is SiteData {
 
 export async function getSiteData(): Promise<SiteData> {
   if (isSupabaseConfigured) {
-    const remoteData = await getSupabaseSiteData();
+    const remoteData = await getCachedSupabaseSiteData();
     if (remoteData) return remoteData;
   }
 

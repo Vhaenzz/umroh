@@ -8,7 +8,7 @@ import AnalyticsScript from "@/components/AnalyticsScript";
 import { getSiteData } from "@/lib/cms/store";
 import "./globals.css";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],

@@ -6,8 +6,9 @@ import type { Package, PackageLifecycle, RoomPrice } from "@/types/package";
 import type { SiteData } from "@/lib/cms/types";
 import { createBrowserSupabase, isSupabaseConfigured } from "@/lib/supabase/browser";
 import CmsMediaUpload from "@/components/CmsMediaUpload";
+import InquiryManager from "@/components/InquiryManager";
 
-type Tab = "packages" | "company" | "financing" | "payments" | "media" | "transfer";
+type Tab = "packages" | "company" | "financing" | "payments" | "media" | "inquiries" | "transfer";
 type FieldValue = unknown;
 
 const inputClass =
@@ -900,6 +901,8 @@ export default function CmsDashboard() {
       />
     );
 
+  if (tab === "inquiries") return <InquiryManager sessionToken={sessionToken} />;
+
   return (
     <main className="min-h-screen bg-[#f4f1e9] text-slate-dark font-sans">
       <div className="mx-auto grid max-w-[1600px] lg:grid-cols-[250px_1fr]">
@@ -927,6 +930,7 @@ export default function CmsDashboard() {
                   ["packages", "Paket Ibadah"],
                   ["company", "Profil & Legalitas"],
                   ["media", "Media Galeri"],
+                  ["inquiries", "Inquiry Masuk"],
                   ["financing", "Pembiayaan"],
                   ["payments", "Rekening Bank"],
                   ["transfer", "Backup & Sync"],

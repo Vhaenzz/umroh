@@ -6,11 +6,19 @@ import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
 import { getPackageWhatsAppUrl } from "@/lib/contact";
 import SharePackageButton from "@/components/SharePackageButton";
+import InquiryDialog from "@/components/InquiryDialog";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const { packages } = await getSiteData();
+  return packages
+    .filter((item) => item.isUmroh && item.lifecycle !== "draft" && item.lifecycle !== "archived")
+    .map((item) => ({ slug: item.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -27,6 +35,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${pkg.name} | Detail Paket, Harga & Jadwal | ${company.brandName}`,
     description: `Detail jadwal, fasilitas, rincian harga per kamar, maskapai ${pkg.airline}, dan akomodasi ${pkg.hotelMakkah} untuk ${pkg.name}.`,
+    alternates: { canonical: `/umroh/${pkg.slug}` },
+    openGraph: {
+      type: "website",
+      url: `/umroh/${pkg.slug}`,
+      title: `${pkg.name} | ${company.brandName}`,
+      description: `Jadwal, fasilitas, harga, dan akomodasi ${pkg.name}.`,
+      images: [{ url: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png", alt: pkg.name }],
+    },
   };
 }
 
@@ -56,9 +72,25 @@ export default async function PackageDetailPage({ params }: PageProps) {
         : pkg.statusType === "warning"
           ? "Kuota terbatas"
           : "Jadwal tersedia";
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pkg.name,
+    description: `Paket Umroh ${pkg.duration} dari ${pkg.departureCity} bersama ${company.brandName}.`,
+    image: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png",
+    brand: { "@type": "Brand", name: company.brandName },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "IDR",
+      price: pkg.priceNumeric > 0 ? String(pkg.priceNumeric) : undefined,
+      availability: pkg.lifecycle === "sold_out" ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
+      url: `/umroh/${pkg.slug}`,
+    },
+  };
 
   return (
     <div className="bg-warm-bg min-h-screen py-6 sm:py-10">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
         {/* ── 1. BREADCRUMBS ── */}
@@ -109,7 +141,7 @@ export default async function PackageDetailPage({ params }: PageProps) {
           </p>
           <div className="flex flex-wrap gap-3 pt-2">
             <SharePackageButton title={pkg.name} />
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-button bg-teal-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-teal-900">Konsultasi paket ini</a>
+            <InquiryDialog href={whatsappUrl} packageId={pkg.id} packageName={pkg.name} label="Konsultasi paket ini" className="inline-flex min-h-11 items-center rounded-button bg-teal-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-teal-900" />
           </div>
         </div>
 

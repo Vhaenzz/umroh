@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getDefaultSiteData } from "@/lib/cms/default-data";
-import { getSiteData, writeSiteData } from "@/lib/cms/store";
+import { getSiteData, SITE_DATA_CACHE_TAG, writeSiteData } from "@/lib/cms/store";
 import type { SiteData } from "@/lib/cms/types";
 import { authorizeSupabase, isSupabaseConfigured, writeSupabaseSiteData } from "@/lib/supabase/server";
 
@@ -25,6 +26,11 @@ function isSiteData(value: unknown): value is SiteData {
   return Boolean(candidate.company && Array.isArray(candidate.packages));
 }
 
+function invalidateSiteData() {
+  revalidateTag(SITE_DATA_CACHE_TAG, "max");
+  revalidatePath("/", "layout");
+}
+
 export async function GET() {
   return NextResponse.json(await getSiteData());
 }
@@ -45,12 +51,16 @@ export async function PUT(request: NextRequest) {
   const body: unknown = await request.json();
   if (body && typeof body === "object" && "reset" in body && body.reset === true) {
     const seed = getDefaultSiteData();
-    return NextResponse.json(isSupabaseConfigured ? await writeSupabaseSiteData(seed, accessToken) : await writeSiteData(seed));
+    const saved = isSupabaseConfigured ? await writeSupabaseSiteData(seed, accessToken) : await writeSiteData(seed);
+    invalidateSiteData();
+    return NextResponse.json(saved);
   }
 
   if (!isSiteData(body)) {
     return NextResponse.json({ error: "Format data CMS tidak valid." }, { status: 400 });
   }
 
-  return NextResponse.json(isSupabaseConfigured ? await writeSupabaseSiteData(body, accessToken) : await writeSiteData(body));
+  const saved = isSupabaseConfigured ? await writeSupabaseSiteData(body, accessToken) : await writeSiteData(body);
+  invalidateSiteData();
+  return NextResponse.json(saved);
 }

@@ -4,16 +4,28 @@ import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
 import { getPackageWhatsAppUrl } from "@/lib/contact";
 import SharePackageButton from "@/components/SharePackageButton";
+import InquiryDialog from "@/components/InquiryDialog";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 interface PageProps { params: Promise<{ slug: string }> }
+
+export async function generateStaticParams() {
+  const { packages } = await getSiteData();
+  return packages
+    .filter((item) => item.isHaji && item.lifecycle !== "draft" && item.lifecycle !== "archived")
+    .map((item) => ({ slug: item.slug }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const { company, packages } = await getSiteData();
   const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase() && item.isHaji);
-  return { title: pkg ? `${pkg.name} | Haji Khusus | ${company.brandName}` : `Paket Haji Tidak Ditemukan | ${company.brandName}`, description: pkg ? `Detail program Haji Khusus ${pkg.name}, jadwal, biaya, fasilitas, dan proses pendaftaran.` : "Paket Haji Khusus tidak ditemukan." };
+  return {
+    title: pkg ? `${pkg.name} | Haji Khusus | ${company.brandName}` : `Paket Haji Tidak Ditemukan | ${company.brandName}`,
+    description: pkg ? `Detail program Haji Khusus ${pkg.name}, jadwal, biaya, fasilitas, dan proses pendaftaran.` : "Paket Haji Khusus tidak ditemukan.",
+    ...(pkg ? { alternates: { canonical: `/haji/${pkg.slug}` } } : {}),
+  };
 }
 
 export default async function HajiDetailPage({ params }: PageProps) {
@@ -26,8 +38,24 @@ export default async function HajiDetailPage({ params }: PageProps) {
   const excluded = pkg.facilitiesExcluded || [];
   const itinerary = pkg.itinerary || [];
   const whatsappUrl = getPackageWhatsAppUrl(company.phone, pkg);
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: pkg.name,
+    description: `Program Haji Khusus ${pkg.duration} dari ${pkg.departureCity} bersama ${company.brandName}.`,
+    image: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png",
+    brand: { "@type": "Brand", name: company.brandName },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "IDR",
+      price: pkg.priceNumeric > 0 ? String(pkg.priceNumeric) : undefined,
+      availability: "https://schema.org/InStock",
+      url: `/haji/${pkg.slug}`,
+    },
+  };
 
   return <main className="bg-warm-bg pb-24 lg:pb-0">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
     <div className="mx-auto max-w-7xl space-y-8 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-slate-caption">
         <Link href="/" className="hover:text-teal-primary">Beranda</Link><span aria-hidden="true">/</span><Link href="/haji" className="hover:text-teal-primary">Haji Khusus</Link><span aria-hidden="true">/</span><span className="font-semibold text-teal-primary">{pkg.name}</span>
@@ -38,9 +66,9 @@ export default async function HajiDetailPage({ params }: PageProps) {
           <div className="flex flex-wrap gap-2"><span className={`rounded-badge px-3 py-1 text-xs font-bold text-white ${pkg.categoryColor}`}>{pkg.category}</span><span className="rounded-badge border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold text-amber-800">Perlu konfirmasi kuota</span></div>
           <h1 className="mt-4 max-w-4xl font-serif text-4xl font-bold leading-tight text-teal-primary sm:text-5xl">{pkg.name}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-slate-body">Program Haji Khusus {pkg.duration} dari {pkg.departureCity}. Tinjau data program, komponen biaya, dan prosedur sebelum meminta konfirmasi tertulis.</p>
-          <div className="mt-5 flex flex-wrap gap-3"><SharePackageButton title={pkg.name} /><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center rounded-button bg-teal-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-teal-900">Konsultasi paket ini</a></div>
+          <div className="mt-5 flex flex-wrap gap-3"><SharePackageButton title={pkg.name} /><InquiryDialog href={whatsappUrl} packageId={pkg.id} packageName={pkg.name} label="Konsultasi paket ini" className="inline-flex min-h-11 items-center rounded-button bg-teal-primary px-4 py-2.5 text-sm font-bold text-white hover:bg-teal-900" /></div>
         </div>
-        <aside className="rounded-card border border-teal-primary/20 bg-teal-primary p-5 text-white shadow-card lg:sticky lg:top-24"><p className="text-xs font-bold uppercase tracking-wider text-white/65">Mulai dari / orang</p><p className="mt-1 text-2xl font-bold text-gold-accent">{pkg.discountedPrice}</p><p className="mt-2 text-xs leading-5 text-white/75">Nilai paket, kurs, kuota, dan tipe kamar dikonfirmasi sebelum pendaftaran.</p><a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-button bg-gold-accent px-4 py-3 text-sm font-bold text-slate-dark hover:bg-gold-hover">Tanyakan ketersediaan</a></aside>
+        <aside className="rounded-card border border-teal-primary/20 bg-teal-primary p-5 text-white shadow-card lg:sticky lg:top-24"><p className="text-xs font-bold uppercase tracking-wider text-white/65">Mulai dari / orang</p><p className="mt-1 text-2xl font-bold text-gold-accent">{pkg.discountedPrice}</p><p className="mt-2 text-xs leading-5 text-white/75">Nilai paket, kurs, kuota, dan tipe kamar dikonfirmasi sebelum pendaftaran.</p><InquiryDialog href={whatsappUrl} packageId={pkg.id} packageName={pkg.name} label="Tanyakan ketersediaan" className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-button bg-gold-accent px-4 py-3 text-sm font-bold text-slate-dark hover:bg-gold-hover" /></aside>
       </header>
 
       <section aria-labelledby="haji-specs" className="rounded-card border border-warm-border bg-warm-surface p-5 shadow-card sm:p-7"><h2 id="haji-specs" className="text-xs font-bold uppercase tracking-wider text-slate-caption">Ringkasan program</h2><dl className="mt-4 grid grid-cols-2 gap-5 sm:grid-cols-4"><div><dt className="text-xs text-slate-muted">Keberangkatan</dt><dd className="mt-1 text-sm font-bold text-teal-primary">{pkg.departureDate}</dd></div><div><dt className="text-xs text-slate-muted">Durasi</dt><dd className="mt-1 text-sm font-bold text-teal-primary">{pkg.duration}</dd></div><div><dt className="text-xs text-slate-muted">Penerbangan</dt><dd className="mt-1 text-sm font-bold text-teal-primary">{pkg.airline}</dd></div><div><dt className="text-xs text-slate-muted">Embarkasi</dt><dd className="mt-1 text-sm font-bold text-teal-primary">{pkg.departureCity}</dd></div></dl></section>
