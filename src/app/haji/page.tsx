@@ -3,21 +3,40 @@ import type { Metadata } from "next";
 import PackageCatalogView from "@/components/PackageCatalogView";
 import { HajiOverviewSection } from "@/components/SiteContentPages";
 import { getSiteData } from "@/lib/cms/store";
+import { getAbsoluteUrl } from "@/lib/site-url";
+import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
+  const canonicalUrl = getAbsoluteUrl("/haji");
   return {
-    title: `Katalog Paket Haji Plus & Khusus | ${company.brandName}`,
-    description: "Bandingkan jadwal, akomodasi, itinerary, fasilitas, dan pilihan paket Haji yang tersedia.",
+    title: `Paket Haji Khusus & Furoda Resmi Kemenag | ${company.brandName}`,
+    description: `Pilihan program Haji Khusus kuota resmi Kemenag RI dan Haji Furoda dengan pendampingan muthowwif serta akomodasi hotel bintang di Makkah & Madinah.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      url: canonicalUrl,
+      title: `Paket Haji Khusus & Furoda Resmi Kemenag | ${company.brandName}`,
+      description: `Pilihan program Haji Khusus kuota resmi Kemenag RI dan Haji Furoda dengan pendampingan muthowwif serta akomodasi hotel bintang di Makkah & Madinah.`,
+    },
   };
 }
 
 export default async function HajiCatalogPage() {
   const { company, packages } = await getSiteData();
   const hajiPackages = packages.filter((p) => p.isHaji);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Beranda", url: "/" },
+    { name: "Program Haji Khusus", url: "/haji" },
+  ]);
 
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <HajiOverviewSection company={company} />
       <PackageCatalogView
         initialPackages={hajiPackages}
@@ -30,3 +49,4 @@ export default async function HajiCatalogPage() {
     </main>
   );
 }
+

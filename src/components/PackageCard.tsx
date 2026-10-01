@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Package, StatusType } from "@/types/package";
 import { getPackageLifecycle } from "@/lib/package";
+import { companyProfile } from "@/data/company";
+
 
 // Status configuration
 const statusConfig: Record<StatusType, { bg: string; text: string; border: string; dot: string; label: string }> = {
@@ -79,11 +81,14 @@ export default function PackageCard({
     ? new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", maximumFractionDigits: 0 }).format(lowestRoomPrice)
     : pkg.discountedPrice;
 
-  // WhatsApp link generator
+  // WhatsApp link generator using verified official company phone
+  const waNumber = companyProfile.phone.replace(/\D/g, "").replace(/^0/, "62");
   const waText = encodeURIComponent(
-    `Assalamu'alaikum Admin, saya ingin menanyakan informasi & ketersediaan paket: *${pkg.name}* (Keberangkatan: ${pkg.departureDate}, Durasi: ${pkg.duration}).`
+    `Assalamu'alaikum Admin Risalah Madina Tour, saya ingin menanyakan informasi & ketersediaan paket: *${pkg.name}* (Keberangkatan: ${pkg.departureDate}, Durasi: ${pkg.duration}).`
   );
-  const waUrl = `https://wa.me/6281234567890?text=${waText}`;
+  const waUrl = `https://wa.me/${waNumber}?text=${waText}`;
+
+
 
   /* ─────────────────────────────────────────────────────────────
      1. LIST MODE (Dense horizontal card for desktop/tablet)

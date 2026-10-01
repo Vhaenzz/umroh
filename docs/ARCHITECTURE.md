@@ -42,9 +42,11 @@ flowchart LR
 ## Batas keamanan
 
 - `/admin/*` melewati `proxy.ts`. User tanpa session Supabase atau tanpa role `admin`/`editor` diarahkan ke `/admin/login`.
-- `cms_site_data` dapat dibaca publik, tetapi insert/update hanya untuk editor/admin. Penghapusan data hanya admin.
-- Bucket `cms-media` sengaja public-read agar gambar website dapat dimuat CDN. Upload/update memerlukan editor/admin, sedangkan delete hanya admin.
-- `cms_inquiries` menerima insert anonim yang dibatasi panjang field-nya. Read hanya untuk editor/admin. Data kontak tidak ikut dikirim ke URL WhatsApp.
+- `cms_site_data` dapat dibaca publik, tetapi insert/update hanya untuk editor/admin. Penghapusan data dan aksi reset data hanya dapat dilakukan oleh role `admin`.
+- Optimistic Concurrency Control: `/api/cms` membandingkan `updated_at` sebelum menulis data dan mengembalikan `409 Conflict` jika data telah ditimpa oleh sesi editor lain.
+- Riwayat snapshot lengkap disimpan otomatis oleh Postgres Trigger ke tabel `cms_audit_log` untuk setiap insert/update/delete.
+- Bucket `cms-media` sengaja public-read agar gambar website dapat dimuat CDN, dengan pembatasan ukuran file maksimal 8MB (`file_size_limit = 8388608`) dan whitelist MIME type gambar saja. Upload/update memerlukan editor/admin, sedangkan delete hanya admin.
+- `cms_inquiries` menerima insert anonim yang dibatasi statusnya (`status = 'new'`) serta panjang seluruh field-nya (`package_id`, `package_name`, `contact_name`, `contact_phone`, `message`, `source_path`, `referrer`, `user_agent`). Read hanya untuk editor/admin. Data kontak tidak ikut dikirim ke URL WhatsApp.
 - Service role key tidak dipakai di browser dan tidak dibutuhkan untuk operasi normal CMS.
 
 ## Rendering dan SEO
@@ -61,5 +63,6 @@ Jalankan berurutan di Supabase SQL Editor:
 1. `supabase/migrations/001_cms.sql`
 2. `supabase/migrations/002_cms_media.sql`
 3. `supabase/migrations/003_enterprise_security_and_inquiries.sql`
+4. `supabase/migrations/004_security_hardening.sql`
 
 Setelah itu buat user di Supabase Auth, lalu masukkan UUID-nya ke `cms_members` sebagai `admin` atau `editor`.

@@ -1,16 +1,31 @@
 import type { CompanyProfile } from "@/data/company";
 
-export default function FinancingSection({ company }: { company: CompanyProfile }) {
+export default function FinancingSection({
+  company,
+  isHeadingH1 = false,
+}: {
+  company: CompanyProfile;
+  isHeadingH1?: boolean;
+}) {
   return (
-    <section id="pembiayaan" className="border-t border-warm-border bg-warm-surface py-12 sm:py-16 scroll-mt-24">
+    <section id="pembiayaan" className="border-t border-warm-border bg-warm-surface py-12 sm:py-16 scroll-mt-24 font-sans">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-gold-hover">Rencana biaya</p>
-          <h2 className="font-sans text-2xl font-bold leading-tight text-teal-primary sm:text-3xl">Pilihan menuju Baitullah</h2>
+          {isHeadingH1 ? (
+            <h1 className="font-serif text-3xl font-bold leading-tight text-teal-primary sm:text-4xl">
+              Skema Pembiayaan &amp; Tabungan Umroh / Haji
+            </h1>
+          ) : (
+            <h2 className="font-sans text-2xl font-bold leading-tight text-teal-primary sm:text-3xl">
+              Pilihan menuju Baitullah
+            </h2>
+          )}
           <p className="mt-3 text-sm leading-6 text-slate-body sm:text-base">
             Skema di bawah ini mengikuti profil layanan Risalah Madina Tour. Nilai program, fasilitas, dan harga tetap perlu dikonfirmasi sebelum pembayaran.
           </p>
         </div>
+
 
         <div className="mt-8 grid min-w-0 gap-5 lg:grid-cols-[0.8fr_1.2fr]">
           <div className="min-w-0 rounded-card border border-warm-border bg-warm-bg p-5 sm:p-6">

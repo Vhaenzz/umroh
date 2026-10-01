@@ -5,6 +5,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
 import { getPackageWhatsAppUrl } from "@/lib/contact";
+import { getAbsoluteUrl } from "@/lib/site-url";
+import { getBreadcrumbSchema, getProductSchema } from "@/lib/structured-data";
 import SharePackageButton from "@/components/SharePackageButton";
 import InquiryDialog from "@/components/InquiryDialog";
 
@@ -32,15 +34,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
+  const canonicalUrl = getAbsoluteUrl(`/umroh/${pkg.slug}`);
+
   return {
-    title: `${pkg.name} | Detail Paket, Harga & Jadwal | ${company.brandName}`,
-    description: `Detail jadwal, fasilitas, rincian harga per kamar, maskapai ${pkg.airline}, dan akomodasi ${pkg.hotelMakkah} untuk ${pkg.name}.`,
-    alternates: { canonical: `/umroh/${pkg.slug}` },
+    title: `${pkg.name} | Jadwal & Biaya | ${company.brandName}`,
+    description: `Paket ${pkg.name} keberangkatan ${pkg.departureDate} (${pkg.duration}). Maskapai ${pkg.airline}, hotel ${pkg.hotelMakkah}, bimbingan muthowwif resmi.`,
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       type: "website",
-      url: `/umroh/${pkg.slug}`,
+      url: canonicalUrl,
       title: `${pkg.name} | ${company.brandName}`,
-      description: `Jadwal, fasilitas, harga, dan akomodasi ${pkg.name}.`,
+      description: `Paket ${pkg.name} keberangkatan ${pkg.departureDate} (${pkg.duration}). Maskapai ${pkg.airline}, hotel ${pkg.hotelMakkah}, bimbingan muthowwif resmi.`,
       images: [{ url: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png", alt: pkg.name }],
     },
   };
@@ -55,9 +59,16 @@ export default async function PackageDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const roomPrices = pkg.roomPricing || [];
+  const productSchema = getProductSchema(pkg, company);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Beranda", url: "/" },
+    { name: "Paket Umroh", url: "/umroh" },
+    { name: pkg.name, url: `/umroh/${pkg.slug}` },
+  ]);
 
+  const roomPrices = pkg.roomPricing || [];
   const galleryItems = pkg.gallery || [];
+
 
   const itineraryDays = pkg.itinerary || [];
   const facilitiesIncluded = pkg.facilitiesIncluded || [];
@@ -72,26 +83,12 @@ export default async function PackageDetailPage({ params }: PageProps) {
         : pkg.statusType === "warning"
           ? "Kuota terbatas"
           : "Jadwal tersedia";
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: pkg.name,
-    description: `Paket Umroh ${pkg.duration} dari ${pkg.departureCity} bersama ${company.brandName}.`,
-    image: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png",
-    brand: { "@type": "Brand", name: company.brandName },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "IDR",
-      price: pkg.priceNumeric > 0 ? String(pkg.priceNumeric) : undefined,
-      availability: pkg.lifecycle === "sold_out" ? "https://schema.org/SoldOut" : "https://schema.org/InStock",
-      url: `/umroh/${pkg.slug}`,
-    },
-  };
-
   return (
-    <div className="bg-warm-bg min-h-screen py-6 sm:py-10">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
+    <div className="bg-warm-bg min-h-screen py-6 sm:py-10 font-sans">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
 
         {/* ── 1. BREADCRUMBS ── */}
         <nav aria-label="Breadcrumb" className="text-xs font-sans text-slate-caption flex items-center gap-2">

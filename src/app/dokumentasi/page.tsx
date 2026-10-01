@@ -1,10 +1,41 @@
 import type { Metadata } from "next";
 import { DocumentationPageContent } from "@/components/SiteContentPages";
 import { getSiteData } from "@/lib/cms/store";
+import { getAbsoluteUrl } from "@/lib/site-url";
+import { getBreadcrumbSchema } from "@/lib/structured-data";
 
-export const metadata: Metadata = { title: "Dokumentasi Perjalanan | Risalah Madina Tour", description: "Dokumentasi perjalanan dan tim pendamping Risalah Madina Tour." };
+export async function generateMetadata(): Promise<Metadata> {
+  const { company } = await getSiteData();
+  const canonicalUrl = getAbsoluteUrl("/dokumentasi");
+  return {
+    title: `Dokumentasi & Galeri Jamaah | ${company.brandName}`,
+    description: `Galeri dokumentasi perjalanan ibadah jemaah ${company.brandName} di Makkah, Madinah, Turki, Dubai, Al Ula, Thaif, dan Mesir.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      url: canonicalUrl,
+      title: `Dokumentasi & Galeri Jamaah | ${company.brandName}`,
+      description: `Galeri dokumentasi perjalanan ibadah jemaah ${company.brandName} di Makkah, Madinah, Turki, Dubai, Al Ula, Thaif, dan Mesir.`,
+    },
+  };
+}
 
 export default async function DokumentasiPage() {
   const { company } = await getSiteData();
-  return <DocumentationPageContent company={company} />;
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Beranda", url: "/" },
+    { name: "Dokumentasi", url: "/dokumentasi" },
+  ]);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <DocumentationPageContent company={company} />
+    </>
+  );
 }
+

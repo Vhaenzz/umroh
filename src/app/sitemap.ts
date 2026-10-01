@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getSiteData } from "@/lib/cms/store";
+import { getSiteUrl } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://risalahmadina.com";
+  const siteUrl = getSiteUrl();
   const { packages } = await getSiteData();
 
   // Static route definitions

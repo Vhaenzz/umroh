@@ -142,8 +142,46 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
           </div>
 
           <p className="font-sans text-xs sm:text-sm md:text-base font-medium text-white/90 drop-shadow-md">
-            Pendampingan Umroh dan Haji untuk keluarga Indonesia.
+            Pendampingan Umroh dan Haji untuk keluarga Indonesia. Izin Resmi Kemenag RI.
           </p>
+
+          {/* ── Hero Action CTAs (Primary + Secondary WhatsApp) ── */}
+          <div className="pt-2 sm:pt-4 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="#katalog"
+              id="hero-cta-katalog"
+              className="inline-flex min-h-12 items-center justify-center rounded-button bg-gold-accent hover:bg-gold-hover px-6 py-3 font-sans text-xs sm:text-sm font-bold text-slate-dark shadow-elevated transition-all active:scale-[0.98]"
+            >
+              Lihat Paket Umroh 2026
+            </a>
+            <a
+              href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0/, "62")}?text=${encodeURIComponent("Assalamu'alaikum Admin Risalah Madina Tour, saya ingin berkonsultasi mengenai jadwal paket Umroh / Haji.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="hero-cta-whatsapp"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-button border border-white/30 bg-black/40 hover:bg-black/60 px-5 py-3 font-sans text-xs sm:text-sm font-semibold text-white backdrop-blur-sm transition-all active:scale-[0.98]"
+            >
+              <svg className="w-4 h-4 text-emerald-400 fill-current" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.12.553 4.111 1.523 5.842l-1.615 5.9 6.046-1.587c1.668.91 3.57 1.435 5.597 1.435 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z" />
+              </svg>
+              <span>Konsultasi WhatsApp</span>
+            </a>
+          </div>
+
+          {/* ── Official Legal Badges Strip ── */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2 text-[10px] sm:text-xs text-white/80 font-medium">
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 border border-white/15">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              SK PPIU: {company.legal.ppiu}
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 border border-white/15">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              {company.legal.pihk}
+            </span>
+            <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 border border-white/15">
+              Akreditasi {company.certification.accreditation} (KAN)
+            </span>
+          </div>
 
         </div>
       </div>
@@ -180,3 +218,4 @@ export default function HeroSection({ company }: { company: CompanyProfile }) {
     </section>
   );
 }
+

@@ -85,7 +85,7 @@ const packageData: Package[] = [
   },
   {
     id: "umroh-spesial-plus-city-tour-kuning",
-    name: "Umroh Spesial Plus City Tour - Thoif",
+    name: "Umroh Spesial Plus City Tour Thoif (Paket Kuning)",
     slug: "umroh-spesial-plus-city-tour-kuning",
     category: "Paket Kuning",
     packageType: "plus",
@@ -117,7 +117,7 @@ const packageData: Package[] = [
   },
   {
     id: "umroh-spesial-plus-city-tour-pink",
-    name: "Umroh Spesial Plus City Tour - Thoif",
+    name: "Umroh Spesial Plus City Tour Thoif (Paket Pink)",
     slug: "umroh-spesial-plus-city-tour-pink",
     category: "Paket Pink",
     packageType: "plus",
