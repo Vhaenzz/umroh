@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteData } from "@/lib/cms/store";
 import { getPackageWhatsAppUrl } from "@/lib/contact";
+import { getAbsoluteUrl } from "@/lib/site-url";
+import { getBreadcrumbSchema, getProductSchema } from "@/lib/structured-data";
 import SharePackageButton from "@/components/SharePackageButton";
 import InquiryDialog from "@/components/InquiryDialog";
 
@@ -21,10 +23,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const { company, packages } = await getSiteData();
   const pkg = packages.find((item) => item.slug.toLowerCase() === slug.toLowerCase() && item.isHaji);
+  if (!pkg) {
+    return {
+      title: `Paket Haji Tidak Ditemukan | ${company.brandName}`,
+    };
+  }
+  const canonicalUrl = getAbsoluteUrl(`/haji/${pkg.slug}`);
   return {
-    title: pkg ? `${pkg.name} | Haji Khusus | ${company.brandName}` : `Paket Haji Tidak Ditemukan | ${company.brandName}`,
-    description: pkg ? `Detail program Haji Khusus ${pkg.name}, jadwal, biaya, fasilitas, dan proses pendaftaran.` : "Paket Haji Khusus tidak ditemukan.",
-    ...(pkg ? { alternates: { canonical: `/haji/${pkg.slug}` } } : {}),
+    title: `${pkg.name} | Haji Khusus Resmi | ${company.brandName}`,
+    description: `Detail program Haji Khusus ${pkg.name}, jadwal ${pkg.departureDate} (${pkg.duration}), fasilitas, hotel, dan konsultasi kuota resmi Kemenag.`,
+    alternates: { canonical: canonicalUrl },
+    openGraph: {
+      url: canonicalUrl,
+      title: `${pkg.name} | Haji Khusus Resmi | ${company.brandName}`,
+      description: `Detail program Haji Khusus ${pkg.name}, jadwal ${pkg.departureDate} (${pkg.duration}), fasilitas, hotel, dan konsultasi kuota resmi Kemenag.`,
+      images: [{ url: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png", alt: pkg.name }],
+    },
   };
 }
 
@@ -38,24 +52,17 @@ export default async function HajiDetailPage({ params }: PageProps) {
   const excluded = pkg.facilitiesExcluded || [];
   const itinerary = pkg.itinerary || [];
   const whatsappUrl = getPackageWhatsAppUrl(company.phone, pkg);
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: pkg.name,
-    description: `Program Haji Khusus ${pkg.duration} dari ${pkg.departureCity} bersama ${company.brandName}.`,
-    image: pkg.imageUrl || company.media?.heroUrl || "/images/kaaba-courtyard.png",
-    brand: { "@type": "Brand", name: company.brandName },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "IDR",
-      price: pkg.priceNumeric > 0 ? String(pkg.priceNumeric) : undefined,
-      availability: "https://schema.org/InStock",
-      url: `/haji/${pkg.slug}`,
-    },
-  };
+  const productSchema = getProductSchema(pkg, company);
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Beranda", url: "/" },
+    { name: "Haji Khusus", url: "/haji" },
+    { name: pkg.name, url: `/haji/${pkg.slug}` },
+  ]);
 
-  return <main className="bg-warm-bg pb-24 lg:pb-0">
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
+  return <main className="bg-warm-bg pb-24 lg:pb-0 font-sans">
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+
     <div className="mx-auto max-w-7xl space-y-8 px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 text-xs text-slate-caption">
         <Link href="/" className="hover:text-teal-primary">Beranda</Link><span aria-hidden="true">/</span><Link href="/haji" className="hover:text-teal-primary">Haji Khusus</Link><span aria-hidden="true">/</span><span className="font-semibold text-teal-primary">{pkg.name}</span>

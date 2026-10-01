@@ -42,12 +42,12 @@ export default function NotFound() {
         <p className="text-[11px] text-slate-caption pt-2">
           Butuh bantuan langsung?{" "}
           <a
-            href="https://wa.me/6281234567890?text=Assalamu'alaikum%20Admin,%20saya%20mencari%20informasi%20paket%20ibadah"
+            href="https://wa.me/6281272230999?text=Assalamu'alaikum%20Admin%20Risalah%20Madina%20Tour,%20saya%20mencari%20informasi%20paket%20ibadah"
             target="_blank"
             rel="noopener noreferrer"
             className="text-teal-primary font-bold hover:underline"
           >
-            Hubungi Customer Service WhatsApp
+            Hubungi Customer Service WhatsApp (0812-7223-0999)
           </a>
         </p>
       </div>

@@ -6,6 +6,8 @@ import CookieNotice from "@/components/CookieNotice";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import AnalyticsScript from "@/components/AnalyticsScript";
 import { getSiteData } from "@/lib/cms/store";
+import { getSiteUrl } from "@/lib/site-url";
+import { getOrganizationSchema } from "@/lib/structured-data";
 import "./globals.css";
 
 export const revalidate = 300;
@@ -26,20 +28,20 @@ export const viewport: Viewport = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://risalahmadina.com";
+  const siteUrl = getSiteUrl();
 
   return {
     metadataBase: new URL(siteUrl),
     title: {
-      default: `${company.brandName} | Paket Umroh & Haji Khusus Resmi Kemenag`,
+      default: `${company.brandName} | Paket Umroh & Haji Khusus Resmi Kemenag Cirebon`,
       template: `%s | ${company.brandName}`,
     },
     description:
-      "Biro perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI. Transparansi biaya, kepastian jadwal, akomodasi hotel dekat masjid, dan bimbingan ibadah terpercaya.",
+      "Biro perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI (PPIU No. 91204028510220002). Transparansi biaya, kepastian jadwal, akomodasi hotel dekat masjid, dan bimbingan ibadah terpercaya.",
     keywords: [
       "Umroh 2026",
-      "Paket Umroh Murah",
-      "Haji Khusus",
+      "Paket Umroh Murah Cirebon",
+      "Haji Khusus Resmi",
       "Biro Umroh Resmi Kemenag",
       "Umroh Plus Turki",
       "Umroh Plus Thaif",
@@ -63,9 +65,9 @@ export async function generateMetadata(): Promise<Metadata> {
       type: "website",
       locale: "id_ID",
       url: siteUrl,
-      title: `${company.brandName} | Paket Umroh & Haji Khusus Resmi`,
+      title: `${company.brandName} | Paket Umroh & Haji Khusus Resmi Kemenag`,
       description:
-        "Bandingkan jadwal, maskapai, hotel, dan biaya paket Umroh & Haji Khusus secara transparan bersama bimbingan muthowwif berpengalaman.",
+        "Biro perjalanan ibadah Umroh dan Haji Khusus berizin resmi Kemenag RI (PPIU No. 91204028510220002). Transparansi biaya, kepastian jadwal, akomodasi hotel dekat masjid, dan bimbingan ibadah terpercaya.",
       siteName: company.brandName,
       images: [
         {
@@ -100,6 +102,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { company } = await getSiteData();
+  const organizationSchema = getOrganizationSchema(company);
 
   return (
     <html
@@ -107,6 +110,12 @@ export default async function RootLayout({
       suppressHydrationWarning
       className={`${plusJakartaSans.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body
         suppressHydrationWarning
         className="min-h-full bg-warm-bg text-slate-dark flex flex-col selection:bg-gold-accent/20 selection:text-teal-primary"
@@ -134,3 +143,4 @@ export default async function RootLayout({
     </html>
   );
 }
+

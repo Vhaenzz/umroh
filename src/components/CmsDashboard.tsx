@@ -753,9 +753,17 @@ export default function CmsDashboard() {
         },
         body: JSON.stringify(data),
       });
-      const result = (await response.json()) as SiteData & { error?: string };
-      if (!response.ok) throw new Error(result.error || "Perubahan tidak dapat disimpan.");
-      setData(result);
+      const result = (await response.json()) as SiteData & { error?: string; conflict?: boolean };
+      if (!response.ok) {
+        if (response.status === 409) {
+          throw new Error(
+            result.error ||
+              "Konflik Versi: Data di database telah diperbarui oleh editor lain. Muat ulang halaman untuk mengambil versi terbaru."
+          );
+        }
+        throw new Error(result.error || "Perubahan tidak dapat disimpan.");
+      }
+      setData(normalizeSiteData(result));
       setMessage(
         isSupabaseConfigured
           ? "Perubahan tersimpan ke Supabase dan akan tampil global."
@@ -771,6 +779,8 @@ export default function CmsDashboard() {
   async function resetData() {
     if (!window.confirm("Kembalikan semua data CMS ke seed dari dokumen profil dan paket?")) return;
     setSaving(true);
+    setMessage("");
+    setError("");
     try {
       const authorizationToken = sessionToken || token;
       const response = await fetch("/api/cms", {
@@ -781,9 +791,11 @@ export default function CmsDashboard() {
         },
         body: JSON.stringify({ reset: true }),
       });
-      if (!response.ok) throw new Error("Reset tidak diizinkan.");
-      const nextData = (await response.json()) as SiteData;
-      const normalizedData = normalizeSiteData(nextData);
+      const result = (await response.json()) as SiteData & { error?: string };
+      if (!response.ok) {
+        throw new Error(result.error || "Reset tidak diizinkan. Hanya admin yang dapat mereset data.");
+      }
+      const normalizedData = normalizeSiteData(result);
       setData(normalizedData);
       setSelectedPackageId(normalizedData.packages[0]?.id || null);
       setMessage("Data dikembalikan ke seed awal.");
@@ -1003,47 +1015,28 @@ export default function CmsDashboard() {
 
           {isSupabaseConfigured && (
             <section className="rounded-card border border-teal-primary/20 bg-teal-primary/5 p-4">
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-wider text-teal-primary">Supabase Auth Session</p>
-                  <p className="text-xs text-slate-body">
-                    {authUser ? `Terhubung sebagai ${authUser}` : "Login untuk mengelola data terpusat."}
+                  <p className="text-xs font-bold uppercase tracking-wider text-teal-primary">Status Autentikasi CMS</p>
+                  <p className="text-xs text-slate-body mt-0.5">
+                    {authUser ? `Terhubung sebagai ${authUser}` : "Anda belum login. Masuk untuk menyimpan perubahan ke database."}
                   </p>
                 </div>
                 {authUser ? (
                   <button
                     type="button"
                     onClick={signOut}
-                    className="rounded-button border border-warm-border bg-white px-3 py-1.5 text-xs font-bold text-slate-body hover:bg-warm-muted"
+                    className="rounded-button border border-warm-border bg-white px-3.5 py-1.5 text-xs font-bold text-slate-body hover:bg-warm-muted transition-colors"
                   >
                     Keluar Sesi
                   </button>
                 ) : (
-                  <div className="grid gap-2 sm:grid-cols-[1fr_1fr_auto]">
-                    <input
-                      className={inputClass.replace("mt-1 ", "")}
-                      type="email"
-                      value={authEmail}
-                      onChange={(event) => setAuthEmail(event.target.value)}
-                      placeholder="Email admin"
-                      aria-label="Email admin"
-                    />
-                    <input
-                      className={inputClass.replace("mt-1 ", "")}
-                      type="password"
-                      value={authPassword}
-                      onChange={(event) => setAuthPassword(event.target.value)}
-                      placeholder="Password"
-                      aria-label="Password admin"
-                    />
-                    <button
-                      type="button"
-                      onClick={signIn}
-                      className="rounded-button bg-teal-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-teal-900"
-                    >
-                      Login
-                    </button>
-                  </div>
+                  <a
+                    href="/admin/login?next=/admin"
+                    className="inline-flex items-center justify-center rounded-button bg-teal-primary px-4 py-1.5 text-xs font-bold text-white hover:bg-teal-900 transition-colors"
+                  >
+                    Masuk ke CMS →
+                  </a>
                 )}
               </div>
             </section>

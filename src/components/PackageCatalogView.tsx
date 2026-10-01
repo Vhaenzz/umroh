@@ -332,8 +332,12 @@ export default function PackageCatalogView({
           
           {/* Quick Search */}
           <div className="relative flex-1">
+            <label htmlFor="catalog-search-input" className="sr-only">
+              Cari paket ibadah
+            </label>
             <input
-              type="text"
+              id="catalog-search-input"
+              type="search"
               value={searchKeyword}
               onChange={(e) => setSearchKeyword(e.target.value)}
               placeholder="Cari paket, maskapai, hotel, kota..."
@@ -361,12 +365,16 @@ export default function PackageCatalogView({
 
           {/* Results Counter & Controls */}
           <div className="flex items-center justify-between sm:justify-end gap-2.5">
-            <span className="text-xs font-sans text-slate-muted shrink-0">
-              <strong className="text-teal-primary font-bold">{sortedPackages.length}</strong> jadwal
+            <span className="text-xs font-sans text-slate-muted shrink-0" aria-live="polite">
+              <strong className="text-teal-primary font-bold">{sortedPackages.length}</strong> jadwal ditemukan
             </span>
 
             {/* Sorting */}
+            <label htmlFor="catalog-sort-order" className="sr-only">
+              Urutkan jadwal paket
+            </label>
             <select
+              id="catalog-sort-order"
               aria-label="Urutkan paket"
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
@@ -377,6 +385,7 @@ export default function PackageCatalogView({
               <option value="price-high">Harga Tertinggi</option>
               <option value="duration">Durasi Terpendek</option>
             </select>
+
 
             {/* View Switcher (Desktop & Tablet) */}
             <div className="hidden md:flex items-center rounded-button border border-warm-border bg-warm-bg p-0.5">
@@ -545,10 +554,11 @@ export default function PackageCatalogView({
 
             {/* 2. Bulan Keberangkatan */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
+              <label htmlFor="filter-desktop-month" className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
                 Bulan Keberangkatan
               </label>
               <select
+                id="filter-desktop-month"
                 value={filters.month}
                 onChange={(e) => setFilters({ ...filters, month: e.target.value })}
                 className="w-full px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-xs font-sans text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -563,10 +573,11 @@ export default function PackageCatalogView({
 
             {/* 3. Kota Embarkasi */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
+              <label htmlFor="filter-desktop-city" className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
                 Kota Embarkasi
               </label>
               <select
+                id="filter-desktop-city"
                 value={filters.city}
                 onChange={(e) => setFilters({ ...filters, city: e.target.value })}
                 className="w-full px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-xs font-sans text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -581,10 +592,11 @@ export default function PackageCatalogView({
 
             {/* 4. Durasi */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
+              <label htmlFor="filter-desktop-duration" className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
                 Durasi Perjalanan
               </label>
               <select
+                id="filter-desktop-duration"
                 value={filters.duration}
                 onChange={(e) => setFilters({ ...filters, duration: e.target.value })}
                 className="w-full px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-xs font-sans text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -599,10 +611,11 @@ export default function PackageCatalogView({
 
             {/* 5. Range Harga */}
             <div className="space-y-1.5">
-              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
+              <label htmlFor="filter-desktop-price" className="text-[11px] font-bold uppercase tracking-wider text-slate-caption font-sans block">
                 Kisaran Biaya
               </label>
               <select
+                id="filter-desktop-price"
                 value={filters.priceRange}
                 onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
                 className="w-full px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-xs font-sans text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -621,12 +634,12 @@ export default function PackageCatalogView({
                 Butuh tanggal khusus atau rombongan keluarga?
               </p>
               <a
-                href="https://wa.me/6281234567890?text=Assalamu'alaikum%20Admin,%20saya%20ingin%20konsultasi%20paket%20ibadah%20custom"
+                href="https://wa.me/6281272230999?text=Assalamu'alaikum%20Admin%20Risalah%20Madina%20Tour,%20saya%20ingin%20konsultasi%20paket%20ibadah%20custom"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2 px-3 rounded-button bg-warm-bg hover:bg-emerald-50 text-emerald-800 border border-emerald-300 text-xs font-bold inline-flex items-center justify-center gap-1.5 transition-colors"
               >
-                <span>Konsultasi Paket Custom</span>
+                <span>Konsultasi CS WhatsApp (0812-7223-0999)</span>
               </a>
             </div>
           </aside>
@@ -960,10 +973,11 @@ export default function PackageCatalogView({
 
               {/* 2. Bulan Keberangkatan */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
+                <label htmlFor="filter-mobile-month" className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
                   Bulan Keberangkatan
                 </label>
                 <select
+                  id="filter-mobile-month"
                   value={filters.month}
                   onChange={(e) => setFilters({ ...filters, month: e.target.value })}
                   className="w-full min-h-[44px] px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-sm text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -978,10 +992,11 @@ export default function PackageCatalogView({
 
               {/* 3. Kota Embarkasi */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
+                <label htmlFor="filter-mobile-city" className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
                   Kota Embarkasi
                 </label>
                 <select
+                  id="filter-mobile-city"
                   value={filters.city}
                   onChange={(e) => setFilters({ ...filters, city: e.target.value })}
                   className="w-full min-h-[44px] px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-sm text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -996,10 +1011,11 @@ export default function PackageCatalogView({
 
               {/* 4. Durasi */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
+                <label htmlFor="filter-mobile-duration" className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
                   Durasi Perjalanan
                 </label>
                 <select
+                  id="filter-mobile-duration"
                   value={filters.duration}
                   onChange={(e) => setFilters({ ...filters, duration: e.target.value })}
                   className="w-full min-h-[44px] px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-sm text-slate-dark focus:outline-none focus:border-teal-primary"
@@ -1014,10 +1030,11 @@ export default function PackageCatalogView({
 
               {/* 5. Range Harga */}
               <div>
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
+                <label htmlFor="filter-mobile-price" className="text-xs font-bold uppercase tracking-wider text-slate-caption block mb-1.5">
                   Kisaran Biaya
                 </label>
                 <select
+                  id="filter-mobile-price"
                   value={filters.priceRange}
                   onChange={(e) => setFilters({ ...filters, priceRange: e.target.value })}
                   className="w-full min-h-[44px] px-3 py-2 rounded-button border border-warm-border bg-warm-bg text-sm text-slate-dark focus:outline-none focus:border-teal-primary"

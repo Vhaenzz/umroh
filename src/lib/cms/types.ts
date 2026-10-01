@@ -6,5 +6,7 @@ export type EditableCompanyProfile = CompanyProfile;
 export interface SiteData {
   company: EditableCompanyProfile;
   packages: Package[];
+  updated_at?: string;
 }
+
 

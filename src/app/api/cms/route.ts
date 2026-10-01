@@ -37,21 +37,55 @@ export async function GET() {
 
 export async function PUT(request: NextRequest) {
   const accessToken = getBearerToken(request);
+  let authContext: Awaited<ReturnType<typeof authorizeSupabase>> = null;
+
   if (isSupabaseConfigured) {
-    if (!accessToken || !(await authorizeSupabase(accessToken))) {
-      return NextResponse.json({ error: "Login Supabase dengan role editor/admin diperlukan." }, { status: 401 });
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: "Login Supabase dengan role editor/admin diperlukan." },
+        { status: 401 }
+      );
+    }
+    authContext = await authorizeSupabase(accessToken);
+    if (!authContext) {
+      return NextResponse.json(
+        { error: "Sesi Supabase tidak valid atau akun Anda tidak memiliki hak akses editor/admin." },
+        { status: 401 }
+      );
     }
   } else if (!canMutate(request)) {
     return NextResponse.json(
       { error: "CMS_ADMIN_TOKEN diperlukan untuk menyimpan perubahan." },
-      { status: 401 },
+      { status: 401 }
     );
   }
 
-  const body: unknown = await request.json();
-  if (body && typeof body === "object" && "reset" in body && body.reset === true) {
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Format body JSON tidak valid." }, { status: 400 });
+  }
+
+  // Handle Reset Action — Strictly restricted to admin role
+  if (body && typeof body === "object" && "reset" in body && (body as { reset?: boolean }).reset === true) {
+    if (isSupabaseConfigured && authContext && authContext.role !== "admin") {
+      return NextResponse.json(
+        { error: "Hanya akun dengan role admin yang diizinkan mereset data ke seed awal." },
+        { status: 403 }
+      );
+    }
     const seed = getDefaultSiteData();
-    const saved = isSupabaseConfigured ? await writeSupabaseSiteData(seed, accessToken) : await writeSiteData(seed);
+    if (isSupabaseConfigured && authContext) {
+      const result = await writeSupabaseSiteData(seed, authContext);
+      if (!result.success) {
+        return NextResponse.json({ error: result.message }, { status: 500 });
+      }
+      invalidateSiteData();
+      return NextResponse.json(result.data);
+    }
+
+    const saved = await writeSiteData(seed);
     invalidateSiteData();
     return NextResponse.json(saved);
   }
@@ -60,7 +94,32 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json({ error: "Format data CMS tidak valid." }, { status: 400 });
   }
 
-  const saved = isSupabaseConfigured ? await writeSupabaseSiteData(body, accessToken) : await writeSiteData(body);
+  const expectedUpdatedAt = (body as { updated_at?: string }).updated_at;
+
+  if (isSupabaseConfigured && authContext) {
+    const result = await writeSupabaseSiteData(body, authContext, expectedUpdatedAt);
+    if (!result.success) {
+      if (result.conflict) {
+        return NextResponse.json(
+          {
+            error: result.message,
+            conflict: true,
+            currentUpdatedAt: result.currentUpdatedAt,
+          },
+          { status: 409 }
+        );
+      }
+      return NextResponse.json({ error: result.message }, { status: 500 });
+    }
+    invalidateSiteData();
+    return NextResponse.json(result.data);
+  }
+
+  const saved = await writeSiteData(body);
+  if (!saved) {
+    return NextResponse.json({ error: "Gagal menyimpan data CMS ke server lokal." }, { status: 500 });
+  }
   invalidateSiteData();
   return NextResponse.json(saved);
 }
+

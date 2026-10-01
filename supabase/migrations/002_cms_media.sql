@@ -1,9 +1,19 @@
 -- Storage untuk gambar yang dikelola dari CMS.
 -- Jalankan migration ini setelah 001_cms.sql di Supabase SQL Editor.
 
-insert into storage.buckets (id, name, public)
-values ('cms-media', 'cms-media', true)
-on conflict (id) do update set public = true;
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'cms-media',
+  'cms-media',
+  true,
+  8388608,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+)
+on conflict (id) do update set
+  public = true,
+  file_size_limit = 8388608,
+  allowed_mime_types = array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml'];
+
 
 drop policy if exists "public can read cms media" on storage.objects;
 create policy "public can read cms media"

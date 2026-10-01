@@ -57,11 +57,15 @@ create policy "public can create inquiries"
   on public.cms_inquiries for insert
   to anon, authenticated
   with check (
-    char_length(coalesce(package_name, '')) <= 240
+    (status is null or status = 'new')
+    and char_length(coalesce(package_id, '')) <= 120
+    and char_length(coalesce(package_name, '')) <= 240
     and char_length(coalesce(contact_name, '')) <= 120
     and char_length(coalesce(contact_phone, '')) <= 40
     and char_length(coalesce(message, '')) <= 1000
     and char_length(source_path) <= 240
+    and char_length(coalesce(referrer, '')) <= 500
+    and char_length(coalesce(user_agent, '')) <= 500
   );
 
 drop policy if exists "cms members can read inquiries" on public.cms_inquiries;

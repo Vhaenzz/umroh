@@ -2,21 +2,41 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getSiteData } from "@/lib/cms/store";
+import { getAbsoluteUrl } from "@/lib/site-url";
+import { getBreadcrumbSchema } from "@/lib/structured-data";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { company } = await getSiteData();
+  const canonicalUrl = getAbsoluteUrl("/privacy-policy");
   return {
     title: `Kebijakan Privasi | ${company.brandName}`,
     description: `Kebijakan privasi dan perlindungan data pribadi jemaah Umroh dan Haji pada ${company.brandName}.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      url: canonicalUrl,
+      title: `Kebijakan Privasi | ${company.brandName}`,
+      description: `Kebijakan privasi dan perlindungan data pribadi jemaah Umroh dan Haji pada ${company.brandName}.`,
+    },
   };
 }
 
 export default async function PrivacyPolicyPage() {
   const { company } = await getSiteData();
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Beranda", url: "/" },
+    { name: "Kebijakan Privasi", url: "/privacy-policy" },
+  ]);
 
   return (
     <main className="min-h-screen bg-warm-bg py-10 sm:py-16 font-sans">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
         
         {/* Breadcrumb */}
         <nav aria-label="Breadcrumb" className="text-xs text-slate-caption flex items-center gap-2">
